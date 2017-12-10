@@ -1,9 +1,11 @@
 [requires]
 gtest/1.8.0@lasote/stable
+Boost/1.64.0@conan/stable
 
 [options]
 gtest:shared=False
 gtest:no_gmock=True
+Boost:shared=False
 
 [generators]
 cmake
