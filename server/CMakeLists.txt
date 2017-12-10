@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-project(MaNGOSClean)
+project(MaNGOSCleanServer)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -10,5 +10,7 @@ endif()
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_executable(MaNGOSClean server/main.cpp)
+add_subdirectory(src)
 
+enable_testing()
+add_subdirectory(test)

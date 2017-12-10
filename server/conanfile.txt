@@ -1,0 +1,9 @@
+[requires]
+gtest/1.8.0@lasote/stable
+
+[options]
+gtest:shared=False
+gtest:no_gmock=True
+
+[generators]
+cmake
