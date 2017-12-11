@@ -6,6 +6,7 @@ Boost/1.64.0@conan/stable
 gtest:shared=False
 gtest:no_gmock=True
 Boost:shared=False
+Boost:without_test=True
 
 [generators]
 cmake
