@@ -1,10 +1,14 @@
-#include <iostream>
-#include "injection/LoginDaemonScope.h"
+#include <boost/di.hpp>
 #include "LoginDaemon.h"
-#include "injection/LoginDaemonInjector.h"
+#include "BoostTcpServer.h"
 
 int main(int argc, char** argv) {
-    LoginDaemonScope scope = LoginDaemonScope(argc, argv);
-    LoginDaemon loginDaemon = LoginDaemonInjector::injectLoginDaemon(scope);
+
+    const auto injector = boost::di::make_injector(
+            boost::di::bind<TcpServer>.to<BoostTcpServer>()
+    );
+
+    LoginDaemon loginDaemon = injector.create<LoginDaemon>();
+
     loginDaemon.run();
 }

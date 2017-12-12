@@ -1,15 +1,18 @@
 #include "LoginDaemon.h"
-#include "BoostTcpServer.h"
-#include <iostream>
-#include <string>
-
-
-LoginDaemon::LoginDaemon(TcpServer& server) : m_server(server) {
+#include <boost/asio.hpp>
+LoginDaemon::LoginDaemon(TcpServer &server, SignalListener &m_signalListener) : m_server(server), m_signalListener(m_signalListener) {
 }
 
 LoginDaemon::~LoginDaemon() {
 }
 
+
+
 void LoginDaemon::run() {
+    m_signalListener.startListeningForSignals({SIGTERM}, [&]() {
+        //m_server.stopAcceptingConnections();
+    });
+
     m_server.startAcceptingConnections();
 }
+
