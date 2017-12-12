@@ -4,12 +4,12 @@
 #include <string>
 
 
-LoginDaemon::LoginDaemon(TcpServer &server) : server(server) {
+LoginDaemon::LoginDaemon(TcpServer& server) : m_server(server) {
 }
 
 LoginDaemon::~LoginDaemon() {
 }
 
 void LoginDaemon::run() {
-    server.startAcceptingConnections();
+    m_server.startAcceptingConnections();
 }

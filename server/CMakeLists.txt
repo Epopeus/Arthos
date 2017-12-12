@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 project(MaNGOSClean)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 #Conan
 execute_process(COMMAND conan install . -s build_type=Debug --install-folder=cmake-build-debug --build=missing --build=outdated  WORKING_DIRECTORY ../)

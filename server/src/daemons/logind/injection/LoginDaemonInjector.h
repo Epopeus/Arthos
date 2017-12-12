@@ -5,12 +5,9 @@
 
 class LoginDaemonInjector {
 public:
-    static BoostTcpServer injectBoostTcpServer() {
-        return BoostTcpServer();
-    }
-
     static LoginDaemon injectLoginDaemon(LoginDaemonScope scope) {
-        return LoginDaemon(injectBoostTcpServer());
+        BoostTcpServer server{};
+        return LoginDaemon(server);
     }
 };
 

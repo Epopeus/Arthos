@@ -1,16 +1,17 @@
 #pragma once
 
 #include "TcpServer.h"
+#include "BoostTcpServer.h"
 
 class LoginDaemon {
 public:
-    LoginDaemon(TcpServer&);
+    LoginDaemon(TcpServer& server);
 
     ~LoginDaemon();
 
     void run();
 private:
-    TcpServer& server;
+    TcpServer& m_server;
     bool stop;
 };
 
