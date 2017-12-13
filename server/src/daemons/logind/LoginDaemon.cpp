@@ -7,10 +7,9 @@ LoginDaemon::~LoginDaemon() {
 }
 
 
-
 void LoginDaemon::run() {
-    m_signalListener.startListeningForSignals({SIGTERM}, [&]() {
-        //m_server.stopAcceptingConnections();
+    m_signalListener.startListeningForSignals({SIGTERM, SIGINT}, [&]() {
+        m_server.stopAcceptingConnections();
     });
 
     m_server.startAcceptingConnections();

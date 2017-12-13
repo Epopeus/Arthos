@@ -10,6 +10,7 @@ public:
     BoostTcpServer();
 
     void startAcceptingConnections() override;
+    void stopAcceptingConnections() override;
 
 private:
     void start_accept();

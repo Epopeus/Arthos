@@ -3,12 +3,11 @@ project(MaNGOSClean)
 set(CMAKE_CXX_STANDARD 17)
 
 #Conan
-execute_process(COMMAND conan install . -s build_type=Debug --install-folder=cmake-build-debug --build=missing --build=outdated  WORKING_DIRECTORY ../)
+execute_process(COMMAND conan install . -s build_type=Debug --install-folder=cmake-build-debug --build=missing --build=outdated WORKING_DIRECTORY ../)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 #We have to manually remove libraries from Boost (specified in [options] in conanfile.txt) because of a Conan bug
 #See https://github.com/lasote/conan-boost/issues/59
-list(REMOVE_ITEM CONAN_LIBS boost_unit_test_framework)
 
 
 #Project constants

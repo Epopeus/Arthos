@@ -12,7 +12,7 @@ void SignalListener::startListeningForSignals(std::vector<int> signals, std::fun
     for (int signal : signals)
         signalSet.add(signal);
 
-    signalSet.async_wait([&] (const boost::system::error_code&, int) {
+    signalSet.async_wait([&callback] (const boost::system::error_code&, int) {
         callback();
     });
 }
