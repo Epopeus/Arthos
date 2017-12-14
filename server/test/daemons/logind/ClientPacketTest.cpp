@@ -10,7 +10,6 @@ protected:
 
 TEST_F(ClientPacketTest, ShouldParseOpcode) {
     uint8_t expectedOpcode = 0x05;
-
     ClientPacket clientPacket({expectedOpcode, 0x01, 0x02, 0x03, 0x04});
 
     ASSERT_EQ(clientPacket.getOpcode(), expectedOpcode);

@@ -11,6 +11,13 @@ brew install conan
 cmake src
 ```
 
+###Goals
+
+- fast
+- simple 
+- bug-free (unit tests)
+- readable, maintanable, modulable (SOLID)
+
 ###Required tools
 - [Homebrew](https://brew.sh/) for OSX package management
 - [CMake](https://cmake.org/) for building
