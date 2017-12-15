@@ -1,7 +1,7 @@
-# MaNGOSClean
+# Arthos
 
-MaNGOS with better tools and code structure.<br/>
-Currently, MaNGOSClean is a solo project built on MacOS.
+A World of Warcraft complete server infrastructure.<br/>
+Currently, Arthos is a solo project built on MacOS.
 
 ## Build
 
@@ -14,7 +14,7 @@ cmake src
 ###Goals
 
 - fast
-- simple 
+- simple
 - bug-free (unit tests)
 - readable, maintanable, modulable (SOLID)
 
