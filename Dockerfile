@@ -13,6 +13,7 @@ RUN apt-get update
 RUN apt-get install -y python wget git cmake gcc g++
 RUN wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py
 RUN pip install conan
+RUN conan remote add conan-community https://api.bintray.com/conan/conan-community/conan 
 
 #Checkout current source code at required version. Avoid unnecessary downloads with --depth 1.
 RUN git clone --branch $version --depth 1 https://github.com/Toinouze/${ProjectName}
