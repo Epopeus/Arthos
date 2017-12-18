@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "auth/ClientPacket.h"
+#include "game/auth/ClientPacket.h"
 
 class ClientPacketTest : public ::testing::Test {
 protected:

@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
-#include "auth/LoginDaemon.h"
+#include "game/auth/LoginDaemon.h"
 
 class FakeTcpServer : public TcpServer {
 public:
     bool started = false;
     bool stopped = false;
 
-    void startAcceptingConnections() override {
+    void startAcceptingConnections(std::string ip, int port) override {
         started = true;
     }
 

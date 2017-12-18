@@ -1,8 +1,7 @@
 #include "BoostTcpServer.h"
 #include <iostream>
 
-BoostTcpServer::BoostTcpServer() : acceptor_((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 3724)) {
-
+BoostTcpServer::BoostTcpServer() : m_acceptor((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 3724)) {
 }
 
 typedef struct AUTH_LOGON_CHALLENGE_C
@@ -60,9 +59,9 @@ typedef struct AUTH_LOGON_CHALLENGE_C
 
 } sAuthLogonChallenge_C;
 
-void BoostTcpServer::startAcceptingConnections() {
+void BoostTcpServer::startAcceptingConnections(std::string ip, int port) {
     boost::asio::ip::tcp::iostream stream;
-    acceptor_.accept(*stream.rdbuf());
+        m_acceptor.accept(*stream.rdbuf());
     // Read first bit : it's the command
     //
     std::vector<uint8_t> buf;
@@ -117,9 +116,9 @@ void BoostTcpServer::stopAcceptingConnections() {
 void BoostTcpServer::start_accept()
 {
     BoostTcpConnection::pointer new_connection =
-            BoostTcpConnection::create(acceptor_.get_io_service());
+            BoostTcpConnection::create(m_acceptor.get_io_service());
 
-    acceptor_.async_accept(new_connection->socket(),
+    m_acceptor.async_accept(new_connection->socket(),
                            boost::bind(&BoostTcpServer::handle_accept, this, new_connection,
                                        boost::asio::placeholders::error));
 

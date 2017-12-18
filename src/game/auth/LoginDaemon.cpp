@@ -12,6 +12,6 @@ void LoginDaemon::run() {
         m_server.stopAcceptingConnections();
     });
 
-    m_server.startAcceptingConnections();
+    m_server.startAcceptingConnections("", 0);
 }
 

@@ -11,15 +11,15 @@ conan_basic_setup()
 #Project constants
 set(M_PROD_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(M_TESTS_SOURCE_DIR ${PROJECT_SOURCE_DIR}/test)
-set(M_LOGIND_SOURCE_DIR ${M_PROD_SOURCE_DIR}/auth)
+set(M_AUTHD_SOURCE_DIR ${M_PROD_SOURCE_DIR}/game/auth)
 
 #Login daemon executable
-file(GLOB_RECURSE ArthosLogindLibSources ${M_LOGIND_SOURCE_DIR}/*.h ${M_LOGIND_SOURCE_DIR}/*.cpp)
-list(REMOVE_ITEM ArthosLogindLibSources ${M_LOGIND_SOURCE_DIR}/main.cpp)
+file(GLOB_RECURSE ArthosAuthdLibSources ${M_AUTHD_SOURCE_DIR}/*.h ${M_AUTHD_SOURCE_DIR}/*.cpp)
+list(REMOVE_ITEM ArthosAuthdLibSources ${M_AUTHD_SOURCE_DIR}/main.cpp)
 
-add_library(ArthosLogindLib ${ArthosLogindLibSources})
-add_executable(ArthosLogind ${M_LOGIND_SOURCE_DIR}/main.cpp)
-target_link_libraries(ArthosLogind ArthosLogindLib ${CONAN_LIBS})
+add_library(ArthosAuthdLib ${ArthosAuthdLibSources})
+add_executable(ArthosAuthd ${M_AUTHD_SOURCE_DIR}/main.cpp)
+target_link_libraries(ArthosAuthd ArthosAuthdLib ${CONAN_LIBS})
 
 #World daemon executable
 
@@ -28,6 +28,6 @@ target_link_libraries(ArthosLogind ArthosLogindLib ${CONAN_LIBS})
 enable_testing()
 file(GLOB_RECURSE ArthosTestsSources ${M_TESTS_SOURCE_DIR}/*.h ${M_TESTS_SOURCE_DIR}/*.cpp)
 add_executable(ArthosTests ${ArthosTestsSources})
-target_link_libraries(ArthosTests ArthosLogindLib ${CONAN_LIBS})
+target_link_libraries(ArthosTests ArthosAuthdLib ${CONAN_LIBS})
 target_include_directories(ArthosTests PUBLIC ${M_PROD_SOURCE_DIR})
 
