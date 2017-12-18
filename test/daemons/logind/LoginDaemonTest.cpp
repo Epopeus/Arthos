@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "daemons/logind/LoginDaemon.h"
+#include "auth/LoginDaemon.h"
 
 class FakeTcpServer : public TcpServer {
 public:

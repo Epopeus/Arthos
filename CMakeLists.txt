@@ -11,7 +11,7 @@ conan_basic_setup()
 #Project constants
 set(M_PROD_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(M_TESTS_SOURCE_DIR ${PROJECT_SOURCE_DIR}/test)
-set(M_LOGIND_SOURCE_DIR ${M_PROD_SOURCE_DIR}/daemons/logind)
+set(M_LOGIND_SOURCE_DIR ${M_PROD_SOURCE_DIR}/auth)
 
 #Login daemon executable
 file(GLOB_RECURSE ArthosLogindLibSources ${M_LOGIND_SOURCE_DIR}/*.h ${M_LOGIND_SOURCE_DIR}/*.cpp)

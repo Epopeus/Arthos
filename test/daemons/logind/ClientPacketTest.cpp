@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "daemons/logind/ClientPacket.h"
+#include "auth/ClientPacket.h"
 
 class ClientPacketTest : public ::testing::Test {
 protected:
