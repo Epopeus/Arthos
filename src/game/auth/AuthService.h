@@ -1,10 +1,15 @@
 #pragma once
 
+#include "TcpServer.h"
+#include "../../Service.h"
 
-class AuthService {
+class AuthService : public Service {
 public:
-    AuthService();
+    AuthService(TcpServer& tcpServer);
 
     ~AuthService();
-};
 
+    void run() override;
+private:
+    TcpServer& m_tcpServer;
+};

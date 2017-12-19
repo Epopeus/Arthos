@@ -30,4 +30,3 @@ file(GLOB_RECURSE ArthosTestsSources ${M_TESTS_SOURCE_DIR}/*.h ${M_TESTS_SOURCE_
 add_executable(ArthosTests ${ArthosTestsSources})
 target_link_libraries(ArthosTests ArthosAuthdLib ${CONAN_LIBS})
 target_include_directories(ArthosTests PUBLIC ${M_PROD_SOURCE_DIR})
-

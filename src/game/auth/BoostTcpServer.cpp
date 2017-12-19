@@ -121,8 +121,6 @@ void BoostTcpServer::start_accept()
     m_acceptor.async_accept(new_connection->socket(),
                            boost::bind(&BoostTcpServer::handle_accept, this, new_connection,
                                        boost::asio::placeholders::error));
-
-
 }
 
 void BoostTcpServer::handle_accept(BoostTcpConnection::pointer new_connection,
