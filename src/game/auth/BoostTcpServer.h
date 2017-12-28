@@ -1,25 +1,15 @@
 #pragma once
 
 #include <boost/asio.hpp>
-#include "BoostTcpConnection.h"
 #include "TcpServer.h"
 
 class BoostTcpServer : public TcpServer {
 public:
 
     BoostTcpServer();
+    ~BoostTcpServer();
 
-    void startAcceptingConnections(std::string ip, int port) override;
+    void startAcceptingConnections(std::string ip, int port, std::function<void(std::vector<std::uint8_t>)> callback) override;
     void stopAcceptingConnections() override;
-
-private:
-    void start_accept();
-
-    void handle_accept(BoostTcpConnection::pointer new_connection,
-                       const boost::system::error_code& error);
-
-    boost::asio::ip::tcp::acceptor m_acceptor;
-    std::string ip;
-    std::string port;
 };
 

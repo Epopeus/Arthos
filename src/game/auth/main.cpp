@@ -1,6 +1,6 @@
 #include <boost/di.hpp>
-#include "LoginDaemon.h"
 #include "BoostTcpServer.h"
+#include "AuthService.h"
 
 int main(int argc, char** argv) {
 
@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
             boost::di::bind<TcpServer>.to<BoostTcpServer>()
     );
 
-    LoginDaemon loginDaemon = injector.create<LoginDaemon>();
+    AuthService authService = injector.create<AuthService>();
 
-    loginDaemon.run();
+    authService.run();
 }

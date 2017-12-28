@@ -1,7 +1,10 @@
 #include "BoostTcpServer.h"
 #include <iostream>
 
-BoostTcpServer::BoostTcpServer() : m_acceptor((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 3724)) {
+BoostTcpServer::BoostTcpServer() {
+}
+
+BoostTcpServer::~BoostTcpServer() {
 }
 
 typedef struct AUTH_LOGON_CHALLENGE_C
@@ -59,16 +62,20 @@ typedef struct AUTH_LOGON_CHALLENGE_C
 
 } sAuthLogonChallenge_C;
 
-void BoostTcpServer::startAcceptingConnections(std::string ip, int port) {
+void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::function<void(std::vector<std::uint8_t>)> callback) {
+    boost::asio::ip::tcp::acceptor acceptor((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port));
     boost::asio::ip::tcp::iostream stream;
-        m_acceptor.accept(*stream.rdbuf());
+
+    acceptor.accept(*stream.rdbuf());
+
     // Read first bit : it's the command
     //
+
     std::vector<uint8_t> buf;
-    sAuthLogonChallenge_C test;
 
-    stream.read(reinterpret_cast<char *>(&test), 38);
+    stream.read(reinterpret_cast<char *>(&buf), 38);
 
+    callback(buf);
 /*
     stream.read(reinterpret_cast<char *>(&test.opCode), 1);
     stream.read(reinterpret_cast<char *>(&test.error), 1);
@@ -113,38 +120,5 @@ void BoostTcpServer::startAcceptingConnections(std::string ip, int port) {
 void BoostTcpServer::stopAcceptingConnections() {
 
 }
-void BoostTcpServer::start_accept()
-{
-    BoostTcpConnection::pointer new_connection =
-            BoostTcpConnection::create(m_acceptor.get_io_service());
-
-    m_acceptor.async_accept(new_connection->socket(),
-                           boost::bind(&BoostTcpServer::handle_accept, this, new_connection,
-                                       boost::asio::placeholders::error));
-}
-
-void BoostTcpServer::handle_accept(BoostTcpConnection::pointer new_connection,
-                   const boost::system::error_code& error)
-{
-    if (!error)
-    {
-        new_connection->start();
-    }
-
-    std::cout << "Received ! " << std::endl;
-    start_accept();
 
 
-    /** Main
-      try
-     {
-         boost::asio::io_service io_service;
-         BoostTcpServer server(io_service);
-         io_service.run();
-     }
-     catch (std::exception& e)
-     {
-         std::cout << std::string(e.what()) << std::endl;
-     }
-     **/
-}
