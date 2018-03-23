@@ -1,6 +1,5 @@
 #pragma once
 
-#include <boost/asio.hpp>
 #include "TcpServer.h"
 
 class BoostTcpServer : public TcpServer {

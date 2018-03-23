@@ -6,6 +6,7 @@ class FakeTcpServer : public TcpServer {
 public:
     bool started = false;
     bool stopped = false;
+
     std::function<void(std::vector<std::uint8_t>)> m_callback;
 
     void startAcceptingConnections(std::string ip, int port, std::function<void(std::vector<std::uint8_t>)> callback) override {
@@ -23,28 +24,22 @@ public:
     }
 };
 
+
 class AuthServiceTest : public ::testing::Test {
 protected:
     AuthService service;
-    FakeTcpServer tcpServer;
-    boost::asio::io_service ioService;
     SignalListener signalListener;
+    boost::asio::io_service ioService;
+    CommandLineArgs commandLineArgs;
+    FakeTcpServer tcpServer;
 
-    AuthServiceTest() : signalListener(ioService), service(tcpServer, signalListener) {
+    AuthServiceTest() : commandLineArgs(0, 0), signalListener(ioService), service(commandLineArgs, tcpServer, signalListener) {
     }
 };
 
 TEST_F(AuthServiceTest, ShouldStartTcpServer) {
     service.run();
     ASSERT_TRUE(tcpServer.started);
-}
-
-TEST_F(AuthServiceTest, ShouldHandleLoginCommand) {
-    service.run();
-
-    tcpServer.receiveCommand(1);
-
-    ASSERT_TRUE()
 }
 
 /*

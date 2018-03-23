@@ -1,13 +1,14 @@
 [requires]
 gtest/1.8.0@lasote/stable
-Boost/1.64.0@conan/stable
+boost/1.66.0@conan/stable
 Boost.DI/cpp14@signal9/stable
+better-enums/0.11.1@Spartan322/stable
 
 [options]
 gtest:shared=False
 gtest:no_gmock=True
-Boost:shared=False
-Boost:without_test=True
+boost:shared=False
+boost:without_test=True
 
 [generators]
 cmake

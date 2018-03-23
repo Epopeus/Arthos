@@ -14,12 +14,12 @@ set(M_TESTS_SOURCE_DIR ${PROJECT_SOURCE_DIR}/test)
 set(M_GAME_SOURCE_DIR ${M_PROD_SOURCE_DIR}/game)
 set(M_AUTHD_SOURCE_DIR ${M_GAME_SOURCE_DIR}/auth)
 
-#Login daemon executable
+#Auth service executable
 file(GLOB_RECURSE ArthosAuthdLibSources ${M_PROD_SOURCE_DIR}/*.h ${M_PROD_SOURCE_DIR}/*.cpp)
 list(REMOVE_ITEM ArthosAuthdLibSources ${M_AUTHD_SOURCE_DIR}/main.cpp)
 
 add_library(ArthosAuthdLib ${ArthosAuthdLibSources})
-add_executable(ArthosAuthd ${M_AUTHD_SOURCE_DIR}/main.cpp src/ExternalService.cpp src/ExternalService.h)
+add_executable(ArthosAuthd ${M_AUTHD_SOURCE_DIR}/main.cpp)
 target_link_libraries(ArthosAuthd ArthosAuthdLib ${CONAN_LIBS})
 
 #World daemon executable

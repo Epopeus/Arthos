@@ -1,4 +1,5 @@
 #include "BoostTcpServer.h"
+#include <boost/asio.hpp>
 #include <iostream>
 
 BoostTcpServer::BoostTcpServer() {
@@ -73,8 +74,11 @@ void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::fu
 
     std::vector<uint8_t> buf;
 
-    stream.read(reinterpret_cast<char *>(&buf), 38);
-
+    std::for_each(std::istreambuf_iterator<char>(stream),
+                  std::istreambuf_iterator<char>(),
+                  [&buf](const char c){
+                      buf.push_back(c);
+                  });
     callback(buf);
 /*
     stream.read(reinterpret_cast<char *>(&test.opCode), 1);
@@ -112,8 +116,6 @@ void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::fu
     stream.read(reinterpret_cast<char *>(&test.ip_4), 1);
     stream.read(reinterpret_cast<char *>(&test.I_len), 1);
 */
-
-    std::cout << "Received !" << std::endl;
 }
 
 
