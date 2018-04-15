@@ -1,16 +1,21 @@
 #include <gtest/gtest.h>
 #include <boost/asio/io_service.hpp>
 #include "game/auth/AuthService.h"
+#include <game/auth/AuthSettingsRepository.h>
 
 class FakeTcpServer : public TcpServer {
 public:
     bool started = false;
     bool stopped = false;
+    std::string ip;
+    int port;
 
     std::function<void(std::vector<std::uint8_t>)> m_callback;
 
-    void startAcceptingConnections(std::string ip, int port, std::function<void(std::vector<std::uint8_t>)> callback) override {
+    void startAcceptingConnections(std::string ip_, int port_, std::function<void(std::vector<std::uint8_t>)> callback) override {
         started = true;
+        ip = ip_;
+        port = port_;
         m_callback = callback;
     }
 
@@ -27,19 +32,34 @@ public:
 
 class AuthServiceTest : public ::testing::Test {
 protected:
+    const std::string SERVER_BIND_IP = "123.456.789";
+    const int SERVER_BIND_PORT = 1234;
+
+    static const int NUM_ARGS = 1;
+    char* ARGS[NUM_ARGS];
+
     AuthService service;
     SignalListener signalListener;
     boost::asio::io_service ioService;
     CommandLineArgs commandLineArgs;
     FakeTcpServer tcpServer;
-
-    AuthServiceTest() : commandLineArgs(0, 0), signalListener(ioService), service(commandLineArgs, tcpServer, signalListener) {
+    AuthSettingsRepository authSettingsRepository;
+    DbClient dbClient;
+    AuthServiceTest() : commandLineArgs(NUM_ARGS, ARGS), signalListener(ioService), service(authSettingsRepository, tcpServer, signalListener),
+                        authSettingsRepository(dbClient) {
     }
 };
 
-TEST_F(AuthServiceTest, ShouldStartTcpServer) {
+TEST_F(AuthServiceTest, ShouldRetrieveSettings) {
     service.run();
-    ASSERT_TRUE(tcpServer.started);
+
+
+}
+TEST_F(AuthServiceTest, ShouldStartTcpServerWithProperSettings) {
+    service.run();
+
+    ASSERT_EQ(SERVER_BIND_IP, tcpServer.ip);
+    ASSERT_EQ(SERVER_BIND_PORT, tcpServer.port);
 }
 
 /*

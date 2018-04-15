@@ -1,13 +1,13 @@
 #pragma once
 #include "../../Settings.h"
-#include <iostream>
+#include <string>
 
 class AuthSettings : public Settings {
 public:
     AuthSettings();
     ~AuthSettings();
 
-    std::string m_serverIp;
-    int m_serverPort;
+    std::string serverIp;
+    int serverPort;
 };
 
