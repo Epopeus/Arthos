@@ -36,7 +36,7 @@ protected:
     const int SERVER_BIND_PORT = 1234;
 
     static const int NUM_ARGS = 1;
-    char* ARGS[NUM_ARGS];
+    const char* ARGS[NUM_ARGS] = {0};
 
     AuthService service;
     SignalListener signalListener;
@@ -44,9 +44,13 @@ protected:
     CommandLineArgs commandLineArgs;
     FakeTcpServer tcpServer;
     AuthSettingsRepository authSettingsRepository;
+    DbConnectionURI dbConnectionURI;
     DbClient dbClient;
-    AuthServiceTest() : commandLineArgs(NUM_ARGS, ARGS), signalListener(ioService), service(authSettingsRepository, tcpServer, signalListener),
-                        authSettingsRepository(dbClient) {
+    AuthServiceTest() : signalListener(ioService),
+                        commandLineArgs(NUM_ARGS, ARGS),
+                        dbConnectionURI(commandLineArgs), dbClient(dbConnectionURI), authSettingsRepository(dbClient),
+                        service(authSettingsRepository, tcpServer, signalListener)
+                         {
     }
 };
 
