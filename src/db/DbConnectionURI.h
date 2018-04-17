@@ -1,5 +1,5 @@
 #pragma once
-#include "CommandLineArgs.h"
+#include "service/CommandLineArgs.h"
 
 class DbConnectionURI {
 public:

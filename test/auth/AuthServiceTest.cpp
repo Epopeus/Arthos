@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <boost/asio/io_service.hpp>
 #include "game/auth/AuthService.h"
-#include <game/auth/AuthSettingsRepository.h>
 
 class FakeTcpServer : public TcpServer {
 public:

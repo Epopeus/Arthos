@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Settings.h"
+#include "service/Settings.h"
 #include <string>
 
 class AuthSettings : public Settings {

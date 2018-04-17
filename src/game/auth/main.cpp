@@ -1,7 +1,7 @@
 #include <boost/di.hpp>
-#include "BoostTcpServer.h"
+#include "network/BoostTcpServer.h"
 #include "AuthService.h"
-#include "../../CommandLineArgs.h"
+#include "../../service/CommandLineArgs.h"
 
 int main(int argc, const char** argv) {
     // TODO : we have to use this because Boost.DI doesn't allow easy char** binding

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "TcpServer.h"
-#include "../../Service.h"
+#include "network/TcpServer.h"
+#include "service/Service.h"
 #include "SignalListener.h"
 #include "AuthSettingsRepository.h"
 

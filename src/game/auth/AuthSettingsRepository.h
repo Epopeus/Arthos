@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../DbClient.h"
+#include "db/DbClient.h"
 #include "AuthSettings.h"
 
 class AuthSettingsRepository {
@@ -9,7 +9,7 @@ public:
 
     ~AuthSettingsRepository();
 
-    const AuthSettings& getAuthSettings() const;
+    const AuthSettings getAuthSettings() const;
 
 private:
     DbClient& dbClient;

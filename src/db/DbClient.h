@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include "DbConnectionURI.h"
 
 class DbClient {

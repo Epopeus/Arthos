@@ -14,6 +14,8 @@ set(M_TESTS_SOURCE_DIR ${PROJECT_SOURCE_DIR}/test)
 set(M_GAME_SOURCE_DIR ${M_PROD_SOURCE_DIR}/game)
 set(M_AUTHD_SOURCE_DIR ${M_GAME_SOURCE_DIR}/auth)
 
+include_directories(src)
+
 #Auth service executable
 file(GLOB_RECURSE ArthosAuthdLibSources ${M_PROD_SOURCE_DIR}/*.h ${M_PROD_SOURCE_DIR}/*.cpp)
 list(REMOVE_ITEM ArthosAuthdLibSources ${M_AUTHD_SOURCE_DIR}/main.cpp)
