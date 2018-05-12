@@ -3,8 +3,8 @@
 Faction::Faction(int intValue_):intValue(intValue_) {
 }
 
-bool Faction::equals(const Faction& f) const {
-    return intValue == f.getIntValue();
+bool Faction::equals(const Faction& otherFaction) const {
+    return intValue == otherFaction.getIntValue();
 }
 
 int Faction::getIntValue() const {

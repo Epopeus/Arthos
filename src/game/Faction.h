@@ -5,7 +5,7 @@ public:
     Faction(int intValue_);
 
     int getIntValue() const;
-    bool equals(const Faction& f) const;
+    bool equals(const Faction& otherFaction) const;
 private:
     int intValue;
 };
