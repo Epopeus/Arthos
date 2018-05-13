@@ -1,10 +1,9 @@
 #include <gtest/gtest.h>
-#include "game/guild/Roster.h"
 #include "game/guild/Invitation.h"
 
-class GuildTest : public ::testing::Test {
+class GuildInvitationTest : public ::testing::Test {
 public:
-    GuildTest():
+    GuildInvitationTest():
         invitedPlayerId(Guid(123)),
         invitedPlayerCurrentRoster(Roster()),
         invitedPlayerFaction(Faction(0)),
@@ -35,13 +34,13 @@ public:
     Invitation invitation;
 };
 
-TEST_F(GuildTest, AddsMemberToRosterWhenInvitationIsAccepted) {
+TEST_F(GuildInvitationTest, AddsMemberToRosterWhenInvitationIsAccepted) {
     invitation.accept();
 
     ASSERT_TRUE(invitingPlayerRoster.hasMember(invitedPlayerId));
 }
 
-TEST_F(GuildTest, LogsWhenInvitationSucceded) {
+TEST_F(GuildInvitationTest, LogsWhenInvitationSucceded) {
     invitation.accept();
 
     const Event& event = log.getEvents().at(0);
@@ -50,11 +49,11 @@ TEST_F(GuildTest, LogsWhenInvitationSucceded) {
     ASSERT_EQ(invitedPlayerId, event.playerGuid2);
 }
 
-TEST_F(GuildTest, InformsRosterWhenInvitationSucceded) {
+TEST_F(GuildInvitationTest, InformsRosterWhenInvitationSucceded) {
 
 }
 
-TEST_F(GuildTest, FailsWhenPlayerIsMember) {
+TEST_F(GuildInvitationTest, FailsWhenPlayerIsMember) {
     invitingPlayerRoster.add(invitedPlayerId);
 
     invitation.accept();
@@ -62,7 +61,7 @@ TEST_F(GuildTest, FailsWhenPlayerIsMember) {
     ASSERT_EQ(1, invitingPlayerRoster.getNumberOfMembers());
 }
 
-TEST_F(GuildTest, FailsWhenPlayerIsInOtherGuild) {
+TEST_F(GuildInvitationTest, FailsWhenPlayerIsInOtherGuild) {
     invitedPlayerCurrentRoster.add(invitedPlayerId);
 
     invitation.accept();
@@ -70,7 +69,7 @@ TEST_F(GuildTest, FailsWhenPlayerIsInOtherGuild) {
     ASSERT_FALSE(invitingPlayerRoster.hasMember(invitedPlayerId));
 }
 
-TEST_F(GuildTest, FailsWhenPlayerBelongsToOtherFaction) {
+TEST_F(GuildInvitationTest, FailsWhenPlayerBelongsToOtherFaction) {
     invitedPlayerFaction = Faction(1);
 
     invitation.accept();
