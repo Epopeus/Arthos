@@ -50,7 +50,10 @@ TEST_F(GuildInvitationTest, LogsWhenInvitationSucceded) {
 }
 
 TEST_F(GuildInvitationTest, InformsRosterWhenInvitationSucceded) {
+    invitation.accept();
 
+    // TODO : we don't have a proper message architecture yet
+    ASSERT_TRUE(false);
 }
 
 TEST_F(GuildInvitationTest, FailsWhenPlayerIsMember) {
