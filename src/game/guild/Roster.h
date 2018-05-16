@@ -1,5 +1,5 @@
 #pragma once
-#include <game/Guid.h>
+#include <common/identity/Guid.h>
 #include <unordered_set>
 class Roster {
 public:

@@ -2,7 +2,7 @@
 
 
 #include "Guild.h"
-#include "game/Guid.h"
+#include "common/identity/Guid.h"
 #include "Roster.h"
 #include "game/Faction.h"
 #include "game/guild/log/Log.h"

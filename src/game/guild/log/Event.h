@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <game/Guid.h>
+#include <common/identity/Guid.h>
 #include "common/time/Timestamp.h"
 
 enum class Type {
