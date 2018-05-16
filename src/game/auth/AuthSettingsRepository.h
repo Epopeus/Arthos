@@ -1,6 +1,6 @@
 #pragma once
 
-#include "db/DbClient.h"
+#include "common/db/DbClient.h"
 #include "AuthSettings.h"
 
 class AuthSettingsRepository {

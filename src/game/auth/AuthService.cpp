@@ -10,7 +10,7 @@ AuthService::~AuthService() {
 void AuthService::run() {
     AuthSettings authSettings = authSettingsRepository.getAuthSettings();
 
-    tcpServer.startAcceptingConnections(authSettings.serverIp, authSettings.serverPort, [&] (std::vector<uint8_t> args) {
+    tcpServer.startAcceptingConnections(authSettings.serverIp, authSettings.serverPort, [&] (std::vector<uint8> args) {
         handleCommand(args);
     });
 
@@ -19,6 +19,6 @@ void AuthService::run() {
     });
 }
 
-void AuthService::handleCommand(std::vector<uint8_t> args) {
+void AuthService::handleCommand(std::vector<uint8> args) {
     std::cout << "Received ! " << std::endl;
 }

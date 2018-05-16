@@ -53,6 +53,8 @@ TEST_F(GuildInvitationTest, InformsRosterWhenInvitationSucceded) {
     invitation.accept();
 
     // TODO : we don't have a proper message architecture yet
+    //ServerMessage& message = fakeThing.sentMessages.at(0);
+    //ASSERT_EQ(Opcode::GUILD_EVENT, message.opcode);
     ASSERT_TRUE(false);
 }
 

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <game/Guid.h>
-#include "time/Timestamp.h"
+#include "common/time/Timestamp.h"
 
 enum class Type {
     INVITED_PLAYER      = 1,

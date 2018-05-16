@@ -1,13 +1,13 @@
 #include "Guid.h"
 #include <utility>
 
-Guid::Guid(uint64_t intValue_) : intValue(intValue_) {
+Guid::Guid(uint64 intValue_) : intValue(intValue_) {
 }
 
 Guid::~Guid() {
 }
 
-uint64_t Guid::getIntValue() const {
+uint64 Guid::getIntValue() const {
     return intValue;
 }
 
@@ -24,7 +24,7 @@ bool operator!=(const Guid& g1, const Guid& g2) {
 }
 
 size_t GuidHasher::operator()(const Guid& guid) const {
-    return std::hash<uint64_t >()(guid.getIntValue());
+    return std::hash<uint64 >()(guid.getIntValue());
 }
 
 bool GuidComparator::operator()(const Guid& guid1, const Guid& guid2) const {

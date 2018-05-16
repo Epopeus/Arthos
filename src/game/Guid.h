@@ -1,18 +1,18 @@
 #pragma once
 
-#include <stdint.h>
 #include <stddef.h>
+#include "common/type/numbers.h"
 
 class Guid {
 public:
-    Guid(uint64_t intValue_);
+    Guid(uint64 intValue_);
 
     ~Guid();
 
-    uint64_t getIntValue() const;
+    uint64 getIntValue() const;
     bool equals(const Guid& otherGuid) const;
 private:
-    uint64_t intValue;
+    uint64 intValue;
 };
 
 bool operator==(const Guid& g1, const Guid& g2);

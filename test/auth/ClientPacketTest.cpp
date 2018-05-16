@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "network/ClientPacket.h"
+#include "common/network/ClientPacket.h"
 
 class ClientPacketTest : public ::testing::Test {
 protected:

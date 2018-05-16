@@ -1,8 +1,7 @@
 #pragma once
-#include "service/Settings.h"
 #include <string>
 
-class AuthSettings : public Settings {
+class AuthSettings {
 public:
     AuthSettings();
     ~AuthSettings();

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "network/TcpServer.h"
-#include "service/Service.h"
+#include "common/network/TcpServer.h"
+#include "common/service/Service.h"
 #include "SignalListener.h"
 #include "AuthSettingsRepository.h"
+#include "common/type/numbers.h"
 
 class AuthService : public Service {
 public:
@@ -11,7 +12,7 @@ public:
     ~AuthService();
 
     void run() override;
-    void handleCommand(std::vector<uint8_t> args);
+    void handleCommand(std::vector<uint8> args);
 
 private:
     AuthSettingsRepository& authSettingsRepository;

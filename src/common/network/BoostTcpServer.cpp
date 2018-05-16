@@ -11,59 +11,59 @@ BoostTcpServer::~BoostTcpServer() {
 typedef struct AUTH_LOGON_CHALLENGE_C
 {
 
-    std::uint8_t cmd;
-    std::uint8_t error;
-    std::uint16_t size;
-    std::uint8_t gamename[4];
-    std::uint8_t version[3];
-    std::uint8_t build_1;
-    std::uint8_t build_2;
-    std::uint8_t platform[4];
-    std::uint8_t os[4];
-    std::uint8_t country[4];
-    std::uint32_t timezone_bias;
-    std::uint32_t ip;
-    std::uint8_t I_len;
+    uint8 cmd;
+    uint8 error;
+    uint16 size;
+    uint8 gamename[4];
+    uint8 version[3];
+    uint8 build_1;
+    uint8 build_2;
+    uint8 platform[4];
+    uint8 os[4];
+    uint8 country[4];
+    uint32 timezone_bias;
+    uint32 ip;
+    uint8 I_len;
 
     /*
-     * std::uint8_t opCode;
-    std::uint8_t error;
-    std::uint8_t size_1;
-    std::uint8_t size_2;
-    std::uint8_t gamename_1;
-    std::uint8_t gamename_2;
-    std::uint8_t gamename_3;
-    std::uint8_t gamename_4;
-    std::uint8_t version_1;
-    std::uint8_t version_2;
-    std::uint8_t version_3;
-    std::uint8_t build;
-    std::uint8_t platform_1;
-    std::uint8_t platform_2;
-    std::uint8_t platform_3;
-    std::uint8_t platform_4;
-    std::uint8_t os_1;
-    std::uint8_t os_2;
-    std::uint8_t os_3;
-    std::uint8_t os_4;
-    std::uint8_t country_1;
-    std::uint8_t country_2;
-    std::uint8_t country_3;
-    std::uint8_t country_4;
-    std::uint8_t timezone_bias_1;
-    std::uint8_t timezone_bias_2;
-    std::uint8_t timezone_bias_3;
-    std::uint8_t timezone_bias_4;
-    std::uint8_t ip_1;
-    std::uint8_t ip_2;
-    std::uint8_t ip_3;
-    std::uint8_t ip_4;
-    std::uint8_t I_len;
+     * uint8 opCode;
+    uint8 error;
+    uint8 size_1;
+    uint8 size_2;
+    uint8 gamename_1;
+    uint8 gamename_2;
+    uint8 gamename_3;
+    uint8 gamename_4;
+    uint8 version_1;
+    uint8 version_2;
+    uint8 version_3;
+    uint8 build;
+    uint8 platform_1;
+    uint8 platform_2;
+    uint8 platform_3;
+    uint8 platform_4;
+    uint8 os_1;
+    uint8 os_2;
+    uint8 os_3;
+    uint8 os_4;
+    uint8 country_1;
+    uint8 country_2;
+    uint8 country_3;
+    uint8 country_4;
+    uint8 timezone_bias_1;
+    uint8 timezone_bias_2;
+    uint8 timezone_bias_3;
+    uint8 timezone_bias_4;
+    uint8 ip_1;
+    uint8 ip_2;
+    uint8 ip_3;
+    uint8 ip_4;
+    uint8 I_len;
      */
 
 } sAuthLogonChallenge_C;
 
-void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::function<void(std::vector<std::uint8_t>)> callback) {
+void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::function<void(std::vector<uint8>)> callback) {
     boost::asio::ip::tcp::acceptor acceptor((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port));
     boost::asio::ip::tcp::iostream stream;
 
@@ -72,7 +72,7 @@ void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::fu
     // Read first bit : it's the command
     //
 
-    std::vector<uint8_t> buf;
+    std::vector<uint8> buf;
 
     std::for_each(std::istreambuf_iterator<char>(stream),
                   std::istreambuf_iterator<char>(),

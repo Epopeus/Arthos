@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <boost/asio/io_service.hpp>
+#include <common/service/CommandLineArgs.h>
 #include "game/auth/AuthService.h"
 
 class FakeTcpServer : public TcpServer {
@@ -47,7 +48,7 @@ protected:
     DbClient dbClient;
     AuthServiceTest() : signalListener(ioService),
                         commandLineArgs(NUM_ARGS, ARGS),
-                        dbConnectionURI(commandLineArgs), dbClient(dbConnectionURI), authSettingsRepository(dbClient),
+                        dbConnectionURI(), dbClient(dbConnectionURI), authSettingsRepository(dbClient),
                         service(authSettingsRepository, tcpServer, signalListener)
                          {
     }
