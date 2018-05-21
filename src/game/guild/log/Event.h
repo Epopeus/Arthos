@@ -1,20 +1,19 @@
 #pragma once
 
 #include <cstdint>
-#include <common/identity/Guid.h>
+#include <common/entity/Guid.h>
 #include "common/time/Timestamp.h"
-
-enum class Type {
-    INVITED_PLAYER      = 1,
-    JOINED_GUILD        = 2,
-    PROMOTED_PLAYER     = 3,
-    DEMOTED_PLAYER      = 4,
-    UNINVITED_PLAYER    = 5,
-    LEFT_GUILD          = 6,
-};
 
 class Event {
 public:
+    enum class Type {
+        INVITATION      = 1,
+        NEW_MEMBER      = 2,
+        PROMOTION       = 3,
+        DEMOTION        = 4,
+        KICK            = 5,
+        MEMBER_LEFT     = 6,
+    };
     Event(Type type_, Guid& playerGuid1_, Guid& playerGuid2_);
     ~Event();
 

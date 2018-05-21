@@ -74,6 +74,20 @@ void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::fu
 
     std::vector<uint8> buf;
 
+
+    //
+    //
+    //
+    //
+    //
+    // ENDIAN CONVERT ?????
+    //
+    //
+    //
+    //
+    //
+
+
     std::for_each(std::istreambuf_iterator<char>(stream),
                   std::istreambuf_iterator<char>(),
                   [&buf](const char c){

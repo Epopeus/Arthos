@@ -10,4 +10,3 @@ public:
     virtual void stopAcceptingConnections() = 0;
     virtual ~TcpServer() {};
 };
-

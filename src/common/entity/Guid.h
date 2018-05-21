@@ -16,7 +16,6 @@ private:
 };
 
 bool operator==(const Guid& g1, const Guid& g2);
-bool operator!=(const Guid& g1, const Guid& g2);
 
 struct GuidHasher  {
     size_t operator()(const Guid& guid) const;

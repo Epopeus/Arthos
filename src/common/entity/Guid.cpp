@@ -1,5 +1,5 @@
 #include "Guid.h"
-#include <utility>
+#include <functional>
 
 Guid::Guid(uint64 intValue_) : intValue(intValue_) {
 }
@@ -17,10 +17,6 @@ bool Guid::equals(const Guid& otherGuid) const {
 
 bool operator==(const Guid& g1, const Guid& g2) {
     return g1.equals(g2);
-}
-
-bool operator!=(const Guid& g1, const Guid& g2) {
-    return !(g1 == g2);
 }
 
 size_t GuidHasher::operator()(const Guid& guid) const {
