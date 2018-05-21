@@ -1,8 +1,9 @@
 #pragma once
 
-#include <vector>
 #include "common/time/Clock.h"
+#include <vector>
 #include "LogEvent.h"
+#include <memory>
 
 namespace Guild {
     class Log {
@@ -11,12 +12,12 @@ namespace Guild {
 
         ~Log();
 
-        const std::vector<LogEvent> &getEvents() const;
+        const std::vector<std::unique_ptr<LogEvent>>& getEvents() const;
 
-        void logEvent(LogEvent event);
+        void logEvent(std::unique_ptr<LogEvent> event);
 
     private:
         Clock &clock;
-        std::vector<LogEvent> events;
+        std::vector<std::unique_ptr<LogEvent>> events;
     };
 }

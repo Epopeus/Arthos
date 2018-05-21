@@ -1,4 +1,6 @@
 #include "Log.h"
+#include "LogEvent.h"
+#include <memory>
 
 namespace Guild {
     Log::Log(Clock &clock_) : clock(clock_) {
@@ -7,11 +9,11 @@ namespace Guild {
     Log::~Log() {
     }
 
-    const std::vector<LogEvent> &Log::getEvents() const {
+    const std::vector<std::unique_ptr<LogEvent>>& Log::getEvents() const {
         return events;
     }
 
-    void Log::logEvent(LogEvent event) {
-        events.push_back(event);
+    void Log::logEvent(std::unique_ptr<LogEvent> event) {
+        events.push_back(std::move(event));
     }
 }

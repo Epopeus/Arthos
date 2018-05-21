@@ -26,8 +26,8 @@ namespace Guild {
 
         invitingPlayerRoster.add(invitedPlayerId);
 
-        log.logEvent(LogEvent(LogEvent::Type::NEW_MEMBER, invitingPlayerId, invitedPlayerId));
+        log.logEvent(std::make_unique<LogEvent>(LogEvent::Type::NEW_MEMBER, invitingPlayerId, invitedPlayerId));
 
-        packetDeliveryServer.send(std::make_unique<Guild::EventPacket>(Guild::EventPacket::Type::NEW_MEMBER, invitedPlayerId, invitedPlayerName));
+        packetDeliveryServer.send(std::make_unique<EventPacket>(EventPacket::Type::NEW_MEMBER, invitedPlayerId, invitedPlayerName));
     }
 }

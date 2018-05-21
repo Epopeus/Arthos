@@ -67,10 +67,10 @@ TEST_F(GuildInvitationTest, AddsMemberToRosterWhenInvitationIsAccepted) {
 TEST_F(GuildInvitationTest, LogsWhenInvitationSucceded) {
     invitation.accept();
 
-    /*Guild::LogEvent* event = (Guild::LogEvent*)log.getEvents().at(0);
-    ASSERT_EQ(Guild::LogEvent::Type::NEW_MEMBER, event.type);
-    ASSERT_EQ(invitingPlayerId, event.playerGuid1);
-    ASSERT_EQ(invitedPlayerId, event.playerGuid2);*/
+    Guild::LogEvent* event = (Guild::LogEvent*)log.getEvents().at(0).get();
+    ASSERT_EQ(Guild::LogEvent::Type::NEW_MEMBER, event->type);
+    ASSERT_EQ(invitingPlayerId, event->playerGuid1);
+    ASSERT_EQ(invitedPlayerId, event->playerGuid2);
 }
 
 TEST_F(GuildInvitationTest, InformsRosterWhenInvitationSucceded) {
