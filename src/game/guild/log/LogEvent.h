@@ -35,14 +35,10 @@ namespace Guild {
         LogEvent(Type type_, Guid& promoterOrDemoter, Guid& promotedOrDemoted, uint8 newRank);
 
 
-        ~LogEvent();
-
         //void setTimestamp(Timestamp& timestamp_);
 
         Type type;
         Guid& playerGuid1;
-        Guid& playerGuid2;
-        uint8 newRank;
 
         //Timestamp& timestamp;
     };

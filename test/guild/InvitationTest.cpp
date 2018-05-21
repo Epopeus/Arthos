@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
-#include <game/guild/EventPacket.h>
-#include "common/network/PacketDeliveryServer.h"
 #include "game/guild/Invitation.h"
+#include "game/guild/EventPacket.h"
 
 class FakePacketDeliveryServer : public PacketDeliveryServer {
 public:
@@ -75,8 +74,7 @@ namespace Guild {
 
         LogEvent *event = (LogEvent *) log.getEvents().at(0).get();
         ASSERT_EQ(LogEvent::Type::NEW_MEMBER, event->type);
-        ASSERT_EQ(invitingPlayerId, event->playerGuid1);
-        ASSERT_EQ(invitedPlayerId, event->playerGuid2);
+        ASSERT_EQ(invitedPlayerId, event->playerGuid1);
     }
 
     TEST_F(InvitationTest, InformsRosterWhenInvitationSucceded) {
