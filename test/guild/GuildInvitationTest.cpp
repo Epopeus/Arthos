@@ -15,6 +15,12 @@ public:
     std::vector<std::unique_ptr<ServerPacket>> sentPackets;
 };
 
+/**
+ * TODO :
+ * Our tests inputs should be binary data from a fake client.
+ * Assertions should be made on the output binary data sent to the fake client or/and on state that was muted.
+ * This way we can cover greater ground with our unit tests.
+ */
 class GuildInvitationTest : public ::testing::Test {
 public:
     GuildInvitationTest():
@@ -52,16 +58,6 @@ public:
     Invitation invitation;
 };
 
-TEST_F(GuildInvitationTest, InformsRosterWhenInvitationSucceded) {
-    invitation.accept();
-
-    GuildEvent* packet  = (GuildEvent*)packetDeliveryServer.sentPackets.at(0).get();
-
-    ASSERT_EQ(GuildEvent::Type::NEW_MEMBER, packet->type);
-    ASSERT_EQ(invitedPlayerId, *packet->playerGuid);
-    ASSERT_EQ(invitedPlayerName, packet->miscStrings.at(0));
-}
-
 TEST_F(GuildInvitationTest, AddsMemberToRosterWhenInvitationIsAccepted) {
     invitation.accept();
 
@@ -75,6 +71,16 @@ TEST_F(GuildInvitationTest, LogsWhenInvitationSucceded) {
     ASSERT_EQ(Event::Type::NEW_MEMBER, event.type);
     ASSERT_EQ(invitingPlayerId, event.playerGuid1);
     ASSERT_EQ(invitedPlayerId, event.playerGuid2);
+}
+
+TEST_F(GuildInvitationTest, InformsRosterWhenInvitationSucceded) {
+    invitation.accept();
+
+    GuildEvent* packet  = (GuildEvent*)packetDeliveryServer.sentPackets.at(0).get();
+
+    ASSERT_EQ(GuildEvent::Type::NEW_MEMBER, packet->type);
+    ASSERT_EQ(invitedPlayerId, *packet->playerGuid);
+    ASSERT_EQ(invitedPlayerName, packet->miscStrings.at(0));
 }
 
 TEST_F(GuildInvitationTest, FailsWhenPlayerIsMember) {

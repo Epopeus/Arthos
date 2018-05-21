@@ -1,7 +1,6 @@
 #include <common/network/PacketDeliveryServer.h>
 #include "Invitation.h"
 #include "GuildEvent.h"
-
 Invitation::Invitation(Guid& invitingPlayerId_, Roster& invitingPlayerRoster_, Faction& invitingPlayerFaction_,
                        Guid& invitedPlayerId_, Name& invitedPlayerName_, Roster& invitedPlayerCurrentRoster_, Faction& invitedPlayerFaction_,
                        Log& log_, PacketDeliveryServer& packetDeliveryServer_):
@@ -11,11 +10,6 @@ Invitation::Invitation(Guid& invitingPlayerId_, Roster& invitingPlayerRoster_, F
 }
 
 Invitation::~Invitation() {
-}
-
-template<typename T>
-std::initializer_list<T> make_init_list(std::initializer_list<T> && l ) {
-    return l;
 }
 
 void Invitation::accept() {
