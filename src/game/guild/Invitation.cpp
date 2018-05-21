@@ -1,31 +1,33 @@
-#include <common/network/PacketDeliveryServer.h>
 #include "Invitation.h"
-#include "GuildEvent.h"
-Invitation::Invitation(Guid& invitingPlayerId_, Roster& invitingPlayerRoster_, Faction& invitingPlayerFaction_,
-                       Guid& invitedPlayerId_, Name& invitedPlayerName_, Roster& invitedPlayerCurrentRoster_, Faction& invitedPlayerFaction_,
-                       Log& log_, PacketDeliveryServer& packetDeliveryServer_):
-        invitingPlayerId(invitingPlayerId_), invitingPlayerRoster(invitingPlayerRoster_), invitingPlayerFaction(invitingPlayerFaction_),
-        invitedPlayerId(invitedPlayerId_), invitedPlayerName(invitedPlayerName_), invitedPlayerCurrentRoster(invitedPlayerCurrentRoster_), invitedPlayerFaction(invitedPlayerFaction_),
-        log(log_), packetDeliveryServer(packetDeliveryServer_) {
-}
+#include "EventPacket.h"
+#include <functional>
 
-Invitation::~Invitation() {
-}
+namespace Guild {
+    Invitation::Invitation(Guid &invitingPlayerId_, Roster &invitingPlayerRoster_, Faction &invitingPlayerFaction_,
+                           Guid &invitedPlayerId_, Name &invitedPlayerName_, Roster &invitedPlayerCurrentRoster_,
+                           Faction &invitedPlayerFaction_,
+                           Log &log_, PacketDeliveryServer &packetDeliveryServer_) :
+            invitingPlayerId(invitingPlayerId_), invitingPlayerRoster(invitingPlayerRoster_),
+            invitingPlayerFaction(invitingPlayerFaction_),
+            invitedPlayerId(invitedPlayerId_), invitedPlayerName(invitedPlayerName_),
+            invitedPlayerCurrentRoster(invitedPlayerCurrentRoster_), invitedPlayerFaction(invitedPlayerFaction_),
+            log(log_), packetDeliveryServer(packetDeliveryServer_) {
+    }
 
-void Invitation::accept() {
-    if (invitedPlayerCurrentRoster.hasMember(invitedPlayerId))
-        return;
+    Invitation::~Invitation() {
+    }
 
-    if (invitedPlayerFaction != invitingPlayerFaction)
-        return;
+    void Invitation::accept() {
+        if (invitedPlayerCurrentRoster.hasMember(invitedPlayerId))
+            return;
 
-    invitingPlayerRoster.add(invitedPlayerId);
+        if (invitedPlayerFaction != invitingPlayerFaction)
+            return;
 
-    log.logEvent(Event(Event::Type::NEW_MEMBER, invitingPlayerId, invitedPlayerId));
+        invitingPlayerRoster.add(invitedPlayerId);
 
-    packetDeliveryServer.send(std::make_unique<GuildEvent>(GuildEvent::Type::NEW_MEMBER, invitedPlayerId, invitedPlayerName));
-}
+        log.logEvent(LogEvent(LogEvent::Type::NEW_MEMBER, invitingPlayerId, invitedPlayerId));
 
-void Invitation::decline() {
-
+        packetDeliveryServer.send(std::make_unique<Guild::EventPacket>(Guild::EventPacket::Type::NEW_MEMBER, invitedPlayerId, invitedPlayerName));
+    }
 }

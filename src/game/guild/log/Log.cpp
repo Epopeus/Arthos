@@ -1,15 +1,17 @@
 #include "Log.h"
 
-Log::Log(Clock& clock_):clock(clock_) {
-}
+namespace Guild {
+    Log::Log(Clock &clock_) : clock(clock_) {
+    }
 
-Log::~Log() {
-}
+    Log::~Log() {
+    }
 
-const std::vector<Event>& Log::getEvents() const {
-    return events;
-}
+    const std::vector<LogEvent> &Log::getEvents() const {
+        return events;
+    }
 
-void Log::logEvent(Event event) {
-    events.push_back(event);
+    void Log::logEvent(LogEvent event) {
+        events.push_back(event);
+    }
 }

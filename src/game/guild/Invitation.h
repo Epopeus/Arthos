@@ -1,33 +1,35 @@
 #pragma once
 
-
-#include "Guild.h"
 #include "common/entity/Guid.h"
-#include "Roster.h"
-#include "game/Faction.h"
-#include "game/guild/log/Log.h"
 #include "common/entity/Name.h"
+#include "common/network/PacketDeliveryServer.h"
+#include "game/Faction.h"
+#include "Roster.h"
+#include "log/Log.h"
 
-class Invitation {
-public:
-    Invitation(Guid& invitingPlayerId_, Roster& invitingPlayerRoster_, Faction& invitingPlayerFaction_, Guid& invitedPlayerId_, Name& invitedPlayerName, Roster& invitedPlayerCurrentRoster_, Faction& invitedPlayerFaction_, Log& log_, PacketDeliveryServer& packetDeliveryServer_);
+namespace Guild {
+    class Invitation {
+    public:
+        Invitation(Guid &invitingPlayerId_, Roster &invitingPlayerRoster_, Faction &invitingPlayerFaction_,
+                   Guid &invitedPlayerId_, Name &invitedPlayerName, Roster &invitedPlayerCurrentRoster_,
+                   Faction &invitedPlayerFaction_, Log &log_, PacketDeliveryServer &packetDeliveryServer_);
 
-    ~Invitation();
+        ~Invitation();
 
-    void accept();
-    void decline();
+        void accept();
+    private:
+        Guid &invitingPlayerId;
+        Roster &invitingPlayerRoster;
+        Faction &invitingPlayerFaction;
 
-private:
-    Guid& invitingPlayerId;
-    Roster& invitingPlayerRoster;
-    Faction& invitingPlayerFaction;
+        Guid &invitedPlayerId;
+        Name &invitedPlayerName;
+        Roster &invitedPlayerCurrentRoster;
+        Faction &invitedPlayerFaction;
 
-    Guid& invitedPlayerId;
-    Name& invitedPlayerName;
-    Roster& invitedPlayerCurrentRoster;
-    Faction& invitedPlayerFaction;
+        Log &log;
 
-    Log& log;
+        PacketDeliveryServer &packetDeliveryServer;
+    };
+}
 
-    PacketDeliveryServer& packetDeliveryServer;
-};

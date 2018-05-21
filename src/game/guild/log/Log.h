@@ -2,19 +2,21 @@
 
 #include <vector>
 #include "common/time/Clock.h"
-#include "Event.h"
+#include "LogEvent.h"
 
-class Log {
-public:
-    Log(Clock& clock_);
+namespace Guild {
+    class Log {
+    public:
+        Log(Clock &clock_);
 
-    ~Log();
+        ~Log();
 
-    const std::vector<Event>& getEvents() const;
+        const std::vector<LogEvent> &getEvents() const;
 
-    void logEvent(Event event);
+        void logEvent(LogEvent event);
 
-private:
-    Clock& clock;
-    std::vector<Event> events;
-};
+    private:
+        Clock &clock;
+        std::vector<LogEvent> events;
+    };
+}
