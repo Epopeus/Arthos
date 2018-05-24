@@ -22,4 +22,8 @@ namespace Guild {
     int Roster::getNumberOfMembers() {
         return members.size();
     }
+
+    bool Roster::operator==(const Guild::Roster &other) const {
+        return members == other.members;
+    }
 }

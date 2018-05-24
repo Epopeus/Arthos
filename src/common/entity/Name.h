@@ -1,19 +1,9 @@
 #pragma once
 
+#include <common/type/ValueObject.h>
 #include <string>
 
-class Name {
+class Name : public ValueObject<std::string> {
 public:
     Name(std::string stringValue_);
-
-    ~Name();
-
-    const std::string& operator()() const;
-    bool equals(const Name& otherName) const;
-
-private:
-    std::string stringValue;
 };
-
-bool operator==(const Name& n1, const Name& n2);
-

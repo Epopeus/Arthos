@@ -17,7 +17,8 @@ namespace Guild {
 
         int getNumberOfMembers();
 
+        bool operator==(const Roster& other) const;
     private:
-        std::unordered_set<Guid, GuidHasher, GuidComparator> members;
+        std::unordered_set<Guid, Hasher<Guid, uint64>> members;
     };
 }

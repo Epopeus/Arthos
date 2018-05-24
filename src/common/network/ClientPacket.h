@@ -1,5 +1,6 @@
 #pragma once
 #include "common/network/BinaryData.h"
+#include "Opcode.h"
 
 class ClientPacket {
 public:
@@ -8,6 +9,7 @@ public:
 
     ~ClientPacket();
 
+    Opcode opcode;
 private:
     BinaryData& binaryData;
 };

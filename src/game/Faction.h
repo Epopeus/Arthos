@@ -1,14 +1,8 @@
 #pragma once
 
-class Faction {
+#include "common/type/ValueObject.h"
+
+class Faction : public ValueObject<uint32> {
 public:
-    Faction(int intValue_);
-
-    int getIntValue() const;
-    bool equals(const Faction& otherFaction) const;
-private:
-    int intValue;
+    Faction(uint32 intValue_);
 };
-
-bool operator==(const Faction& f1, const Faction& f2);
-bool operator!=(const Faction& f1, const Faction& f2);

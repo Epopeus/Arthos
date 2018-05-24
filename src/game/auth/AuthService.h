@@ -4,7 +4,7 @@
 #include "common/service/Service.h"
 #include "SignalListener.h"
 #include "AuthSettingsRepository.h"
-#include "common/type/numbers.h"
+#include "common/type/Numbers.h"
 
 class AuthService : public Service {
 public:

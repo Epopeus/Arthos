@@ -8,13 +8,23 @@
 #include "log/Log.h"
 
 namespace Guild {
-    class Invitation {
+    struct InvitingPlayer {
+        Guid& id;
+        Roster& roster;
+        Faction& faction;
+
+        bool operator==(const InvitingPlayer& other) const {
+            return id == other.id && roster == other.roster && faction == other.faction;
+        }
+    };
+
+    class Invite {
     public:
-        Invitation(Guid &invitingPlayerId_, Roster &invitingPlayerRoster_, Faction &invitingPlayerFaction_,
+        Invite(Guid &invitingPlayerId_, Roster &invitingPlayerRoster_, Faction &invitingPlayerFaction_,
                    Guid &invitedPlayerId_, Name &invitedPlayerName, Roster &invitedPlayerCurrentRoster_,
                    Faction &invitedPlayerFaction_, Log &log_, PacketDeliveryServer &packetDeliveryServer_);
 
-        ~Invitation();
+        ~Invite();
 
         void accept();
     private:

@@ -9,15 +9,15 @@ namespace Guild {
 
     }
 
-    EventPacket::EventPacket(Type type_, Name &promoterOrDemoterName, Name &promotedOrDemotedName, std::string &newRankName) : EventPacket(type_, nullptr, {promoterOrDemoterName(), promotedOrDemotedName()}) {
+    EventPacket::EventPacket(Type type_, Name &promoterOrDemoterName, Name &promotedOrDemotedName, std::string &newRankName) : EventPacket(type_, nullptr, {promoterOrDemoterName.getValue(), promotedOrDemotedName.getValue()}) {
 
     }
 
-    EventPacket::EventPacket(Type type_, Guid &playerGuid_, Name &playerName) : EventPacket(type_, &playerGuid_, {playerName()}) {
+    EventPacket::EventPacket(Type type_, Guid &playerGuid_, Name &playerName) : EventPacket(type_, &playerGuid_, {playerName.getValue()}) {
 
     }
 
-    EventPacket::EventPacket(Type type_, Name &kickerOrOldLeaderName, Name &kickedOrNewLeaderName) : EventPacket(type_, nullptr, {kickerOrOldLeaderName(), kickedOrNewLeaderName()}) {
+    EventPacket::EventPacket(Type type_, Name &kickerOrOldLeaderName, Name &kickedOrNewLeaderName) : EventPacket(type_, nullptr, {kickerOrOldLeaderName.getValue(), kickedOrNewLeaderName.getValue()}) {
 
     }
 
