@@ -28,14 +28,15 @@ namespace Guild {
 
     class Invite {
     public:
-        Invite(std::unique_ptr<InvitingCharacter> invitingCharacter_, std::unique_ptr<InvitedCharacter> invitedCharacter_, Log &log_, PacketDeliveryServer &packetDeliveryServer_);
+        Invite(InvitedCharacter& invitedCharacter_, Log &log_, PacketDeliveryServer &packetDeliveryServer_);
 
         ~Invite();
 
         void accept();
+        void setInvitingCharacter(std::unique_ptr<InvitingCharacter> invitingCharacter_);
     private:
         std::unique_ptr<InvitingCharacter> invitingCharacter;
-        std::unique_ptr<InvitedCharacter> invitedCharacter;
+        InvitedCharacter& invitedCharacter;
 
         Log &log;
 

@@ -23,44 +23,45 @@ namespace Guild {
     class InviteTest : public ::testing::Test {
     public:
         InviteTest() :
-                invitingPlayerId(Guid(123)),
-                invitingPlayerRoster(Roster()),
-                invitingPlayerFaction(Faction(0)),
-                invitingPlayer(invitingPlayerId, invitingPlayerFaction, invitingPlayerRoster),
+                invitingCharacterId(123),
+                invitingCharacterRoster(),
+                invitingCharacterFaction(0),
 
-                invitedPlayerId(Guid(456)),
-                invitedPlayerName("Test"),
-                invitedPlayerRoster(Roster()),
-                invitedPlayerFaction(Faction(0)),
-                invitedPlayer(invitedPlayerId, invitedPlayerFaction, invitedPlayerRoster, invitedPlayerName),
+                invitedCharacterId(456),
+                invitedCharacterName("Test"),
+                invitedCharacterRoster(),
+                invitedCharacterFaction(0),
+                invitedCharacter(invitedCharacterId, invitedCharacterFaction, invitedCharacterRoster, invitedCharacterName),
 
-                clock(Clock()),
-                log(Log(clock)),
-                packetDeliveryServer(FakePacketDeliveryServer()),
-                invite(getInviteObject()) {
+                clock(),
+                log(clock),
 
+                packetDeliveryServer(),
+
+                invite(invitedCharacter, log, packetDeliveryServer) {
+            invite.setInvitingCharacter(std::unique_ptr<InvitingCharacter>(nullptr));
         }
 
-        Invite* getInviteObject() {
-            return new Invite(std::unique_ptr<InvitingCharacter>(&invitingPlayer), std::unique_ptr<InvitedCharacter>(&invitedPlayer), log, packetDeliveryServer);
+        void sendInvite() {
+            invite.setInvitingCharacter(std::make_unique<InvitingCharacter>(invitingCharacterId, invitingCharacterFaction, invitingCharacterRoster));
         }
 
-        Guid invitedPlayerId;
-        Name invitedPlayerName;
-        Roster invitedPlayerRoster;
-        Faction invitedPlayerFaction;
+        Guid invitingCharacterId;
+        Roster invitingCharacterRoster;
+        Faction invitingCharacterFaction;
 
-        Guid invitingPlayerId;
-        Roster invitingPlayerRoster;
-        Faction invitingPlayerFaction;
-        InvitingCharacter invitingPlayer;
-        InvitedCharacter invitedPlayer;
+        Guid invitedCharacterId;
+        Name invitedCharacterName;
+        Roster invitedCharacterRoster;
+        Faction invitedCharacterFaction;
+        InvitedCharacter invitedCharacter;
 
         Clock clock;
         Log log;
+
         FakePacketDeliveryServer packetDeliveryServer;
 
-        Invite* invite;
+        Invite invite;
     };
 
     TEST_F(InviteTest, CallsCommandWhenSent) {
@@ -95,23 +96,20 @@ namespace Guild {
         ASSERT_TRUE(false);
     }
 
-    TEST_F(InviteTest, InitsInviteWhenSent) {
-        CharacterRepository charRepo = CharacterRepository();
-        charRepo.add(Character(Guid(789), "Test"));
-
-        invitingPlayerId = Guid(0);
-        invite = getInviteObject();
-
+    TEST_F(InviteTest, ReceivesInviteWhenSent) {
+        //Inviting
         Guid commandSender = Guid(123);
-        InviteCommand command(commandSender);
 
-        InviteCommandArgs args;
-        args.invitedCharName = "Test";
+        // Invited
+        CharacterRepository charRepo = CharacterRepository();
+        charRepo.add(Character(Guid(456), "Test"));
+
+        InviteCommandArgs args("Test");
+        InviteCommand command(commandSender, invite);
 
         command.run(args);
 
-        InvitingCharacter* invitingPlayer;
-        ASSERT_EQ(Guid(789), invitingPlayer->id);
+
         //ASSERT_EQ(nullptr, invitingCharacter->roster);
         //ASSERT_EQ(nullptr, invitingCharacter->faction);
     }
@@ -129,38 +127,40 @@ namespace Guild {
     }
 
     TEST_F(InviteTest, AddsMemberToRosterWhenAccepted) {
-        AcceptInviteCommand command(invitingPlayerId);
+        AcceptInviteCommand command(invitingCharacterId);
         command.run();
 
-        ASSERT_TRUE(invitingPlayerRoster.hasMember(invitedPlayerId));
+        ASSERT_TRUE(invitingCharacterRoster.hasMember(invitedCharacterId));
     }
 
     TEST_F(InviteTest, LogsWhenAccepted) {
-        invite->accept();
+        sendInvite();
+        invite.accept();
 
         LogEvent *event = (LogEvent *) log.getEvents().at(0).get();
         ASSERT_EQ(LogEvent::Type::NEW_MEMBER, event->type);
-        ASSERT_EQ(invitedPlayerId, event->playerGuid1);
+        ASSERT_EQ(invitedCharacterId, event->playerGuid1);
     }
 
     TEST_F(InviteTest, NotifyRosterWhenAccepted) {
-        invite->accept();
-        if (invitedPlayerRoster.hasMember(invitedPlayerId))
+        sendInvite();
+        invite.accept();
+        if (invitedCharacterRoster.hasMember(invitedCharacterId))
             return;
 
-        if (invitedPlayerFaction != invitingPlayerFaction)
+        if (invitedCharacterFaction != invitingCharacterFaction)
             return;
 
-        invitingPlayerRoster.add(invitedPlayerId);
+        invitingCharacterRoster.add(invitedCharacterId);
 
-        log.logEvent(std::make_unique<LogEvent>(LogEvent::Type::NEW_MEMBER, invitedPlayerId));
+        log.logEvent(std::make_unique<LogEvent>(LogEvent::Type::NEW_MEMBER, invitedCharacterId));
 
-        packetDeliveryServer.send(std::make_unique<EventPacket>(EventPacket::Type::NEW_MEMBER, invitedPlayerId, invitedPlayerName));
+        packetDeliveryServer.send(std::make_unique<EventPacket>(EventPacket::Type::NEW_MEMBER, invitedCharacterId, invitedCharacterName));
         EventPacket *packet = (EventPacket *) packetDeliveryServer.sentPackets.at(0).get();
 
         ASSERT_EQ(EventPacket::Type::NEW_MEMBER, packet->type);
-        ASSERT_EQ(invitedPlayerId, *packet->playerGuid);
-        ASSERT_EQ(invitedPlayerName, packet->miscStrings.at(0));
+        ASSERT_EQ(invitedCharacterId, *packet->playerGuid);
+        ASSERT_EQ(invitedCharacterName, packet->miscStrings.at(0));
     }
 
     TEST_F(InviteTest, FailsWhenNoInviteSent) {
@@ -168,26 +168,29 @@ namespace Guild {
     }
 
     TEST_F(InviteTest, FailsWhenPlayerIsMember) {
-        invitingPlayerRoster.add(invitedPlayerId);
+        sendInvite();
+        invitingCharacterRoster.add(invitedCharacterId);
 
-        invite->accept();
+        invite.accept();
 
-        ASSERT_EQ(1, invitingPlayerRoster.getNumberOfMembers());
+        ASSERT_EQ(1, invitingCharacterRoster.getNumberOfMembers());
     }
 
     TEST_F(InviteTest, FailsWhenPlayerIsInOtherGuild) {
-        invitedPlayerRoster.add(invitedPlayerId);
+        sendInvite();
+        invitedCharacterRoster.add(invitedCharacterId);
 
-        invite->accept();
+        invite.accept();
 
-        ASSERT_FALSE(invitingPlayerRoster.hasMember(invitedPlayerId));
+        ASSERT_FALSE(invitingCharacterRoster.hasMember(invitedCharacterId));
     }
 
     TEST_F(InviteTest, FailsWhenPlayerBelongsToOtherFaction) {
-        invitedPlayerFaction = Faction(1);
+        sendInvite();
+        invitedCharacterFaction = Faction(1);
 
-        invite->accept();
+        invite.accept();
 
-        ASSERT_FALSE(invitingPlayerRoster.hasMember(invitedPlayerId));
+        ASSERT_FALSE(invitingCharacterRoster.hasMember(invitedCharacterId));
     }
 }

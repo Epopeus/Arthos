@@ -3,15 +3,23 @@
 
 #include <common/entity/Guid.h>
 #include <common/command/Command.h>
+#include "Invite.h"
 
-struct InviteCommandArgs {
-    const char* invitedCharName;
-};
+namespace Guild {
+    struct InviteCommandArgs {
+        const char *invitedCharName;
 
-class InviteCommand : public Command {
-public:
-    InviteCommand(Guid& playerId);
+        InviteCommandArgs(const char *invitedCharName_) : invitedCharName(invitedCharName_) {
+        }
+    };
 
-    void run(InviteCommandArgs args);
-};
+    class InviteCommand : public Command {
+    public:
+        InviteCommand(Guid &playerId_, Invite &invite_);
+
+        void run(InviteCommandArgs args);
+    private:
+        Invite& invite;
+    };
+}
 
