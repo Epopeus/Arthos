@@ -8,34 +8,34 @@
 #include "log/Log.h"
 
 namespace Guild {
-    struct InvitingPlayer {
+    struct InvitingCharacter {
         Guid& id;
-        Roster& roster;
         Faction& faction;
+        Roster& roster;
 
-        bool operator==(const InvitingPlayer& other) const {
-            return id == other.id && roster == other.roster && faction == other.faction;
+        InvitingCharacter(Guid& id_, Faction& faction_, Roster& roster_):id(id_), faction(faction_), roster(roster_) {
+
+        }
+    };
+
+    struct InvitedCharacter : public InvitingCharacter {
+        Name &name;
+
+        InvitedCharacter(Guid &id_, Faction &faction_, Roster &roster_, Name &name_) : InvitingCharacter(id_, faction_, roster_), name(name_) {
+
         }
     };
 
     class Invite {
     public:
-        Invite(Guid &invitingPlayerId_, Roster &invitingPlayerRoster_, Faction &invitingPlayerFaction_,
-                   Guid &invitedPlayerId_, Name &invitedPlayerName, Roster &invitedPlayerCurrentRoster_,
-                   Faction &invitedPlayerFaction_, Log &log_, PacketDeliveryServer &packetDeliveryServer_);
+        Invite(std::unique_ptr<InvitingCharacter> invitingCharacter_, std::unique_ptr<InvitedCharacter> invitedCharacter_, Log &log_, PacketDeliveryServer &packetDeliveryServer_);
 
         ~Invite();
 
         void accept();
     private:
-        Guid &invitingPlayerId;
-        Roster &invitingPlayerRoster;
-        Faction &invitingPlayerFaction;
-
-        Guid &invitedPlayerId;
-        Name &invitedPlayerName;
-        Roster &invitedPlayerCurrentRoster;
-        Faction &invitedPlayerFaction;
+        std::unique_ptr<InvitingCharacter> invitingCharacter;
+        std::unique_ptr<InvitedCharacter> invitedCharacter;
 
         Log &log;
 

@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
-#include <common/network/ClientPacket.h>
+#include <common/network/PacketDeliveryServer.h>
+#include <game/guild/Invite.h>
 #include <game/guild/AcceptInviteCommand.h>
-#include <game/guild/InviteCommand.h>
 #include <game/character/CharacterRepository.h>
-#include "game/guild/Invite.h"
-#include "game/guild/EventPacket.h"
+#include <game/guild/InviteCommand.h>
+#include <game/guild/EventPacket.h>
 
 class FakePacketDeliveryServer : public PacketDeliveryServer {
 public:
@@ -23,14 +23,16 @@ namespace Guild {
     class InviteTest : public ::testing::Test {
     public:
         InviteTest() :
-                invitedPlayerId(Guid(123)),
-                invitedPlayerName("Test"),
-                invitedPlayerCurrentRoster(Roster()),
-                invitedPlayerFaction(Faction(0)),
-
-                invitingPlayerId(Guid(456)),
+                invitingPlayerId(Guid(123)),
                 invitingPlayerRoster(Roster()),
                 invitingPlayerFaction(Faction(0)),
+                invitingPlayer(invitingPlayerId, invitingPlayerFaction, invitingPlayerRoster),
+
+                invitedPlayerId(Guid(456)),
+                invitedPlayerName("Test"),
+                invitedPlayerRoster(Roster()),
+                invitedPlayerFaction(Faction(0)),
+                invitedPlayer(invitedPlayerId, invitedPlayerFaction, invitedPlayerRoster, invitedPlayerName),
 
                 clock(Clock()),
                 log(Log(clock)),
@@ -40,17 +42,19 @@ namespace Guild {
         }
 
         Invite* getInviteObject() {
-            return new Invite(invitingPlayerId, invitingPlayerRoster, invitingPlayerFaction, invitedPlayerId, invitedPlayerName, invitedPlayerCurrentRoster, invitedPlayerFaction, log, packetDeliveryServer);
+            return new Invite(std::unique_ptr<InvitingCharacter>(&invitingPlayer), std::unique_ptr<InvitedCharacter>(&invitedPlayer), log, packetDeliveryServer);
         }
 
         Guid invitedPlayerId;
         Name invitedPlayerName;
-        Roster invitedPlayerCurrentRoster;
+        Roster invitedPlayerRoster;
         Faction invitedPlayerFaction;
 
         Guid invitingPlayerId;
         Roster invitingPlayerRoster;
         Faction invitingPlayerFaction;
+        InvitingCharacter invitingPlayer;
+        InvitedCharacter invitedPlayer;
 
         Clock clock;
         Log log;
@@ -106,7 +110,10 @@ namespace Guild {
 
         command.run(args);
 
-        //ASSERT_EQ(Guid(789), invitingPlayer->id);
+        InvitingCharacter* invitingPlayer;
+        ASSERT_EQ(Guid(789), invitingPlayer->id);
+        //ASSERT_EQ(nullptr, invitingCharacter->roster);
+        //ASSERT_EQ(nullptr, invitingCharacter->faction);
     }
 
     TEST_F(InviteTest, LogsWhenSent) {
@@ -138,7 +145,7 @@ namespace Guild {
 
     TEST_F(InviteTest, NotifyRosterWhenAccepted) {
         invite->accept();
-        if (invitedPlayerCurrentRoster.hasMember(invitedPlayerId))
+        if (invitedPlayerRoster.hasMember(invitedPlayerId))
             return;
 
         if (invitedPlayerFaction != invitingPlayerFaction)
@@ -169,7 +176,7 @@ namespace Guild {
     }
 
     TEST_F(InviteTest, FailsWhenPlayerIsInOtherGuild) {
-        invitedPlayerCurrentRoster.add(invitedPlayerId);
+        invitedPlayerRoster.add(invitedPlayerId);
 
         invite->accept();
 

@@ -3,12 +3,7 @@
 #include <functional>
 
 namespace Guild {
-    Invite::Invite(Guid &invitingPlayerId_, Roster &invitingPlayerRoster_, Faction &invitingPlayerFaction_,
-                           Guid &invitedPlayerId_, Name &invitedPlayerName_, Roster &invitedPlayerCurrentRoster_, Faction &invitedPlayerFaction_,
-                           Log &log_, PacketDeliveryServer &packetDeliveryServer_) :
-            invitingPlayerId(invitingPlayerId_), invitingPlayerRoster(invitingPlayerRoster_), invitingPlayerFaction(invitingPlayerFaction_),
-            invitedPlayerId(invitedPlayerId_), invitedPlayerName(invitedPlayerName_), invitedPlayerCurrentRoster(invitedPlayerCurrentRoster_), invitedPlayerFaction(invitedPlayerFaction_),
-            log(log_), packetDeliveryServer(packetDeliveryServer_) {
+    Invite::Invite(std::unique_ptr<InvitingCharacter> invitingCharacter_, std::unique_ptr<InvitedCharacter> invitedCharacter_, Log &log_, PacketDeliveryServer &packetDeliveryServer_) : invitingCharacter(std::move(invitingCharacter_)), invitedCharacter(std::move(invitedCharacter_)), log(log_), packetDeliveryServer(packetDeliveryServer_) {
     }
 
     Invite::~Invite() {
@@ -16,16 +11,16 @@ namespace Guild {
 
 
     void Invite::accept() {
-        if (invitedPlayerCurrentRoster.hasMember(invitedPlayerId))
+        if (invitedCharacter.get()->roster.hasMember(invitedCharacter.get()->id))
             return;
 
-        if (invitedPlayerFaction != invitingPlayerFaction)
+        if (invitedCharacter.get()->faction != invitingCharacter.get()->faction)
             return;
 
-        invitingPlayerRoster.add(invitedPlayerId);
+        invitingCharacter->roster.add(invitedCharacter.get()->id);
 
-        log.logEvent(std::make_unique<LogEvent>(LogEvent::Type::NEW_MEMBER, invitedPlayerId));
+        log.logEvent(std::make_unique<LogEvent>(LogEvent::Type::NEW_MEMBER, invitedCharacter.get()->id));
 
-        packetDeliveryServer.send(std::make_unique<EventPacket>(EventPacket::Type::NEW_MEMBER, invitedPlayerId, invitedPlayerName));
+        packetDeliveryServer.send(std::make_unique<EventPacket>(EventPacket::Type::NEW_MEMBER, invitedCharacter.get()->id, invitedCharacter.get()->name));
     }
 }
