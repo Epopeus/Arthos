@@ -2,10 +2,9 @@
 #include <common/network/PacketDeliveryServer.h>
 #include <game/guild/Invite.h>
 #include <game/guild/AcceptInviteCommand.h>
-#include <game/character/CharacterRepository.h>
 #include <game/guild/InviteCommand.h>
 #include <game/guild/EventPacket.h>
-
+/*
 class FakePacketDeliveryServer : public PacketDeliveryServer {
 public:
     FakePacketDeliveryServer():sentPackets() {
@@ -23,6 +22,7 @@ namespace Guild {
     class InviteTest : public ::testing::Test {
     public:
         InviteTest() :
+                entityManager(),
                 invitingCharacterId(123),
                 invitingCharacterRoster(),
                 invitingCharacterFaction(0),
@@ -39,13 +39,13 @@ namespace Guild {
                 packetDeliveryServer(),
 
                 invite(invitedCharacter, log, packetDeliveryServer) {
-            invite.setInvitingCharacter(std::unique_ptr<InvitingCharacter>(nullptr));
         }
 
         void sendInvite() {
-            invite.setInvitingCharacter(std::make_unique<InvitingCharacter>(invitingCharacterId, invitingCharacterFaction, invitingCharacterRoster));
+            invite.setInvitingCharacter(std::ref<InvitingCharacter>(invitingCharacterId, invitingCharacterFaction, invitingCharacterRoster));
         }
 
+        EntityManager entityManager;
         Guid invitingCharacterId;
         Roster invitingCharacterRoster;
         Faction invitingCharacterFaction;
@@ -64,9 +64,11 @@ namespace Guild {
         Invite invite;
     };
 
+    // SENDING
+
     TEST_F(InviteTest, CallsCommandWhenSent) {
         /**
-         * Test that raw binary data (char*) is correctly handled by every command.
+         * Test that raw binary data (char*) is correctly handled by  every command.
          * In other words, test that char* is correctly casted to the corresponding Command class.
          * For other tests, directly use a Command class.
          */
@@ -91,7 +93,7 @@ namespace Guild {
             };
 
             MyCommand command = std::make_from_tuple<MyCommand>(std::make_tuple(12, "Test", true));
-         */
+         
 
         ASSERT_TRUE(false);
     }
@@ -101,15 +103,15 @@ namespace Guild {
         Guid commandSender = Guid(123);
 
         // Invited
-        CharacterRepository charRepo = CharacterRepository();
-        charRepo.add(Character(Guid(456), "Test"));
+        Entity characterToBeInvited = entityManager.create();
+        entityManager.assign<NameComponent>(characterToBeInvited.id, "Test");
 
         InviteCommandArgs args("Test");
-        InviteCommand command(commandSender, invite);
+        InviteCommand command(commandSender, entityManager);
 
         command.run(args);
 
-
+        ASSERT_TRUE(entityManager.);
         //ASSERT_EQ(nullptr, invitingCharacter->roster);
         //ASSERT_EQ(nullptr, invitingCharacter->faction);
     }
@@ -121,6 +123,41 @@ namespace Guild {
     TEST_F(InviteTest, NotifyTargetWhenSent) {
         ASSERT_TRUE(false);
     }
+
+    TEST_F(InviteTest, FailsWhenTargetDoesntExist) {
+        ASSERT_TRUE(false);
+    }
+
+    TEST_F(InviteTest, FailsWhenInvitingIsntInGuild) {
+        ASSERT_TRUE(false);
+    }
+
+    TEST_F(InviteTest, FailsWhenTargetIgnoresInviting) {
+        ASSERT_TRUE(false);
+    }
+
+    TEST_F(InviteTest, FailsWhenTargetBelongsToOtherFaction) {
+        ASSERT_TRUE(false);
+    }
+
+    TEST_F(InviteTest, FailsWhenTargetIsInAnotherGuild) {
+        ASSERT_TRUE(false);
+    }
+
+    TEST_F(InviteTest, FailsWhenTargetIsAlreadyInvited) {
+        ASSERT_TRUE(false);
+    }
+
+    TEST_F(InviteTest, FailsWhenInvitingHasNoRights) {
+        ASSERT_TRUE(false);
+    }
+
+
+
+
+
+    // ACCEPTING
+
 
     TEST_F(InviteTest, CallsCommandWhenAccepted) {
         ASSERT_TRUE(false);
@@ -167,7 +204,7 @@ namespace Guild {
         ASSERT_TRUE(false);
     }
 
-    TEST_F(InviteTest, FailsWhenPlayerIsMember) {
+    TEST_F(InviteTest, FailsWhenInvitedIsMember) {
         sendInvite();
         invitingCharacterRoster.add(invitedCharacterId);
 
@@ -176,7 +213,7 @@ namespace Guild {
         ASSERT_EQ(1, invitingCharacterRoster.getNumberOfMembers());
     }
 
-    TEST_F(InviteTest, FailsWhenPlayerIsInOtherGuild) {
+    TEST_F(InviteTest, FailsWhenInvitedIsInOtherGuild) {
         sendInvite();
         invitedCharacterRoster.add(invitedCharacterId);
 
@@ -185,7 +222,7 @@ namespace Guild {
         ASSERT_FALSE(invitingCharacterRoster.hasMember(invitedCharacterId));
     }
 
-    TEST_F(InviteTest, FailsWhenPlayerBelongsToOtherFaction) {
+    TEST_F(InviteTest, FailsWhenInvitedBelongsToOtherFaction) {
         sendInvite();
         invitedCharacterFaction = Faction(1);
 
@@ -193,4 +230,4 @@ namespace Guild {
 
         ASSERT_FALSE(invitingCharacterRoster.hasMember(invitedCharacterId));
     }
-}
+}*/

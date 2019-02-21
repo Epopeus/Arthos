@@ -4,12 +4,10 @@
 #include <string>
 #include <common/entity/Guid.h>
 
-class Character {
+struct Character {
 public:
     Character(Guid id_, std::string name_);
 
-private:
     Guid id;
     std::string name;
 };
-

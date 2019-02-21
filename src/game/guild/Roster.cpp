@@ -8,7 +8,7 @@ namespace Guild {
     }
 
     void Roster::add(Guid &newMember) {
-        members.insert(newMember);
+        //members.insert(newMember);
     }
 
     void Roster::remove(Guid &member) {
@@ -16,14 +16,14 @@ namespace Guild {
     }
 
     bool Roster::hasMember(Guid &searchedMember) {
-        return members.count(searchedMember);
+        //return members.count(searchedMember);
     }
 
     int Roster::getNumberOfMembers() {
-        return members.size();
+        //return members.size();
     }
 
     bool Roster::operator==(const Guild::Roster &other) const {
-        return members == other.members;
+        //return members == other.members;
     }
 }

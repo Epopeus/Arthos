@@ -7,3 +7,7 @@ class Name : public ValueObject<std::string> {
 public:
     Name(std::string stringValue_);
 };
+
+struct NameComponent {
+    Name name;
+};

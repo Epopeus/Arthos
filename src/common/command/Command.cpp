@@ -1,4 +1,4 @@
 #include "Command.h"
 
-Command::Command(Guid& playerId_):playerId(playerId_) {
+Command::Command(Guid& callingCharId_):callingCharId(callingCharId_) {
 }

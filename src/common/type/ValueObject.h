@@ -4,30 +4,30 @@
 #include <functional>
 #include "common/type/Numbers.h"
 
-template<typename T>
+template<typename V>
 class ValueObject {
 public:
-    ValueObject(T value_):value(value_) {}
+    ValueObject(V value_):value(value_) {}
 
-    T getValue() const {
+    V getValue() const {
         return value;
     }
 
-    bool operator==(const ValueObject<T>& other) const {
-        return value == other.getValue();
+    bool operator==(const ValueObject<V>& other) const {
+        return getValue() == other.getValue();
     }
 
-    bool operator!=(const ValueObject<T>& other) const {
+    bool operator!=(const ValueObject<V>& other) const {
         return !((*this) == other);
     }
 
-private:
-    T value;
-};
+    template<typename T>
+    struct Hasher {
+        size_t operator()(const ValueObject& vo) const {
+            return std::hash<T>{}(vo.getValue());
+        }
+    };
 
-template<typename T, typename P>
-struct Hasher {
-    size_t operator()(const T& vo) const {
-        return std::hash<P>{}(vo.getValue());
-    }
+private:
+    V value;
 };

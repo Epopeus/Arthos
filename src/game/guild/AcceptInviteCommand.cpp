@@ -1,6 +1,6 @@
 #include "AcceptInviteCommand.h"
 
-AcceptInviteCommand::AcceptInviteCommand(Guid& playerId):Command(playerId) {
+AcceptInviteCommand::AcceptInviteCommand(Guid& characterId):Command(characterId) {
 }
 
 void AcceptInviteCommand::run() {

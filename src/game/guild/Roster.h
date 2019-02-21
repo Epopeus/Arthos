@@ -19,6 +19,6 @@ namespace Guild {
 
         bool operator==(const Roster& other) const;
     private:
-        std::unordered_set<Guid, Hasher<Guid, uint64>> members;
+        //std::unordered_set<Guid, ValueObject::Hasher<uint64>> members;
     };
 }

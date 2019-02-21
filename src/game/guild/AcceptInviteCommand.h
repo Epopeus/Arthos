@@ -4,7 +4,7 @@
 
 class AcceptInviteCommand : public Command {
 public:
-    AcceptInviteCommand(Guid& playerId);
+    AcceptInviteCommand(Guid& characterId);
 
     void run();
 };
