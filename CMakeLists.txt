@@ -100,5 +100,6 @@ message("\n\nPreparing ${M_PROJECT_NAME}...\n")
 
 register_game_lib("common" "")
 register_game_service("auth" "common")
+register_game_service("proxy" "common")
 
 message("${M_PROJECT_NAME} ready.\n\n")
