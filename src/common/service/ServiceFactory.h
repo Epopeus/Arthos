@@ -1,8 +1,8 @@
 #pragma once
 
 #include <boost/di.hpp>
-#include "CommandLineArgs.h"
 #include <common/network/BoostTcpServer.h>
+#include "CommandLineArgs.h"
 #include "Service.h"
 
 class ServiceFactory {
