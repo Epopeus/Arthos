@@ -16,6 +16,5 @@ public:
 
 private:
     AuthSettingsRepository& authSettingsRepository;
-    TcpServer& tcpServer;
     SignalListener& signalListener;
 };

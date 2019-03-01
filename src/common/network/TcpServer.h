@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <functional>
 #include <vector>
 #include "common/type/Numbers.h"
