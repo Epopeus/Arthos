@@ -8,7 +8,7 @@
 
 class AuthService : public Service {
 public:
-    AuthService(AuthSettingsRepository& authSettingsRepository_, TcpServer &tcpServer, SignalListener &signalListener);
+    AuthService(AuthSettingsRepository& authSettingsRepository_, TcpServer &tcpServer, TcpClient& tcpClient_, SignalListener &signalListener);
     ~AuthService();
 
     void run() override;

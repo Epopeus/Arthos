@@ -1,6 +1,7 @@
+#include <iostream>
 #include "AuthService.h"
 
-AuthService::AuthService(AuthSettingsRepository& authSettingsRepository_, TcpServer &tcpServer_, SignalListener &signalListener_) : Service(tcpServer_), authSettingsRepository(authSettingsRepository_), signalListener(signalListener_) {
+AuthService::AuthService(AuthSettingsRepository& authSettingsRepository_, TcpServer &tcpServer_, TcpClient& tcpClient_, SignalListener &signalListener_) : Service(tcpServer_, tcpClient_), authSettingsRepository(authSettingsRepository_), signalListener(signalListener_) {
 
 }
 

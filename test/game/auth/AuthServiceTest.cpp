@@ -3,6 +3,7 @@
 #include <common/service/CommandLineArgs.h>
 #include "game/auth/AuthService.h"
 #include "../../FakeTcpServer.h"
+#include "../../FakeTcpClient.h"
 
 
 class AuthServiceTest : public ::testing::Test {
@@ -18,13 +19,14 @@ protected:
     boost::asio::io_service ioService;
     CommandLineArgs commandLineArgs;
     FakeTcpServer tcpServer;
+    FakeTcpClient tcpClient;
     AuthSettingsRepository authSettingsRepository;
     DbConnectionURI dbConnectionURI;
     DbClient dbClient;
     AuthServiceTest() : signalListener(ioService),
                         commandLineArgs(NUM_ARGS, ARGS),
                         dbConnectionURI(), dbClient(dbConnectionURI), authSettingsRepository(dbClient),
-                        service(authSettingsRepository, tcpServer, signalListener)
+                        service(authSettingsRepository, tcpServer, tcpClient, signalListener)
                          {
     }
 };
