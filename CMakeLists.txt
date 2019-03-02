@@ -34,8 +34,8 @@ function(format_linked_libs formatted_linked_libs linked_libs)
 endfunction()
 
 
-function(register_lib_tests internal_lib_name lib_path)
-    set(tests_source_dir ${PROJECT_SOURCE_DIR}/${M_TESTS_DIR}/${lib_path})
+function(register_lib_tests internal_lib_name lib_name lib_path)
+    set(tests_source_dir ${PROJECT_SOURCE_DIR}/${M_TESTS_DIR}/${lib_path}/${lib_name})
     set(executable_name ${internal_lib_name}Tests)
 
     file(GLOB_RECURSE tests_source_files ${tests_source_dir}/*.h ${tests_source_dir}/*.cpp)
@@ -71,7 +71,8 @@ function(register_lib lib_name lib_path)
     target_link_libraries(${internal_lib_name} ${formatted_linked_libs} ${CONAN_LIBS})
     target_include_directories(${internal_lib_name} PRIVATE ${PROJECT_SOURCE_DIR}/${M_SRC_DIR})
 
-    register_lib_tests(${internal_lib_name} ${lib_path} "")
+    # Last argument is just in case lib_path is empty
+    register_lib_tests(${internal_lib_name} ${lib_name} ${lib_path} "")
 
     list(LENGTH lib_source_files lib_source_files_number)
     message("Game lib '${lib_name}' registered with internal lib name '${internal_lib_name}' and ${lib_source_files_number} source files.")
