@@ -5,7 +5,7 @@
 
 class ProxyService : public Service {
 public:
-    ProxyService(TcpServer& tcpServer, TcpClient& tcpClient);
+    ProxyService(Repository& settingsRepository, TcpServer& tcpServer, TcpClient& tcpClient, SignalListener& signalListener);
 
     void run() override;
 };

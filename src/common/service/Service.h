@@ -3,16 +3,19 @@
 
 #include <common/network/TcpServer.h>
 #include <common/network/TcpClient.h>
+#include <common/storage/Repository.h>
+#include <common/service/SignalListener.h>
 
 class Service {
 public:
-    Service(TcpServer& tcpServer, TcpClient& tcpClient);
-    virtual ~Service() {};
+    Service(Repository& settingsRepository, TcpServer& tcpServer, TcpClient& tcpClient, SignalListener& signalListener);
 
     virtual void run() = 0;
 
 protected:
+    Repository& settingsRepository;
     TcpServer& tcpServer;
     TcpClient& tcpClient;
+    SignalListener& signalListener;
 };
 

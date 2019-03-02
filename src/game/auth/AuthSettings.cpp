@@ -2,6 +2,3 @@
 
 AuthSettings::AuthSettings() {
 }
-
-AuthSettings::~AuthSettings() {
-}

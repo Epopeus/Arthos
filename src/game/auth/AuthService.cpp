@@ -1,15 +1,14 @@
 #include <iostream>
 #include "AuthService.h"
+#include "AuthSettings.h"
 
-AuthService::AuthService(AuthSettingsRepository& authSettingsRepository_, TcpServer &tcpServer_, TcpClient& tcpClient_, SignalListener &signalListener_) : Service(tcpServer_, tcpClient_), authSettingsRepository(authSettingsRepository_), signalListener(signalListener_) {
+AuthService::AuthService(Repository& settingsRepository_, TcpServer &tcpServer_, TcpClient& tcpClient_, SignalListener& signalListener_) : Service(settingsRepository_, tcpServer_, tcpClient_, signalListener_) {
 
 }
 
-AuthService::~AuthService() {
-}
 
 void AuthService::run() {
-    AuthSettings authSettings = authSettingsRepository.getAuthSettings();
+    AuthSettings authSettings = settingsRepository.get<AuthSettings>();
 
     tcpServer.startAcceptingConnections(authSettings.serverIp, authSettings.serverPort, [&] (std::vector<uint8> args) {
         handleCommand(args);

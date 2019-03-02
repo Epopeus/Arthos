@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ProxyService.h"
 
-ProxyService::ProxyService(TcpServer& tcpServer_, TcpClient& tcpClient_):Service(tcpServer_, tcpClient_) {
+ProxyService::ProxyService(Repository& settingsRepository_, TcpServer &tcpServer_, TcpClient& tcpClient_, SignalListener& signalListener_):Service(settingsRepository_, tcpServer_, tcpClient_, signalListener_) {
 }
 
 void ProxyService::run() {

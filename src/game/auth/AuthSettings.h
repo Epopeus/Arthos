@@ -4,7 +4,6 @@
 class AuthSettings {
 public:
     AuthSettings();
-    ~AuthSettings();
 
     std::string serverIp;
     int serverPort;

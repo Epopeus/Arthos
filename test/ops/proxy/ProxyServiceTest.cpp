@@ -6,17 +6,23 @@
 class ProxyServiceTest : public ::testing::Test {
 protected:
     ProxyService service;
+    Repository settingsRepository;
     FakeTcpServer tcpServer;
     FakeTcpClient tcpClient;
+    SignalListener signalListener;
+    boost::asio::io_service ioService;
+    DbClient dbClient;
 
-    ProxyServiceTest() : service(tcpServer, tcpClient) {
+    ProxyServiceTest() : dbClient(), settingsRepository(dbClient),
+                         signalListener(ioService),
+                         service(settingsRepository, tcpServer, tcpClient, signalListener) {
     }
 };
 
-TEST_F(ProxyServiceTest, ShouldStartTCPListen) {
+TEST_F(ProxyServiceTest, ShouldStartTCPServer) {
     ASSERT_TRUE(false);
 }
 
-TEST_F(ProxyServiceTest, ShouldStartTCPConnect) {
+TEST_F(ProxyServiceTest, ShouldStartTCPClient) {
     ASSERT_TRUE(false);
 }

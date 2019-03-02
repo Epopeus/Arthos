@@ -2,7 +2,7 @@
 
 #include <boost/di.hpp>
 #include <common/network/BoostTcpServer.h>
-#include "CommandLineArgs.h"
+#include <common/network/BoostTcpClient.h>
 #include "Service.h"
 
 class ServiceFactory {
@@ -12,12 +12,9 @@ public:
 
     template<typename T>
     T create(int argc, const char** argv) {
-        // TODO : we have to use this because Boost.DI doesn't allow easy char** binding
-        CommandLineArgs args = CommandLineArgs(argc, argv);
-
         const auto injector = boost::di::make_injector(
-        boost::di::bind<CommandLineArgs>.to(args),
-        boost::di::bind<TcpServer>.template to<BoostTcpServer>()
+        boost::di::bind<TcpServer>.template to<BoostTcpServer>(),
+        boost::di::bind<TcpClient>.template to<BoostTcpClient>()
         );
 
         return injector.template create<T>();

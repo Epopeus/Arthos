@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <boost/asio/io_service.hpp>
-#include <common/service/CommandLineArgs.h>
 #include "game/auth/AuthService.h"
 #include "../../FakeTcpServer.h"
 #include "../../FakeTcpClient.h"
@@ -17,15 +16,12 @@ protected:
     AuthService service;
     SignalListener signalListener;
     boost::asio::io_service ioService;
-    CommandLineArgs commandLineArgs;
     FakeTcpServer tcpServer;
     FakeTcpClient tcpClient;
-    AuthSettingsRepository authSettingsRepository;
-    DbConnectionURI dbConnectionURI;
+    Repository authSettingsRepository;
     DbClient dbClient;
     AuthServiceTest() : signalListener(ioService),
-                        commandLineArgs(NUM_ARGS, ARGS),
-                        dbConnectionURI(), dbClient(dbConnectionURI), authSettingsRepository(dbClient),
+                        dbClient(), authSettingsRepository(dbClient),
                         service(authSettingsRepository, tcpServer, tcpClient, signalListener)
                          {
     }
