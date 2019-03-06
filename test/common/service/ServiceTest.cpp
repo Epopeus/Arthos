@@ -20,25 +20,20 @@ protected:
 
 class FakeServiceSettingsRepository : public ServiceSettingsRepository {
 public:
-    FakeServiceSettingsRepository(InMemoryDataSource& dataSource_, ServiceSettings& settings):dataSource(dataSource_), ServiceSettingsRepository(settings) {}
+    FakeServiceSettingsRepository(ServiceSettings& settings):ServiceSettingsRepository(settings) {}
 
     void loadFromDataSource() override {
-        ServiceSettings savedSettings = std::any_cast<ServiceSettings>(dataSource.getAll().at(0));
-
-        settings.connectAddress = savedSettings.connectAddress;
-        settings.connectPort = savedSettings.connectPort;
-        settings.listenPort = savedSettings.listenPort;
     }
 
-private:
-    InMemoryDataSource& dataSource;
+    void store(const ServiceSettings &serviceSettings) override {
+        settings = serviceSettings;
+    }
 };
 class ServiceTest : public ::testing::Test {
 protected:
 
     const ServiceSettings EXPECTED_SETTINGS = ServiceSettings(1234, "abc", 4321);
 
-    InMemoryDataSource dataSource;
     FakeServiceSettingsRepository settingsRepository;
     ServiceSettings settings;
 
@@ -51,14 +46,14 @@ protected:
     FakeService service;
 
     ServiceTest() : settings(-1, "", -1),
-                    settingsRepository(dataSource, settings),
+                    settingsRepository(settings),
                     signalListener(ioService),
                     service(settingsRepository, settings, tcpServer, tcpClient, signalListener) {
     }
 };
 
 TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
-    dataSource.put(EXPECTED_SETTINGS);
+    settingsRepository.store(EXPECTED_SETTINGS);
 
     service.run();
 
@@ -67,17 +62,12 @@ TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
     ASSERT_EQ(EXPECTED_SETTINGS.connectPort, settings.connectPort);
 }
 TEST_F(ServiceTest, ShouldStartTCPServerWithProperSettings) {
-    dataSource.put(settings);
+    settingsRepository.store(EXPECTED_SETTINGS);
 
     service.run();
 
     ASSERT_TRUE(tcpServer.started);
     ASSERT_EQ(EXPECTED_SETTINGS.listenPort, tcpServer.port);
-}
-
-
-TEST_F(ServiceTest, ShouldStartTCPClientWithProperSettings) {
-    ASSERT_TRUE(false);
 }
 
 /*
