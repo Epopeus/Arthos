@@ -13,8 +13,13 @@ public:
 
     }
 
+    bool startedUp = false;
+
 protected:
-    void startUp() override {}
+    void startUp() override {
+        startedUp = true;
+    }
+
     void handleRemoteCommand(std::vector<uint8> args) override {}
 };
 
@@ -65,6 +70,13 @@ TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
     ASSERT_EQ(EXPECTED_SETTINGS.connectAddress, settings.connectAddress);
     ASSERT_EQ(EXPECTED_SETTINGS.connectPort, settings.connectPort);
 }
+
+TEST_F(ServiceTest, ShouldStartUpService) {
+    service.run();
+
+    ASSERT_TRUE(service.startedUp);
+}
+
 TEST_F(ServiceTest, ShouldStartTCPServerWithProperSettings) {
     service.run();
 
