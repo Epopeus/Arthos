@@ -25,14 +25,14 @@ public:
     void loadFromDataSource() override {
     }
 
-    void store(const ServiceSettings &serviceSettings) override {
+    void store(ServiceSettings &serviceSettings) override {
         settings = serviceSettings;
     }
 };
 class ServiceTest : public ::testing::Test {
 protected:
 
-    const ServiceSettings EXPECTED_SETTINGS = ServiceSettings(1234, "abc", 4321);
+    ServiceSettings EXPECTED_SETTINGS = ServiceSettings(1234, "abc", 4321);
 
     FakeServiceSettingsRepository settingsRepository;
     ServiceSettings settings;

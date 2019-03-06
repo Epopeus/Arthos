@@ -9,7 +9,7 @@ public:
     ServiceSettingsRepository(ServiceSettings& serviceSettings);
 
     virtual void loadFromDataSource() = 0;
-    virtual void store(const ServiceSettings& serviceSettings) = 0;
+    virtual void store(ServiceSettings& serviceSettings) = 0;
 protected:
     ServiceSettings& settings;
 };
