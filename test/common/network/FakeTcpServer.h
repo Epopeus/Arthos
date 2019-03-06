@@ -8,13 +8,13 @@ public:
     bool stopped = false;
     int port;
 
-    std::function<void(std::vector<std::uint8_t>)> m_callback;
+    std::function<void(std::vector<std::uint8_t>)> callback;
 
-    void startAcceptingConnections(int port_, std::function<void(std::vector<std::uint8_t>)> callback) override {
+    void startAcceptingConnections(int port_, std::function<void(std::vector<std::uint8_t>)> callback_) override {
         stopped = false;
         started = true;
         port = port_;
-        m_callback = callback;
+        callback = callback_;
     }
 
     void stopAcceptingConnections() override {
@@ -22,8 +22,7 @@ public:
         stopped = true;
     }
 
-
     void receiveCommand(uint8_t command) {
-        m_callback({command});
+        callback({command});
     }
 };
