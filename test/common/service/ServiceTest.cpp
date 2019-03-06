@@ -54,12 +54,11 @@ protected:
                     settingsRepository(settings),
                     signalListener(ioService),
                     service(settingsRepository, settings, tcpServer, tcpClient, signalListener) {
+        settingsRepository.store(EXPECTED_SETTINGS);
     }
 };
 
 TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
-    settingsRepository.store(EXPECTED_SETTINGS);
-
     service.run();
 
     ASSERT_EQ(EXPECTED_SETTINGS.listenPort, settings.listenPort);
@@ -67,8 +66,6 @@ TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
     ASSERT_EQ(EXPECTED_SETTINGS.connectPort, settings.connectPort);
 }
 TEST_F(ServiceTest, ShouldStartTCPServerWithProperSettings) {
-    settingsRepository.store(EXPECTED_SETTINGS);
-
     service.run();
 
     ASSERT_TRUE(tcpServer.started);
@@ -76,8 +73,6 @@ TEST_F(ServiceTest, ShouldStartTCPServerWithProperSettings) {
 }
 
 TEST_F(ServiceTest, ShouldStartTCPClientWithProperSettings) {
-    settingsRepository.store(EXPECTED_SETTINGS);
-
     service.run();
 
     ASSERT_TRUE(tcpClient.connected);
