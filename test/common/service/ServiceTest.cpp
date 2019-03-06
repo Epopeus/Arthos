@@ -75,6 +75,16 @@ TEST_F(ServiceTest, ShouldStartTCPServerWithProperSettings) {
     ASSERT_EQ(EXPECTED_SETTINGS.listenPort, tcpServer.port);
 }
 
+TEST_F(ServiceTest, ShouldStartTCPClientWithProperSettings) {
+    settingsRepository.store(EXPECTED_SETTINGS);
+
+    service.run();
+
+    ASSERT_TRUE(tcpClient.connected);
+    ASSERT_EQ(EXPECTED_SETTINGS.connectAddress, tcpClient.connectIp);
+    ASSERT_EQ(EXPECTED_SETTINGS.connectPort, tcpClient.connectPort);
+}
+
 /*
  * TODO : this is problematic because signals are global and hard to test.
  * Figure out a elegant way to test that the server proberly stops when receiving SIGTERM, SIGINT, etc.

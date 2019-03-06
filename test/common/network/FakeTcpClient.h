@@ -4,7 +4,13 @@
 
 class FakeTcpClient : public TcpClient {
 public:
-    void connect(std::string ip, int port, std::function<void(std::vector<uint8>)> callback) override {
+    bool connected = false;
+    std::string connectIp;
+    int connectPort;
 
+    void connect(std::string ip_, int port_, std::function<void(std::vector<uint8>)> callback) override {
+        connected = true;
+        connectIp = ip_;
+        connectPort = port_;
     }
 };
