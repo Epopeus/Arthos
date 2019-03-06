@@ -20,15 +20,20 @@ protected:
 
 class FakeServiceSettingsRepository : public ServiceSettingsRepository {
 public:
-    FakeServiceSettingsRepository(ServiceSettings& settings):ServiceSettingsRepository(settings) {}
+    FakeServiceSettingsRepository(ServiceSettings& settings):ServiceSettingsRepository(settings), storedSettings(-1, "", -1) {}
 
     void loadFromDataSource() override {
+        settings = storedSettings;
     }
 
-    void store(ServiceSettings &serviceSettings) override {
-        settings = serviceSettings;
+    void store(ServiceSettings& serviceSettings) override {
+        storedSettings = serviceSettings;
     }
+
+private:
+    ServiceSettings storedSettings;
 };
+
 class ServiceTest : public ::testing::Test {
 protected:
 
