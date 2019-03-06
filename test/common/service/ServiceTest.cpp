@@ -14,13 +14,16 @@ public:
     }
 
     bool startedUp = false;
+    std::vector<uint8> lastReceivedCommand;
 
 protected:
     void startUp() override {
         startedUp = true;
     }
 
-    void handleRemoteCommand(std::vector<uint8> args) override {}
+    void handleRemoteCommand(std::vector<uint8> args) override {
+        lastReceivedCommand = args;
+    }
 };
 
 class FakeServiceSettingsRepository : public ServiceSettingsRepository {
@@ -43,6 +46,7 @@ class ServiceTest : public ::testing::Test {
 protected:
 
     ServiceSettings EXPECTED_SETTINGS = ServiceSettings(1234, "abc", 4321);
+    uint8_t EXPECTED_COMMAND = 123;
 
     FakeServiceSettingsRepository settingsRepository;
     ServiceSettings settings;
@@ -83,6 +87,14 @@ TEST_F(ServiceTest, ShouldStartTCPServerWithProperSettings) {
 
     ASSERT_TRUE(tcpServer.started);
     ASSERT_EQ(EXPECTED_SETTINGS.listenPort, tcpServer.port);
+}
+
+TEST_F(ServiceTest, ShouldHandleRemoteCommandFromTCPServer) {
+    service.run();
+
+    tcpServer.receiveCommand(EXPECTED_COMMAND);
+
+    ASSERT_EQ(EXPECTED_COMMAND, service.lastReceivedCommand.at(0));
 }
 
 TEST_F(ServiceTest, ShouldStartTCPClientWithProperSettings) {

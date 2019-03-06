@@ -10,7 +10,7 @@ void Service::run() {
     startUp();
 
     tcpServer.startAcceptingConnections(settings.listenPort, [&] (std::vector<uint8> args) {
-        //handleRemoteCommand(args);
+        handleRemoteCommand(args);
     });
 
     tcpClient.connect(settings.connectAddress, settings.connectPort, [&] (std::vector<uint8> args) {
