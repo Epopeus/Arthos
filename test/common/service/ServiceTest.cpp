@@ -105,6 +105,14 @@ TEST_F(ServiceTest, ShouldStartTCPClientWithProperSettings) {
     ASSERT_EQ(EXPECTED_SETTINGS.connectPort, tcpClient.connectPort);
 }
 
+TEST_F(ServiceTest, ShouldHandleRemoteCommandFromTCPClient) {
+    service.run();
+
+    tcpClient.receiveCommand(EXPECTED_COMMAND);
+
+    ASSERT_EQ(EXPECTED_COMMAND, service.lastReceivedCommand.at(0));
+}
+
 /*
  * TODO : this is problematic because signals are global and hard to test.
  * Figure out a elegant way to test that the server proberly stops when receiving SIGTERM, SIGINT, etc.
