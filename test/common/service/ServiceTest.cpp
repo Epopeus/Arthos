@@ -115,7 +115,7 @@ TEST_F(ServiceTest, ShouldHandleRemoteCommandFromTCPClient) {
 
 /*
  * TODO : this is problematic because signals are global and hard to test.
- * Figure out a elegant way to test that the server proberly stops when receiving SIGTERM, SIGINT, etc.
+ * Figure out a elegant way to test that the server properly stops when receiving SIGTERM, SIGINT, etc.
 
 TEST_F(ServiceTest, ShouldStopTcpServerWhenTerminated) {
     service.run();
