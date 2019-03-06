@@ -1,16 +1,10 @@
 #pragma once
 
-#include "DbClient.h"
+
+#include "DataSource.h"
 
 class Repository {
 public:
-    Repository(DbClient& dbClient);
-
-    template<class T>
-    const T& get() const {
-
-    }
-private:
-    DbClient& dbClient;
+    virtual void loadFromDataSource() = 0;
 };
 

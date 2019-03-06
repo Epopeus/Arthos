@@ -63,8 +63,8 @@ typedef struct AUTH_LOGON_CHALLENGE_C
 
 } sAuthLogonChallenge_C;
 
-void BoostTcpServer::startAcceptingConnections(std::string ip, int port, std::function<void(std::vector<uint8>)> callback) {
-    boost::asio::ip::tcp::acceptor acceptor((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port));
+void BoostTcpServer::startAcceptingConnections(int port, std::function<void(std::vector<uint8>)> callback) {
+    boost::asio::ip::tcp::acceptor acceptor((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port));
     boost::asio::ip::tcp::iostream stream;
 
     acceptor.accept(*stream.rdbuf());

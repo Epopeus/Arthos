@@ -1,19 +1,22 @@
 #pragma once
 
 
+#include "ServiceSettingsRepository.h"
 #include <common/network/TcpServer.h>
 #include <common/network/TcpClient.h>
-#include <common/storage/Repository.h>
 #include <common/service/SignalListener.h>
 
 class Service {
 public:
-    Service(Repository& settingsRepository, TcpServer& tcpServer, TcpClient& tcpClient, SignalListener& signalListener);
+    Service(ServiceSettingsRepository& settingsRepository, ServiceSettings& settings_, TcpServer& tcpServer, TcpClient& tcpClient, SignalListener& signalListener);
 
-    virtual void run() = 0;
-
+    void run();
 protected:
-    Repository& settingsRepository;
+    virtual void startUp() = 0;
+    virtual void handleRemoteCommand(std::vector<uint8> args) = 0;
+
+    ServiceSettingsRepository& settingsRepository;
+    ServiceSettings& settings;
     TcpServer& tcpServer;
     TcpClient& tcpClient;
     SignalListener& signalListener;
