@@ -5,9 +5,9 @@ Service::Service(ServiceSettingsRepository& settingsRepository_, ServiceSettings
 }
 
 void Service::run() {
-    startUp();
-
     settingsRepository.loadFromDataSource();
+
+    startUp();
 
     tcpServer.startAcceptingConnections(settings.listenPort, [&] (std::vector<uint8> args) {
         //handleRemoteCommand(args);

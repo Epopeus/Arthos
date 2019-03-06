@@ -63,6 +63,12 @@ protected:
     }
 };
 
+TEST_F(ServiceTest, ShouldStartUpService) {
+    service.run();
+
+    ASSERT_TRUE(service.startedUp);
+}
+
 TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
     service.run();
 
@@ -71,11 +77,6 @@ TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
     ASSERT_EQ(EXPECTED_SETTINGS.connectPort, settings.connectPort);
 }
 
-TEST_F(ServiceTest, ShouldStartUpService) {
-    service.run();
-
-    ASSERT_TRUE(service.startedUp);
-}
 
 TEST_F(ServiceTest, ShouldStartTCPServerWithProperSettings) {
     service.run();
