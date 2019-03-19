@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 enable_testing()
 
 #Conan
-execute_process(COMMAND conan install --build=missing --build=outdated -s build_type=Debug ${PROJECT_SOURCE_DIR})
+execute_process(COMMAND conan install --build=missing --build=outdated -s build_type=Release ${PROJECT_SOURCE_DIR})
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
@@ -101,6 +101,7 @@ endfunction()
 message("\n\nPreparing ${M_PROJECT_NAME}...\n")
 
 register_lib("common" "")
+register_lib("network" "${M_OPS_DIR}")
 register_service("auth" "${M_GAME_DIR}" "common")
 register_service("proxy" "${M_OPS_DIR}" "common")
 

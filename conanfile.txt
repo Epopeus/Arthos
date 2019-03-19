@@ -1,7 +1,7 @@
 [requires]
 gtest/1.8.0@lasote/stable
-boost/1.66.0@conan/stable
-Boost.DI/cpp14@signal9/stable
+boost/1.69.0@conan/stable
+boost-di/1.1.0@inexorgame/stable
 
 [options]
 gtest:shared=False
