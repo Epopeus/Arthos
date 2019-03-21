@@ -41,29 +41,18 @@ TEST_F(ServiceTest, ShouldLoadServiceResources) {
     ASSERT_TRUE(resources.loaded);
 }
 
-
 TEST_F(ServiceTest, ShouldLaunchNetworkInterface) {
     ASSERT_TRUE(networkInterface.launched);
 }
 
-
-/*
- * TODO : this is problematic because signals are global and hard to test.
- * Figure out a elegant way to test that the server properly stops when receiving SIGTERM, SIGINT, etc.
-
 TEST_F(ServiceTest, ShouldStopTcpServerWhenTerminated) {
-    service.run();
-    ioService.run();
+    std::raise(SIGTERM);
 
-    raise(SIGTERM);
-    ASSERT_TRUE(networkServer.stopped);
+    ASSERT_FALSE(networkInterface.launched);
 }
 
 TEST_F(ServiceTest, ShouldStopTcpServerWhenInterrupted) {
-    service.run();
-    ioService.run();
+    std::raise(SIGINT);
 
-    raise(SIGINT);
-    ASSERT_TRUE(networkServer.stopped);
+    ASSERT_FALSE(networkInterface.launched);
 }
- */
