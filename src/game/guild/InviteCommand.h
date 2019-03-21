@@ -2,7 +2,7 @@
 
 
 #include <common/entity/Guid.h>
-#include <common/command/Command.h>
+#include <common/command/GameClientCommand.h>
 #include <common/entity/EntityManager.h>
 
 namespace Guild {

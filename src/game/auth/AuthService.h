@@ -4,7 +4,7 @@
 
 class AuthService : public Service {
 public:
-    AuthService(ServiceSettingsRepository& settingsRepository, TcpServer &tcpServer, TcpClient& tcpClient_, SignalListener &signalListener);
+    AuthService(ServiceSettingsRepository& settingsRepository, NetworkServer &tcpServer, NetworkClient& tcpClient_, SignalListener &signalListener);
 
 protected:
     void startUp() override;

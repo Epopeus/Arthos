@@ -1,23 +1,21 @@
 #pragma once
 
-#include <common/network/TcpClient.h>
+#include <common/network/NetworkClient.h>
+#include <unordered_map>
 
-class FakeTcpClient : public TcpClient {
+class FakeTcpClient : public NetworkClient {
 public:
     bool connected = false;
-    std::string connectIp;
-    int connectPort;
+    std::vector<Endpoint> connectEndpoints;
 
-    std::function<void(std::vector<std::uint8_t>)> callback;
+    VoidCallback<NetworkConnection&> onConnect;
 
-    void connect(std::string ip_, int port_, std::function<void(std::vector<uint8>)> callback_) override {
+    void connect(std::string ip, int port, VoidCallback<NetworkConnection&> onConnect_) override {
         connected = true;
-        connectIp = ip_;
-        connectPort = port_;
-        callback = callback_;
+        connectEndpoints.emplace_back(ip, port);
+        onConnect = onConnect_;
     }
 
-    void receiveCommand(uint8_t command) {
-        callback({command});
+    void receiveBinaryData(std::vector<uint8> binaryData) {
     }
 };

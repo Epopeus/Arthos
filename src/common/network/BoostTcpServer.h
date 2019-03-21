@@ -1,14 +1,23 @@
 #pragma once
 
-#include "TcpServer.h"
+#include "NetworkServer.h"
+#include "BoostTcpConnection.h"
+#include <common/di/Factory.h>
 
-class BoostTcpServer : public TcpServer {
+using SocketFactory = Factory<boost::asio::ip::tcp::socket&>;
+using ConnectionFactory = Factory<BoostTcpConnection&, boost::asio::ip::tcp::socket&>;
+
+class BoostTcpServer : public NetworkServer {
 public:
+    BoostTcpServer(SocketFactory& socketFactory, ConnectionFactory& connectionFactory);
 
-    BoostTcpServer();
-    ~BoostTcpServer();
-
-    void startAcceptingConnections(int port, std::function<void(std::vector<uint8>)> callback) override;
+    void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect) override;
     void stopAcceptingConnections() override;
+
+private:
+    void asyncAccept();
+
+    SocketFactory& socketFactory;
+    ConnectionFactory& connectionFactory;
 };
 

@@ -1,11 +1,10 @@
 #include "BoostTcpServer.h"
+#include "BoostTcpConnection.h"
 #include <boost/asio.hpp>
 #include <iostream>
 
-BoostTcpServer::BoostTcpServer() {
-}
+BoostTcpServer::BoostTcpServer(SocketFactory& socketFactory_, ConnectionFactory& connectionFactory_):socketFactory(socketFactory_), connectionFactory(connectionFactory_) {
 
-BoostTcpServer::~BoostTcpServer() {
 }
 
 typedef struct AUTH_LOGON_CHALLENGE_C
@@ -26,7 +25,7 @@ typedef struct AUTH_LOGON_CHALLENGE_C
     uint8 I_len;
 
     /*
-     * uint8 opCode;
+    uint8 opCode;
     uint8 error;
     uint8 size_1;
     uint8 size_2;
@@ -59,21 +58,16 @@ typedef struct AUTH_LOGON_CHALLENGE_C
     uint8 ip_3;
     uint8 ip_4;
     uint8 I_len;
-     */
+    */
 
 } sAuthLogonChallenge_C;
 
-void BoostTcpServer::startAcceptingConnections(int port, std::function<void(std::vector<uint8>)> callback) {
-    boost::asio::ip::tcp::acceptor acceptor((*new boost::asio::io_service()), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port));
-    boost::asio::ip::tcp::iostream stream;
+void BoostTcpServer::startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect) {
+    boost::asio::ip::tcp::endpoint endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v6(), port);
+    boost::asio::io_context ioContext = boost::asio::io_context();
+    boost::asio::ip::tcp::acceptor acceptor(ioContext, endpoint);
 
-    acceptor.accept(*stream.rdbuf());
-
-    // Read first bit : it's the command
-    //
-
-    std::vector<uint8> buf;
-
+    asyncAccept();
 
     //
     //
@@ -86,14 +80,6 @@ void BoostTcpServer::startAcceptingConnections(int port, std::function<void(std:
     //
     //
     //
-
-
-    std::for_each(std::istreambuf_iterator<char>(stream),
-                  std::istreambuf_iterator<char>(),
-                  [&buf](const char c){
-                      buf.push_back(c);
-                  });
-    callback(buf);
 /*
     stream.read(reinterpret_cast<char *>(&test.opCode), 1);
     stream.read(reinterpret_cast<char *>(&test.error), 1);
@@ -130,6 +116,23 @@ void BoostTcpServer::startAcceptingConnections(int port, std::function<void(std:
     stream.read(reinterpret_cast<char *>(&test.ip_4), 1);
     stream.read(reinterpret_cast<char *>(&test.I_len), 1);
 */
+}
+
+void BoostTcpServer::asyncAccept() {
+    boost::asio::ip::tcp::socket& socket = socketFactory.create();
+    boost::asio::ip::v6_only option(false);
+    socket.set_option(option);
+
+    /*acceptor.async_accept(socket, [&] (const boost::system::error_code& error) {
+        if (error) {
+            // TODO : handle errors
+            return;
+        }
+
+        onConnect(connectionFactory.create(socket));
+
+
+    });*/
 }
 
 

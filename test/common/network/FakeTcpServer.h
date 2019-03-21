@@ -1,20 +1,21 @@
 #pragma once
 
-#include <common/network/TcpServer.h>
+#include <common/network/NetworkServer.h>
+#include <vector>
+#include "FakeNetworkConnection.h"
 
-class FakeTcpServer : public TcpServer {
+class FakeTcpServer : public NetworkServer {
 public:
     bool started = false;
     bool stopped = false;
-    int port;
+    std::vector<int> ports;
+    VoidCallback<NetworkConnection&> onConnect;
 
-    std::function<void(std::vector<std::uint8_t>)> callback;
-
-    void startAcceptingConnections(int port_, std::function<void(std::vector<std::uint8_t>)> callback_) override {
+    void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect_) override {
         stopped = false;
         started = true;
-        port = port_;
-        callback = callback_;
+        ports.push_back(port);
+        onConnect = onConnect_;
     }
 
     void stopAcceptingConnections() override {
@@ -22,7 +23,11 @@ public:
         stopped = true;
     }
 
-    void receiveCommand(uint8_t command) {
-        callback({command});
+    FakeNetworkConnection& simulateNewConnection(NetworkConnectionType type) {
+        FakeNetworkConnection* connection = new FakeNetworkConnection();
+
+        onConnect(*connection);
+
+        return *connection;
     }
 };

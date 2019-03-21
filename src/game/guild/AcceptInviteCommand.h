@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/command/Command.h"
+#include "common/command/GameClientCommand.h"
 
 class AcceptInviteCommand : public Command {
 public:

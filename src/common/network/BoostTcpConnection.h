@@ -1,45 +1,16 @@
 #pragma once
 
 #include <boost/asio.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/bind.hpp>
+#include "NetworkConnection.h"
 
-class BoostTcpConnection : public boost::enable_shared_from_this<BoostTcpConnection>{
+class BoostTcpConnection : public NetworkConnection {
 public:
-    typedef boost::shared_ptr<BoostTcpConnection> pointer;
+    BoostTcpConnection(boost::asio::ip::tcp::socket& socket);
 
-    static pointer create(boost::asio::io_service& io_service)
-    {
-        return pointer(new BoostTcpConnection(io_service));
-    }
+    void read(VoidCallback<Bytes&> onBytesReceived) override;
 
-    boost::asio::ip::tcp::socket& socket()
-    {
-        return socket_;
-    }
-
-    void start()
-    {
-        message_ = "Test";
-
-        boost::asio::async_write(socket_, boost::asio::buffer(message_),
-                                 boost::bind(&BoostTcpConnection::handle_write, shared_from_this(),
-                                             boost::asio::placeholders::error,
-                                             boost::asio::placeholders::bytes_transferred));
-    }
-
+    void send(Bytes& bytes) override;
 private:
-    BoostTcpConnection(boost::asio::io_service& io_service)
-    : socket_(io_service)
-            {
-            }
-
-    void handle_write(const boost::system::error_code& /*error*/,
-                      size_t /*bytes_transferred*/)
-    {
-    }
-
-    boost::asio::ip::tcp::socket socket_;
-    std::string message_;
+    boost::asio::ip::tcp::socket& socket;
 };
 

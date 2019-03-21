@@ -1,13 +1,13 @@
 #include "SignalListener.h"
 #include <boost/asio.hpp>
 
-SignalListener::SignalListener(boost::asio::io_service &ioService) : m_ioService(ioService) {}
+SignalListener::SignalListener(boost::asio::io_context& ioContext_) : ioContext(ioContext_) {}
 
 SignalListener::~SignalListener() {
 }
 
 void SignalListener::startListeningForSignals(std::vector<int> signals, std::function<void()> callback) {
-    boost::asio::signal_set signalSet(m_ioService);
+    boost::asio::signal_set signalSet(ioContext);
 
     for (int signal : signals)
         signalSet.add(signal);
