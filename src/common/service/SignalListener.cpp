@@ -1,5 +1,4 @@
 #include "SignalListener.h"
-#include <boost/asio.hpp>
 
 SignalListener::SignalListener(boost::asio::io_context& ioContext_) : ioContext(ioContext_) {}
 

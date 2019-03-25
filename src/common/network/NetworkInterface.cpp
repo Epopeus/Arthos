@@ -1,15 +1,14 @@
 #include "NetworkInterface.h"
-#include <functional>
 
-NetworkInterface::NetworkInterface(ServiceSettings& settings_, NetworkClient& client_, NetworkServer& server_, NetworkSessionFactory& sessionFactory_, NetworkSessionIdFactory& sessionIdFactory_, NetworkSessions& sessions_) : settings(settings_), client(client_), server(server_), sessionFactory(sessionFactory_), sessionIdFactory(sessionIdFactory_), sessions(sessions_) {
+NetworkInterface::NetworkInterface(ServiceSettings& settings_, NetworkClient& client_, NetworkServer& server_, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnections& connections) : settings(settings_), client(client_), server(server_), connectionIdFactory(connectionIdFactory), connections(connections) {
 
 }
 void NetworkInterface::launch() {
-    for (auto& it : settings.listenPorts)
+/*    for (auto& it : settings.listenPorts)
         server.startAcceptingConnections(it.second, [&] (NetworkConnection& connection) { onConnect(connection, it.first); });
 
     for (auto& it : settings.connectEndpoints)
-        client.connect(it.second.address, it.second.port, [&] (NetworkConnection& connection) { onConnect(connection, it.first); });
+        client.connect(it.second.address, it.second.port, [&] (NetworkConnection& connection) { onConnect(connection, it.first); });*/
 }
 
 void NetworkInterface::shutdown() {
@@ -19,14 +18,13 @@ void NetworkInterface::shutdown() {
 }
 
 void NetworkInterface::onConnect(NetworkConnection& connection, NetworkConnectionType type) {
-    NetworkSession& session = sessionFactory.create(connection);
-    NetworkSessionId sessionId = sessionIdFactory.create();
+    NetworkConnectionId connectionId = connectionIdFactory.create();
 
-    connection.read([&] (Bytes& bytes) { onBytesReceived(sessionId, bytes); });
+    connection.read([&] (Bytes& bytes) { onBytesReceived(connectionId, bytes); });
 
-    sessions.add(sessionId, session);
+    connections.add(connectionId, connection);
 }
 
-void NetworkInterface::onBytesReceived(NetworkSessionId sessionId, Bytes& bytes) {
+void NetworkInterface::onBytesReceived(NetworkConnectionId connectionId, Bytes& bytes) {
 
 }

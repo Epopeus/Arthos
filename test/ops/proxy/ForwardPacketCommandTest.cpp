@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <ops/proxy/ForwardPacketCommand.h>
 #include <common/network/Bytes.h>
-#include <common/network/NetworkSessionsMap.h>
+#include <common/network/NetworkConnectionsMap.h>
 #include <ops/network/ClientServerMap.h>
 #include "../../common/network/FakeNetworkConnection.h"
 #include "../../common/command/FakeCommandOutputBuffer.h"
@@ -10,8 +10,8 @@ class ForwardPacketCommandTest : public ::testing::Test {
 protected:
 
     Bytes SENT_BYTES = {1, 2, 3};
-    NetworkSessionId CLIENT_SESSION_ID = "MyClientSession";
-    NetworkSessionId SERVER_SESSION_ID = "MyServerSession";
+    NetworkConnectionId CLIENT_SESSION_ID = "MyClientSession";
+    NetworkConnectionId SERVER_SESSION_ID = "MyServerSession";
 
     ForwardPacketCommandTest() {
     }
@@ -24,7 +24,7 @@ TEST_F(ForwardPacketCommandTest, ShouldForwardClientPacketsToCorrespondingServer
     FakeNetworkConnection serverConnection = FakeNetworkConnection();
     NetworkSession serverSession = NetworkSession(serverConnection);
 
-    NetworkSessionsMap sessions = NetworkSessionsMap();
+    NetworkConnectionsMap sessions = NetworkConnectionsMap();
     sessions.add(CLIENT_SESSION_ID, clientSession),
     sessions.add(SERVER_SESSION_ID, serverSession);
 

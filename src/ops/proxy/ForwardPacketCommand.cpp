@@ -1,9 +1,9 @@
 #include "ForwardPacketCommand.h"
 
-ForwardPacketCommand::ForwardPacketCommand(NetworkSessions& sessions_, ClientServerMap& clientServerMap_):sessions(sessions_), clientServerMap(clientServerMap_) {
+ForwardPacketCommand::ForwardPacketCommand(NetworkConnections& sessions_, ClientServerMap& clientServerMap_):sessions(sessions_), clientServerMap(clientServerMap_) {
 
 }
 
-void ForwardPacketCommand::run(NetworkSessionId& sendingSessionId, Bytes& bytes) {
+void ForwardPacketCommand::run(NetworkConnectionId& sendingSessionId, Bytes& bytes) {
 
 }

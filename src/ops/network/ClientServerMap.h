@@ -1,16 +1,15 @@
 #pragma once
 
 
-#include <common/network/NetworkSessionId.h>
+#include <common/network/NetworkConnectionId.h>
 #include <unordered_map>
-#include <common/network/NetworkSession.h>
 
 class ClientServerMap {
 public:
-    NetworkSessionId& getLinkedServer(NetworkSessionId& clientSessionId);
-    void add(NetworkSessionId& clientSessionId, NetworkSessionId& serverSessionId);
+    NetworkConnectionId& getLinkedServer(NetworkConnectionId& clientSessionId);
+    void add(NetworkConnectionId& clientSessionId, NetworkConnectionId& serverSessionId);
 private:
-    std::unordered_map<NetworkSessionId, NetworkSessionId> map;
+    std::unordered_map<NetworkConnectionId, NetworkConnectionId> map;
 };
 
 

@@ -4,21 +4,16 @@
 #include "../../common/network/FakeTcpClient.h"
 #include "../../common/service/FakeServiceSettingsRepository.h"
 #include "../../common/di/FakeFactory.h"
-#include "../../common/network/FakeNetworkConnection.h"
-#include <ops/network/Opcode.h>
-#include <ops/network/ServerCommand.h>
-#include <common/network/Bytes.h>
 #include <ops/network/SwitchGameServerCommand.h>
-#include <unordered_map>
-#include <common/command/GameClientCommand.h>
-#include <unordered_map>
-#include <utility>
 #include <ops/proxy/ForwardPacketCommand.h>
 
 class ProxyServiceTest : public ::testing::Test {
 protected:
 
-    ServiceSettings EXPECTED_SETTINGS = ServiceSettings({123}, {{"abc", 123}});
+    ServiceSettings EXPECTED_SETTINGS = ServiceSettings(
+            { { NetworkConnectionType::GAME_CLIENT, 1234 }, { NetworkConnectionType::AUTH_CLIENT, 5678 } },
+            { { NetworkConnectionType::GAME_SERVER, Endpoint("abc", 9123) }, { NetworkConnectionType::GAME_ROUTER, Endpoint("def", 4567) } }
+    );
     Bytes EXPECTED_BYTES = {123, 244, 'l'};
 
     FakeServiceSettingsRepository settingsRepository;

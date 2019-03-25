@@ -1,11 +1,8 @@
 #pragma once
 
 #include "NetworkServer.h"
-#include "BoostTcpConnection.h"
 #include <common/di/Factory.h>
-
-using SocketFactory = Factory<boost::asio::ip::tcp::socket&>;
-using ConnectionFactory = Factory<BoostTcpConnection&, boost::asio::ip::tcp::socket&>;
+#include "BoostTcpFactories.h"
 
 class BoostTcpServer : public NetworkServer {
 public:

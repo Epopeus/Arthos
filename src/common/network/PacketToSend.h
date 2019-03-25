@@ -4,9 +4,11 @@
 
 class PacketToSend {
 public:
+    PacketToSend(Bytes& bytes);
+
     virtual Bytes& toBytes() = 0;
 
-private:
+protected:
     Bytes& bytes;
 };
 

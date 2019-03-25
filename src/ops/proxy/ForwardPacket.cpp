@@ -1,6 +1,6 @@
 #include "ForwardPacket.h"
 
-ForwardPacket::ForwardPacket(NetworkSessionId& clientSessionId_, Bytes& bytes_):clientSessionId(clientSessionId_), bytes(bytes_) {
+ForwardPacket::ForwardPacket(NetworkConnectionId& clientSessionId_, Bytes& bytes_):PacketToSend(bytes_), clientSessionId(clientSessionId_) {
 
 }
 

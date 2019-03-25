@@ -1,7 +1,4 @@
 #include "BoostTcpServer.h"
-#include "BoostTcpConnection.h"
-#include <boost/asio.hpp>
-#include <iostream>
 
 BoostTcpServer::BoostTcpServer(SocketFactory& socketFactory_, ConnectionFactory& connectionFactory_):socketFactory(socketFactory_), connectionFactory(connectionFactory_) {
 
@@ -119,7 +116,7 @@ void BoostTcpServer::startAcceptingConnections(int port, VoidCallback<NetworkCon
 }
 
 void BoostTcpServer::asyncAccept() {
-    boost::asio::ip::tcp::socket& socket = socketFactory.create();
+    boost::asio::ip::tcp::socket& socket = *socketFactory.create();
     boost::asio::ip::v6_only option(false);
     socket.set_option(option);
 

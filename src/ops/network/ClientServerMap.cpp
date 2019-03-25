@@ -1,9 +1,9 @@
 #include "ClientServerMap.h"
 
-NetworkSessionId& ClientServerMap::getLinkedServer(NetworkSessionId& clientSessionId) {
+NetworkConnectionId& ClientServerMap::getLinkedServer(NetworkConnectionId& clientSessionId) {
     return map.at(clientSessionId);
 }
 
-void ClientServerMap::add(NetworkSessionId& clientSessionId, NetworkSessionId& serverSessionId) {
+void ClientServerMap::add(NetworkConnectionId& clientSessionId, NetworkConnectionId& serverSessionId) {
     map.insert({ {clientSessionId, serverSessionId} });
 }

@@ -1,6 +1,6 @@
 #include "BoostTcpConnection.h"
 
-BoostTcpConnection::BoostTcpConnection(boost::asio::ip::tcp::socket& socket_):socket(socket_) {
+BoostTcpConnection::BoostTcpConnection(/*boost::asio::ip::tcp::socket& socket_*/int test_):/*socket(socket_)*/test(test_) {
 
 }
 

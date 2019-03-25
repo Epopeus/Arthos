@@ -2,10 +2,8 @@
 
 #include "NetworkClient.h"
 #include <common/di/Factory.h>
-#include "BoostTcpConnection.h"
+#include "BoostTcpFactories.h"
 
-using SocketFactory = Factory<boost::asio::ip::tcp::socket&>;
-using ConnectionFactory = Factory<BoostTcpConnection&, boost::asio::ip::tcp::socket&>;
 
 class BoostTcpClient : public NetworkClient {
 public:

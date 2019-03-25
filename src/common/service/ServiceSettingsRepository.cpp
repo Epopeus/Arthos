@@ -1,4 +1,4 @@
 #include "ServiceSettingsRepository.h"
 
-ServiceSettingsRepository::ServiceSettingsRepository(ServiceSettings &serviceSettings_):settings(serviceSettings_) {
+ServiceSettingsRepository::ServiceSettingsRepository(ServiceSettings& serviceSettings_):settings(serviceSettings_) {
 }

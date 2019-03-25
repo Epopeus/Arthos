@@ -4,7 +4,7 @@
 #include <common/di/Factory.h>
 #include "UUID.h"
 
-class UUIDFactory : public Factory<UUID> {
+class UUIDFactory {
 public:
-    virtual UUID create() override = 0;
+    virtual UUID create() = 0;
 };

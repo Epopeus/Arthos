@@ -5,28 +5,25 @@
 #include <common/service/Launchable.h>
 #include "NetworkClient.h"
 #include "NetworkServer.h"
-#include "NetworkSession.h"
-#include "NetworkSessions.h"
-#include "NetworkSessionIdFactory.h"
+#include "NetworkConnections.h"
+#include "NetworkConnectionIdFactory.h"
 
-using NetworkSessionFactory = Factory<NetworkSession&, NetworkConnection&>;
 
 class NetworkInterface : public Launchable {
 public:
-    NetworkInterface(ServiceSettings& settings, NetworkClient& client, NetworkServer& server, NetworkSessionFactory& sessionFactory, NetworkSessionIdFactory& sessionIdFactory, NetworkSessions& sessions);
+    NetworkInterface(ServiceSettings& settings, NetworkClient& client, NetworkServer& server, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnections& connections);
 
     void launch() override;
     void shutdown() override;
 
 private:
     void onConnect(NetworkConnection& connection, NetworkConnectionType type);
-    void onBytesReceived(NetworkSessionId sessionId, Bytes& bytes);
+    void onBytesReceived(NetworkConnectionId connectionId, Bytes& bytes);
 
     ServiceSettings& settings;
     NetworkClient& client;
     NetworkServer& server;
 
-    NetworkSessionFactory& sessionFactory;
-    NetworkSessionIdFactory& sessionIdFactory;
-    NetworkSessions& sessions;
+    NetworkConnectionIdFactory& connectionIdFactory;
+    NetworkConnections& connections;
 };

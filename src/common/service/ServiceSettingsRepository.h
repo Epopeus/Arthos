@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <common/storage/Repository.h>
 #include "ServiceSettings.h"
 

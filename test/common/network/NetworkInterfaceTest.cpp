@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <common/service/ServiceSettings.h>
-#include <common/network/NetworkSessionsMap.h>
+#include <common/network/NetworkConnectionsMap.h>
 #include "FakeTcpClient.h"
 #include "FakeTcpServer.h"
 
@@ -17,7 +17,7 @@ protected:
     FakeTcpClient tcpClient;
     FakeTcpServer tcpServer;
 
-    NetworkSessionsMap session;
+    NetworkConnectionsMap connections;
 
     NetworkInterfaceTest() {
     }
@@ -38,7 +38,7 @@ TEST_F(NetworkInterfaceTest, ShouldStartTcpClientWithProperSettings) {
 TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnection) {
     tcpServer.simulateNewConnection(NetworkConnectionType::AUTH_CLIENT);
 
-    //ASSERT_NO_THROW(sessions.;
+    //ASSERT_NO_THROW(connections.;
 }
 
 TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromTcpServer) {

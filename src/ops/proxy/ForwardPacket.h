@@ -1,15 +1,14 @@
 #pragma once
 
 #include <common/network/PacketToSend.h>
-#include <common/network/NetworkSessionId.h>
+#include <common/network/NetworkConnectionId.h>
 
 class ForwardPacket : public PacketToSend {
 public:
-    ForwardPacket(NetworkSessionId& clientSessionId, Bytes& bytes);
+    ForwardPacket(NetworkConnectionId& clientSessionId, Bytes& bytes);
     Bytes& toBytes() override;
 
 private:
-    NetworkSessionId& clientSessionId;
-    Bytes& bytes;
+    NetworkConnectionId& clientSessionId;
 };
 
