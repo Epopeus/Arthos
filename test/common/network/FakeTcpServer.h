@@ -6,21 +6,15 @@
 
 class FakeTcpServer : public NetworkServer {
 public:
-    bool started = false;
-    bool stopped = false;
     std::set<int> ports;
     VoidCallback<NetworkConnection&> onConnect;
 
     void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect_) override {
-        stopped = false;
-        started = true;
         ports.insert(port);
         onConnect = onConnect_;
     }
 
     void stopAcceptingConnections() override {
-        started = false;
-        stopped = true;
     }
 
     FakeNetworkConnection& simulateNewConnection(NetworkConnectionType type) {

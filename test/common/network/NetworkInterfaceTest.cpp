@@ -35,15 +35,12 @@ protected:
 
     NetworkInterfaceTest(): uuidFactory(generator),
                             connectionIdFactory(uuidFactory),
-                            networkInterface(EXPECTED_SETTINGS, tcpClient, tcpServer, connectionIdFactory, connections){
+                            networkInterface(EXPECTED_SETTINGS, tcpClient, tcpServer, connectionIdFactory, connections) {
+        networkInterface.launch();
     }
 };
 
 TEST_F(NetworkInterfaceTest, ShouldStartTcpServerWithProperSettings) {
-    networkInterface.launch();
-
-    ASSERT_TRUE(tcpServer.started);
-
     ASSERT_EQ(LISTEN_PORTS, tcpServer.ports);
 }
 
