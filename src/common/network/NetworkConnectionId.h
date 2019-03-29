@@ -1,5 +1,20 @@
 #pragma once
 
 #include <string>
+#include <common/di/Factory.h>
 
-using NetworkConnectionId = std::string;
+class NetworkConnectionId {
+public:
+    NetworkConnectionId();
+    NetworkConnectionId(std::string value);
+
+    const std::string& toString() const;
+private:
+    std::string value;
+};
+
+struct NetworkConnectionIdHash {
+    std::size_t operator()(const NetworkConnectionId& id) const ;
+};
+
+bool operator==(const NetworkConnectionId& id1, const NetworkConnectionId& id2);

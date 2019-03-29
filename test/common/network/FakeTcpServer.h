@@ -8,13 +8,13 @@ class FakeTcpServer : public NetworkServer {
 public:
     bool started = false;
     bool stopped = false;
-    std::vector<int> ports;
+    std::unordered_map<NetworkConnectionType, int> ports;
     VoidCallback<NetworkConnection&> onConnect;
 
     void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect_) override {
         stopped = false;
         started = true;
-        ports.push_back(port);
+        ports.insert({});
         onConnect = onConnect_;
     }
 

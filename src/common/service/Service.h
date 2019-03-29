@@ -19,3 +19,4 @@ protected:
     SignalListener& signalListener;
 };
 
+using ServiceFactory = Factory<Service>;

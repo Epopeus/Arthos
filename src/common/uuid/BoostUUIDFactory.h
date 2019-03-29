@@ -1,8 +1,8 @@
 #pragma once
 
-#include "UUIDFactory.h"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
+#include "UUID.h"
 
 class BoostUUIDFactory : public UUIDFactory {
 public:

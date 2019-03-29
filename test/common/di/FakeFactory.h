@@ -6,7 +6,7 @@
 template<class T, class... TArgs>
 class FakeFactory : public Factory<T, TArgs...> {
 public:
-    T create(TArgs&&... args) override {
+    T create(TArgs... args) override {
         return *(new T(std::forward<TArgs>(args)...));
     }
 };

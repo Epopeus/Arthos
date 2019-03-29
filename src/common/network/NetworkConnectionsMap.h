@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "NetworkConnections.h"
 #include "NetworkConnection.h"
+#include <functional>
 
 class NetworkConnectionsMap : public NetworkConnections {
 public:
@@ -10,5 +11,5 @@ public:
     NetworkConnection& getById(NetworkConnectionId& id) override;
 
 private:
-    std::unordered_map<NetworkConnectionId, NetworkConnection&> connectionsMap;
+    std::unordered_map<NetworkConnectionId, NetworkConnection&, NetworkConnectionIdHash> connectionsMap;
 };

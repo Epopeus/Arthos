@@ -1,8 +1,11 @@
 #include <gtest/gtest.h>
 #include <common/service/ServiceSettings.h>
 #include <common/network/NetworkConnectionsMap.h>
+#include <common/network/NetworkInterface.h>
+#include <common/uuid/BoostUUIDFactory.h>
 #include "FakeTcpClient.h"
 #include "FakeTcpServer.h"
+#include "../di/FakeFactory.h"
 
 class NetworkInterfaceTest : public ::testing::Test {
 protected:
@@ -19,14 +22,26 @@ protected:
 
     NetworkConnectionsMap connections;
 
-    NetworkInterfaceTest() {
+    NetworkInterface networkInterface;
+
+    NetworkConnectionIdFactory connectionIdFactory;
+
+    boost::uuids::random_generator generator;
+    BoostUUIDFactory uuidFactory;
+
+    NetworkInterfaceTest(): uuidFactory(generator),
+                            connectionIdFactory(uuidFactory),
+                            networkInterface(EXPECTED_SETTINGS, tcpClient, tcpServer, connectionIdFactory, connections){
     }
 };
 
 TEST_F(NetworkInterfaceTest, ShouldStartTcpServerWithProperSettings) {
+    networkInterface.launch();
+
     ASSERT_TRUE(tcpServer.started);
 
-    //ASSERT_EQ(EXPECTED_SETTINGS.listenPorts, tcpServer.ports);
+
+    ASSERT_EQ(EXPECTED_SETTINGS.listenPorts, tcpServer.ports);
 
 }
 

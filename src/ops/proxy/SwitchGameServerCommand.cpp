@@ -1,4 +1,4 @@
-#include "SwitchGameServerCommand.h"
+#include "ops/proxy/SwitchGameServerCommand.h"
 
 SwitchGameServerCommand::SwitchGameServerCommand(std::string newAddress_, int newPort_):newAddress(newAddress_), newPort(newPort_) {
 

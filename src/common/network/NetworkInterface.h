@@ -8,7 +8,6 @@
 #include "NetworkConnections.h"
 #include "NetworkConnectionIdFactory.h"
 
-
 class NetworkInterface : public Launchable {
 public:
     NetworkInterface(ServiceSettings& settings, NetworkClient& client, NetworkServer& server, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnections& connections);

@@ -10,6 +10,7 @@
 #include <common/service/RealServiceSettingsRepository.h>
 #include <common/network/NetworkInterface.h>
 #include <common/network/BoostTcpConnection.h>
+#include <common/uuid/UUID.h>
 
 auto ServiceModule = [] {
     return boost::di::make_injector(

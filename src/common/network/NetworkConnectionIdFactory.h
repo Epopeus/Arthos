@@ -1,5 +1,13 @@
 #pragma once
 
-#include <common/uuid/UUIDFactory.h>
+#include <common/uuid/UUID.h>
+#include "NetworkConnectionId.h"
 
-using NetworkConnectionIdFactory = UUIDFactory;
+class NetworkConnectionIdFactory : public Factory<NetworkConnectionId> {
+public:
+    NetworkConnectionIdFactory(UUIDFactory& uuidFactory);
+    NetworkConnectionId create() override;
+
+private:
+    UUIDFactory& uuidFactory;
+};
