@@ -9,9 +9,13 @@
 
 class NetworkInterfaceTest : public ::testing::Test {
 protected:
+    int GAME_CLIENT_PORT = 1234;
+    int AUTH_CLIENT_PORT = 5678;
+
+    std::set<int> LISTEN_PORTS = { GAME_CLIENT_PORT, AUTH_CLIENT_PORT };
 
     ServiceSettings EXPECTED_SETTINGS = ServiceSettings(
-            { { NetworkConnectionType::GAME_CLIENT, 1234 }, { NetworkConnectionType::AUTH_CLIENT, 5678 } },
+            { { NetworkConnectionType::GAME_CLIENT, GAME_CLIENT_PORT }, { NetworkConnectionType::AUTH_CLIENT, AUTH_CLIENT_PORT } },
             { { NetworkConnectionType::GAME_SERVER, Endpoint("abc", 9123) }, { NetworkConnectionType::GAME_ROUTER, Endpoint("def", 4567) } }
     );
 
@@ -40,9 +44,7 @@ TEST_F(NetworkInterfaceTest, ShouldStartTcpServerWithProperSettings) {
 
     ASSERT_TRUE(tcpServer.started);
 
-
-    ASSERT_EQ(EXPECTED_SETTINGS.listenPorts, tcpServer.ports);
-
+    ASSERT_EQ(LISTEN_PORTS, tcpServer.ports);
 }
 
 TEST_F(NetworkInterfaceTest, ShouldStartTcpClientWithProperSettings) {

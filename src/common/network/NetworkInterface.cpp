@@ -4,11 +4,11 @@ NetworkInterface::NetworkInterface(ServiceSettings& settings_, NetworkClient& cl
 
 }
 void NetworkInterface::launch() {
-/*    for (auto& it : settings.listenPorts)
+    for (auto& it : settings.listenPorts)
         server.startAcceptingConnections(it.second, [&] (NetworkConnection& connection) { onConnect(connection, it.first); });
 
     for (auto& it : settings.connectEndpoints)
-        client.connect(it.second.address, it.second.port, [&] (NetworkConnection& connection) { onConnect(connection, it.first); });*/
+        client.connect(it.second.address, it.second.port, [&] (NetworkConnection& connection) { onConnect(connection, it.first); });
 }
 
 void NetworkInterface::shutdown() {

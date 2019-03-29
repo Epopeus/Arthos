@@ -23,7 +23,6 @@ public:
     ServiceSettings(std::unordered_map<NetworkConnectionType, int> listenPorts_, std::unordered_map<NetworkConnectionType, Endpoint> connectEndpoints_) : listenPorts(listenPorts_), connectEndpoints(connectEndpoints_) {
     }
 
-
     std::unordered_map<NetworkConnectionType, int> listenPorts;
     std::unordered_map<NetworkConnectionType, Endpoint> connectEndpoints;
 };
