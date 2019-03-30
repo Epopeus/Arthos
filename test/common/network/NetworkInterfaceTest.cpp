@@ -7,6 +7,10 @@
 #include "FakeTcpServer.h"
 #include "../di/FakeFactory.h"
 
+bool operator<(const Endpoint& ep1, const Endpoint& ep2) {
+    return ep1.port < ep2.port;
+}
+
 class NetworkInterfaceTest : public ::testing::Test {
 protected:
     int GAME_CLIENT_PORT = 1234;
@@ -14,9 +18,14 @@ protected:
 
     std::set<int> LISTEN_PORTS = { GAME_CLIENT_PORT, AUTH_CLIENT_PORT };
 
+    Endpoint GAME_SERVER_ENDPOINT = Endpoint("abc", 2345);
+    Endpoint GAME_ROUTER_ENDPOINT = Endpoint("def", 6789);
+
+    std::set<Endpoint> CONNECT_ENDPOINTS = { GAME_SERVER_ENDPOINT, GAME_ROUTER_ENDPOINT };
+
     ServiceSettings EXPECTED_SETTINGS = ServiceSettings(
             { { NetworkConnectionType::GAME_CLIENT, GAME_CLIENT_PORT }, { NetworkConnectionType::AUTH_CLIENT, AUTH_CLIENT_PORT } },
-            { { NetworkConnectionType::GAME_SERVER, Endpoint("abc", 9123) }, { NetworkConnectionType::GAME_ROUTER, Endpoint("def", 4567) } }
+            { { NetworkConnectionType::GAME_SERVER, GAME_SERVER_ENDPOINT }, { NetworkConnectionType::GAME_ROUTER, GAME_ROUTER_ENDPOINT } }
     );
 
     uint8_t EXPECTED_COMMAND = 123;
@@ -45,8 +54,7 @@ TEST_F(NetworkInterfaceTest, ShouldStartTcpServerWithProperSettings) {
 }
 
 TEST_F(NetworkInterfaceTest, ShouldStartTcpClientWithProperSettings) {
-    ASSERT_TRUE(tcpClient.connected);
-    //ASSERT_EQ(EXPECTED_SETTINGS.connectEndpoints, tcpClient.connectEndpoints);
+    ASSERT_EQ(CONNECT_ENDPOINTS, tcpClient.connectEndpoints);
 }
 
 TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnection) {

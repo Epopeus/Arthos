@@ -5,14 +5,12 @@
 
 class FakeTcpClient : public NetworkClient {
 public:
-    bool connected = false;
-    std::vector<Endpoint> connectEndpoints;
+    std::set<Endpoint> connectEndpoints;
 
     VoidCallback<NetworkConnection&> onConnect;
 
     void connect(std::string ip, int port, VoidCallback<NetworkConnection&> onConnect_) override {
-        connected = true;
-        connectEndpoints.emplace_back(ip, port);
+        connectEndpoints.emplace(ip, port);
         onConnect = onConnect_;
     }
 
