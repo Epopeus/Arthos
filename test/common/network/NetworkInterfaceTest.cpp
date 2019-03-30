@@ -6,6 +6,7 @@
 #include "FakeTcpClient.h"
 #include "FakeTcpServer.h"
 #include "../di/FakeFactory.h"
+#include "FakeUUIDFactory.h"
 
 bool operator<(const Endpoint& ep1, const Endpoint& ep2) {
     return ep1.port < ep2.port;
@@ -39,11 +40,9 @@ protected:
 
     NetworkConnectionIdFactory connectionIdFactory;
 
-    boost::uuids::random_generator generator;
-    BoostUUIDFactory uuidFactory;
+    FakeUUIDFactory uuidFactory;
 
-    NetworkInterfaceTest(): uuidFactory(generator),
-                            connectionIdFactory(uuidFactory),
+    NetworkInterfaceTest(): connectionIdFactory(uuidFactory),
                             networkInterface(EXPECTED_SETTINGS, tcpClient, tcpServer, connectionIdFactory, connections) {
         networkInterface.launch();
     }
@@ -57,10 +56,15 @@ TEST_F(NetworkInterfaceTest, ShouldStartTcpClientWithProperSettings) {
     ASSERT_EQ(CONNECT_ENDPOINTS, tcpClient.connectEndpoints);
 }
 
-TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnection) {
+TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnections) {
     tcpServer.simulateNewConnection(NetworkConnectionType::AUTH_CLIENT);
+    tcpServer.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
 
-    //ASSERT_NO_THROW(connections.;
+    NetworkConnectionId id = NetworkConnectionId("1");
+    ASSERT_NO_THROW(connections.getById(id));
+
+    id = NetworkConnectionId("2");
+    ASSERT_NO_THROW(connections.getById(id));
 }
 
 TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromTcpServer) {
