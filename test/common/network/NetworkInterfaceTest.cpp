@@ -3,8 +3,8 @@
 #include <common/network/NetworkConnectionsMap.h>
 #include <common/network/NetworkInterface.h>
 #include <common/uuid/BoostUUIDFactory.h>
-#include "FakeTcpClient.h"
-#include "FakeTcpServer.h"
+#include "FakeNetworkClient.h"
+#include "FakeNetworkServer.h"
 #include "../di/FakeFactory.h"
 #include "FakeUUIDFactory.h"
 
@@ -31,8 +31,8 @@ protected:
 
     uint8_t EXPECTED_COMMAND = 123;
 
-    FakeTcpClient tcpClient;
-    FakeTcpServer tcpServer;
+    FakeNetworkClient networkClient;
+    FakeNetworkServer networkServer;
 
     NetworkConnectionsMap connections;
 
@@ -43,22 +43,22 @@ protected:
     FakeUUIDFactory uuidFactory;
 
     NetworkInterfaceTest(): connectionIdFactory(uuidFactory),
-                            networkInterface(EXPECTED_SETTINGS, tcpClient, tcpServer, connectionIdFactory, connections) {
+                            networkInterface(EXPECTED_SETTINGS, , networkServer, connectionIdFactory, connections) {
         networkInterface.launch();
     }
 };
 
 TEST_F(NetworkInterfaceTest, ShouldStartTcpServerWithProperSettings) {
-    ASSERT_EQ(LISTEN_PORTS, tcpServer.ports);
+    ASSERT_EQ(LISTEN_PORTS, networkServer.ports);
 }
 
 TEST_F(NetworkInterfaceTest, ShouldStartTcpClientWithProperSettings) {
-    ASSERT_EQ(CONNECT_ENDPOINTS, tcpClient.connectEndpoints);
+    ASSERT_EQ(CONNECT_ENDPOINTS, .connectEndpoints);
 }
 
 TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnections) {
-    tcpServer.simulateNewConnection(NetworkConnectionType::AUTH_CLIENT);
-    tcpServer.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
+    networkServer.simulateNewConnection(NetworkConnectionType::AUTH_CLIENT);
+    networkServer.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
 
     NetworkConnectionId id = NetworkConnectionId("1");
     ASSERT_NO_THROW(connections.getById(id));
@@ -74,7 +74,7 @@ TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromTcpServer) {
 }
 
 TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromTcpClient) {
-    tcpClient.receiveBinaryData({EXPECTED_COMMAND});
+    //networkClient.receiveBinaryData({EXPECTED_COMMAND});
 
     //ASSERT_EQ(EXPECTED_COMMAND, service.lastReceivedCommand.at(0));
 }

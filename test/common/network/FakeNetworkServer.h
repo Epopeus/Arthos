@@ -4,7 +4,7 @@
 #include <vector>
 #include "FakeNetworkConnection.h"
 
-class FakeTcpServer : public NetworkServer {
+class FakeNetworkServer : public NetworkServer {
 public:
     std::set<int> ports;
     VoidCallback<NetworkConnection&> onConnect;

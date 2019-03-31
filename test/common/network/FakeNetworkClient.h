@@ -3,7 +3,7 @@
 #include <common/network/NetworkClient.h>
 #include <unordered_map>
 
-class FakeTcpClient : public NetworkClient {
+class FakeNetworkClient : public NetworkClient {
 public:
     std::set<Endpoint> connectEndpoints;
 
