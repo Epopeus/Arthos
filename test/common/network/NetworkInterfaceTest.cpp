@@ -48,11 +48,11 @@ protected:
     }
 };
 
-TEST_F(NetworkInterfaceTest, ShouldStartTcpServerWithProperSettings) {
+TEST_F(NetworkInterfaceTest, ShouldStartNetworkServerWithProperSettings) {
     ASSERT_EQ(LISTEN_PORTS, networkServer.ports);
 }
 
-TEST_F(NetworkInterfaceTest, ShouldStartTcpClientWithProperSettings) {
+TEST_F(NetworkInterfaceTest, ShouldStartNetworkClientWithProperSettings) {
     ASSERT_EQ(CONNECT_ENDPOINTS, networkClient.connectEndpoints);
 }
 
@@ -67,13 +67,13 @@ TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnections) {
     ASSERT_NO_THROW(connections.getById(id));
 }
 
-TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromTcpServer) {
+TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromNetworkServer) {
     //networkServer.receiveCommand(EXPECTED_COMMAND);
 
     //ASSERT_EQ(EXPECTED_COMMAND, service.lastReceivedCommand.at(0));
 }
 
-TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromTcpClient) {
+TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromNetworkClient) {
     //networkClient.receiveBinaryData({EXPECTED_COMMAND});
 
     //ASSERT_EQ(EXPECTED_COMMAND, service.lastReceivedCommand.at(0));
