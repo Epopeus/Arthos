@@ -43,7 +43,7 @@ protected:
     FakeUUIDFactory uuidFactory;
 
     NetworkInterfaceTest(): connectionIdFactory(uuidFactory),
-                            networkInterface(EXPECTED_SETTINGS, , networkServer, connectionIdFactory, connections) {
+                            networkInterface(EXPECTED_SETTINGS, networkClient, networkServer, connectionIdFactory, connections) {
         networkInterface.launch();
     }
 };
@@ -53,7 +53,7 @@ TEST_F(NetworkInterfaceTest, ShouldStartTcpServerWithProperSettings) {
 }
 
 TEST_F(NetworkInterfaceTest, ShouldStartTcpClientWithProperSettings) {
-    ASSERT_EQ(CONNECT_ENDPOINTS, .connectEndpoints);
+    ASSERT_EQ(CONNECT_ENDPOINTS, networkClient.connectEndpoints);
 }
 
 TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnections) {
