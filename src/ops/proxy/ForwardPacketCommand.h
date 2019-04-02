@@ -1,16 +1,16 @@
 #pragma once
 
 
-#include <common/network/NetworkConnections.h>
+#include <common/network/NetworkConnectionRepository.h>
 #include <ops/network/ClientServerMap.h>
 
 class ForwardPacketCommand {
 public:
-    ForwardPacketCommand(NetworkConnections& sessions, ClientServerMap& clientServerMap);
+    ForwardPacketCommand(NetworkConnectionRepository& sessions, ClientServerMap& clientServerMap);
     void run(NetworkConnectionId& sendingSessionId, Bytes& bytes);
 
 private:
-    NetworkConnections& sessions;
+    NetworkConnectionRepository& sessions;
     ClientServerMap& clientServerMap;
 };
 

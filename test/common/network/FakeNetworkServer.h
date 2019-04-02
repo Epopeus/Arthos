@@ -1,7 +1,7 @@
 #pragma once
 
 #include <common/network/NetworkServer.h>
-#include <vector>
+#include <set>
 #include "FakeNetworkConnection.h"
 
 class FakeNetworkServer : public NetworkServer {
@@ -9,19 +9,8 @@ public:
     std::set<int> ports;
     VoidCallback<NetworkConnection&> onConnect;
 
-    void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect_) override {
-        ports.insert(port);
-        onConnect = onConnect_;
-    }
+    void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect_) override;
+    void stopAcceptingConnections() override;
 
-    void stopAcceptingConnections() override {
-    }
-
-    FakeNetworkConnection& simulateNewConnection(NetworkConnectionType type) {
-        FakeNetworkConnection* connection = new FakeNetworkConnection();
-
-        onConnect(*connection);
-
-        return *connection;
-    }
+    FakeNetworkConnection& simulateNewConnection(NetworkConnectionType type);
 };

@@ -1,12 +1,9 @@
 #include <gtest/gtest.h>
-#include <common/service/ServiceSettings.h>
-#include <common/network/NetworkConnectionsMap.h>
 #include <common/network/NetworkInterface.h>
-#include <common/uuid/BoostUUIDFactory.h>
-#include "FakeNetworkClient.h"
-#include "FakeNetworkServer.h"
-#include "../di/FakeFactory.h"
+#include <common/network/BoostNetworkConnectionRepository.h>
 #include "FakeUUIDFactory.h"
+#include "FakeNetworkServer.h"
+#include "FakeNetworkClient.h"
 
 bool operator<(const Endpoint& ep1, const Endpoint& ep2) {
     return ep1.port < ep2.port;
@@ -29,18 +26,16 @@ protected:
             { { NetworkConnectionType::GAME_SERVER, GAME_SERVER_ENDPOINT }, { NetworkConnectionType::GAME_ROUTER, GAME_ROUTER_ENDPOINT } }
     );
 
-    uint8_t EXPECTED_COMMAND = 123;
+    Bytes EXPECTED_BYTES = { 123, 210 };
 
     FakeNetworkClient networkClient;
     FakeNetworkServer networkServer;
 
-    NetworkConnectionsMap connections;
+    FakeUUIDFactory uuidFactory;
+    NetworkConnectionIdFactory connectionIdFactory;
+    BoostNetworkConnectionRepository connections;
 
     NetworkInterface networkInterface;
-
-    NetworkConnectionIdFactory connectionIdFactory;
-
-    FakeUUIDFactory uuidFactory;
 
     NetworkInterfaceTest(): connectionIdFactory(uuidFactory),
                             networkInterface(EXPECTED_SETTINGS, networkClient, networkServer, connectionIdFactory, connections) {
@@ -67,10 +62,16 @@ TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnections) {
     ASSERT_NO_THROW(connections.getById(id));
 }
 
-TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromNetworkServer) {
-    //networkServer.receiveCommand(EXPECTED_COMMAND);
+TEST_F(NetworkInterfaceTest, ShouldStoreIncomingCommandInQueue) {
+    FakeNetworkConnection& connection = networkServer.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
 
-    //ASSERT_EQ(EXPECTED_COMMAND, service.lastReceivedCommand.at(0));
+    connection.simulateReceivedBytes(EXPECTED_BYTES);
+
+    NetworkConnectionId id = NetworkConnectionId("1");
+    const NetworkConnectionEntry& entry = connections.getById(id);
+
+    ASSERT_EQ(1, entry.receivedBytesQueue.size());
+    ASSERT_EQ(EXPECTED_BYTES, entry.receivedBytesQueue.front());
 }
 
 TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromNetworkClient) {

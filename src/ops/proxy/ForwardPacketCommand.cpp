@@ -1,6 +1,6 @@
 #include "ForwardPacketCommand.h"
 
-ForwardPacketCommand::ForwardPacketCommand(NetworkConnections& sessions_, ClientServerMap& clientServerMap_):sessions(sessions_), clientServerMap(clientServerMap_) {
+ForwardPacketCommand::ForwardPacketCommand(NetworkConnectionRepository& sessions_, ClientServerMap& clientServerMap_):sessions(sessions_), clientServerMap(clientServerMap_) {
 
 }
 

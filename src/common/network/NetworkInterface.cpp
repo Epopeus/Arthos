@@ -1,6 +1,7 @@
+#include <iostream>
 #include "NetworkInterface.h"
 
-NetworkInterface::NetworkInterface(ServiceSettings& settings_, NetworkClient& client_, NetworkServer& server_, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnections& connections) : settings(settings_), client(client_), server(server_), connectionIdFactory(connectionIdFactory), connections(connections) {
+NetworkInterface::NetworkInterface(ServiceSettings& settings_, NetworkClient& client_, NetworkServer& server_, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnectionRepository& connectionsRepo_) : settings(settings_), client(client_), server(server_), connectionIdFactory(connectionIdFactory), connectionsRepo(connectionsRepo_) {
 
 }
 void NetworkInterface::launch() {
@@ -18,13 +19,13 @@ void NetworkInterface::shutdown() {
 }
 
 void NetworkInterface::onConnect(NetworkConnection& connection, NetworkConnectionType type) {
-    NetworkConnectionId connectionId = connectionIdFactory.create();
+    NetworkConnectionEntry& entry = connectionsRepo.add(NetworkConnectionEntry(connectionIdFactory.create(), connection, type));
 
-    connection.read([&] (Bytes& bytes) { onBytesReceived(connectionId, bytes); });
-
-    connections.add(connectionId, connection);
+    connection.read([&] (Bytes& bytes) {
+        onBytesReceived(entry.id, bytes);
+    });
 }
 
-void NetworkInterface::onBytesReceived(NetworkConnectionId connectionId, Bytes& bytes) {
-
+void NetworkInterface::onBytesReceived(NetworkConnectionId& connectionId, Bytes& bytes) {
+    connectionsRepo.getById(connectionId).receivedBytesQueue.push(bytes);
 }

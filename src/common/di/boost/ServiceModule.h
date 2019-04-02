@@ -19,7 +19,7 @@ auto ServiceModule = [] {
             boost::di::bind<Launchable>.to<NetworkInterface>(),
             boost::di::bind<Loadable>.to<ServiceResources>(),
             boost::di::bind<ServiceSettingsRepository>.to<RealServiceSettingsRepository>(),
-            boost::di::bind<NetworkConnections>.to<NetworkConnectionsMap>(),
+            boost::di::bind<NetworkConnectionRepository>.to<NetworkConnectionsMap>(),
             boost::di::bind<boost::asio::ip::tcp::socket>.to(boost::di::extension::constructor<boost::asio::io_context&>()),
             boost::di::bind<SocketFactory>.to(boost::di::extension::factory<boost::asio::ip::tcp::socket>{}),
             boost::di::bind<ConnectionFactory>.to(boost::di::extension::factory<BoostTcpConnection>{}),

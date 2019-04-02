@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 enable_testing()
 
 #Conan
-execute_process(COMMAND conan install --build=missing --build=outdated -s build_type=Release ${PROJECT_SOURCE_DIR})
+execute_process(COMMAND conan install --build=missing --build=outdated -s build_type=Debug ${PROJECT_SOURCE_DIR})
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
