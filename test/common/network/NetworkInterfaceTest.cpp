@@ -51,17 +51,6 @@ TEST_F(NetworkInterfaceTest, ShouldStartNetworkClientWithProperSettings) {
     ASSERT_EQ(CONNECT_ENDPOINTS, networkClient.connectEndpoints);
 }
 
-TEST_F(NetworkInterfaceTest, ShouldStoreNewIncomingConnections) {
-    networkServer.simulateNewConnection(NetworkConnectionType::AUTH_CLIENT);
-    networkServer.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
-
-    NetworkConnectionId id = NetworkConnectionId("1");
-    ASSERT_NO_THROW(connections.getById(id));
-
-    id = NetworkConnectionId("2");
-    ASSERT_NO_THROW(connections.getById(id));
-}
-
 TEST_F(NetworkInterfaceTest, ShouldStoreIncomingCommandInQueue) {
     FakeNetworkConnection& connection = networkServer.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
 
@@ -72,10 +61,4 @@ TEST_F(NetworkInterfaceTest, ShouldStoreIncomingCommandInQueue) {
 
     ASSERT_EQ(1, entry.receivedBytesQueue.size());
     ASSERT_EQ(EXPECTED_BYTES, entry.receivedBytesQueue.front());
-}
-
-TEST_F(NetworkInterfaceTest, ShouldHandleRemoteCommandFromNetworkClient) {
-    //networkClient.receiveBinaryData({EXPECTED_COMMAND});
-
-    //ASSERT_EQ(EXPECTED_COMMAND, service.lastReceivedCommand.at(0));
 }
