@@ -78,22 +78,22 @@ function(register_lib lib_name lib_path)
     message("Game lib '${lib_name}' registered with internal lib name '${internal_lib_name}' and ${lib_source_files_number} source files.")
 endfunction()
 
-function(register_service service_name service_path)
-    message("Registering service '${service_name}' with path '${service_path}' with linked libs '${ARGN}'...")
+function(register_app app_name app_path)
+    message("Registering app '${app_name}' with path '${app_path}' with linked libs '${ARGN}'...")
 
-    set(executable_name ${M_PROJECT_NAME}${service_name}d)
+    set(executable_name ${M_PROJECT_NAME}${app_name}d)
     format_linked_libs(formatted_linked_libs "${ARGN}")
 
-    register_lib(${service_name} ${service_path} ${ARGN})
+    register_lib(${app_name} ${app_path} ${ARGN})
 
-    add_executable(${executable_name} ${PROJECT_SOURCE_DIR}/${M_SRC_DIR}/${service_path}/${service_name}/main.cpp)
+    add_executable(${executable_name} ${PROJECT_SOURCE_DIR}/${M_SRC_DIR}/${app_path}/${app_name}/main.cpp)
 
-    set_internal_lib_name(${service_name} internal_lib_name)
+    set_internal_lib_name(${app_name} internal_lib_name)
 
     target_link_libraries(${executable_name} ${internal_lib_name} ${formatted_linked_libs} ${CONAN_LIBS})
     target_include_directories(${executable_name} PRIVATE ${PROJECT_SOURCE_DIR}/${M_SRC_DIR})
 
-    message("Game service '${service_name}' registered as '${executable_name}'.")
+    message("Game app '${app_name}' registered as '${executable_name}'.")
 endfunction()
 
 
@@ -102,7 +102,7 @@ message("\n\nPreparing ${M_PROJECT_NAME}...\n")
 
 register_lib("common" "")
 register_lib("network" "${M_OPS_DIR}")
-register_service("auth" "${M_GAME_DIR}" "common")
-register_service("proxy" "${M_OPS_DIR}" "common")
+register_app("auth" "${M_GAME_DIR}" "common")
+register_app("proxy" "${M_OPS_DIR}" "common")
 
 message("${M_PROJECT_NAME} ready.\n\n")

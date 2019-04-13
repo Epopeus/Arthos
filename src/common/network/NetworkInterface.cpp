@@ -1,7 +1,7 @@
 #include <iostream>
 #include "NetworkInterface.h"
 
-NetworkInterface::NetworkInterface(ServiceSettings& settings_, NetworkClient& client_, NetworkServer& server_, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnectionRepository& connectionsRepo_) : settings(settings_), client(client_), server(server_), connectionIdFactory(connectionIdFactory), connectionsRepo(connectionsRepo_) {
+NetworkInterface::NetworkInterface(Settings& settings_, NetworkClient& client_, NetworkServer& server_, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnectionRepository& connectionsRepo_) : settings(settings_), client(client_), server(server_), connectionIdFactory(connectionIdFactory), connectionsRepo(connectionsRepo_) {
 
 }
 void NetworkInterface::launch() {

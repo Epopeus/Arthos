@@ -2,7 +2,7 @@
 
 #include "Loadable.h"
 
-class ServiceResources : public Loadable {
+class Resources : public Loadable {
 public:
     void load() override;
 };

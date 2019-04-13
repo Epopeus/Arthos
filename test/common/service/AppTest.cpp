@@ -1,18 +1,18 @@
 #include <gtest/gtest.h>
-#include <common/service/Service.h>
+#include <common/app/App.h>
 #include "FakeServiceSettingsRepository.h"
 #include "FakeLaunchable.h"
 #include "FakeLoadable.h"
 
-class ServiceTest : public ::testing::Test {
+class AppTest : public ::testing::Test {
 protected:
 
-    ServiceSettings EXPECTED_SETTINGS = ServiceSettings(
+    Settings EXPECTED_SETTINGS = Settings(
             { { NetworkConnectionType::GAME_CLIENT, 1234 }, { NetworkConnectionType::AUTH_CLIENT, 5678 } },
             { { NetworkConnectionType::GAME_SERVER, Endpoint("abc", 9123) }, { NetworkConnectionType::GAME_ROUTER, Endpoint("def", 4567) } }
     );
 
-    ServiceSettings settings;
+    Settings settings;
     FakeServiceSettingsRepository settingsRepository;
 
     FakeLoadable resources;
@@ -21,37 +21,37 @@ protected:
     boost::asio::io_context ioContext;
     SignalListener signalListener;
 
-    Service service;
+    App app;
 
-    ServiceTest() : settings({}, {}),
+    AppTest() : settings({}, {}),
                     settingsRepository(settings),
                     signalListener(ioContext),
-                    service(settingsRepository, resources, networkInterface, signalListener) {
+                    app(settingsRepository, resources, networkInterface, signalListener) {
         settingsRepository.store(EXPECTED_SETTINGS);
-        service.run();
+        app.run();
     }
 };
 
-TEST_F(ServiceTest, ShouldLoadSettingsFromDataSource) {
+TEST_F(AppTest, ShouldLoadSettingsFromDataSource) {
     ASSERT_EQ(EXPECTED_SETTINGS.listenPorts, settings.listenPorts);
     ASSERT_EQ(EXPECTED_SETTINGS.connectEndpoints, settings.connectEndpoints);
 }
 
-TEST_F(ServiceTest, ShouldLoadServiceResources) {
+TEST_F(AppTest, ShouldLoadServiceResources) {
     ASSERT_TRUE(resources.loaded);
 }
 
-TEST_F(ServiceTest, ShouldLaunchNetworkInterface) {
+TEST_F(AppTest, ShouldLaunchNetworkInterface) {
     ASSERT_TRUE(networkInterface.launched);
 }
 
-TEST_F(ServiceTest, ShouldStopTcpServerWhenTerminated) {
+TEST_F(AppTest, ShouldStopTcpServerWhenTerminated) {
     std::raise(SIGTERM);
 
     ASSERT_FALSE(networkInterface.launched);
 }
 
-TEST_F(ServiceTest, ShouldStopTcpServerWhenInterrupted) {
+TEST_F(AppTest, ShouldStopTcpServerWhenInterrupted) {
     std::raise(SIGINT);
 
     ASSERT_FALSE(networkInterface.launched);

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "common/service/Service.h"
+#include "common/app/App.h"
 
-class AuthService : public Service {
+class AuthService : public App {
 public:
-    AuthService(ServiceSettingsRepository& settingsRepository, NetworkServer &tcpServer, NetworkClient& tcpClient_, SignalListener &signalListener);
+    AuthService(SettingsRepository& settingsRepository, NetworkServer &tcpServer, NetworkClient& tcpClient_, SignalListener &signalListener);
 
 protected:
     void startUp() override;

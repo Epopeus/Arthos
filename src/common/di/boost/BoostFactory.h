@@ -6,7 +6,7 @@
 #include <boost/di.hpp>
 #include <functional>
 #include "ServiceModule.h"
-#include <common/service/Service.h>
+#include <common/app/App.h>
 #include <tuple>
 #include <any>
 
@@ -24,6 +24,6 @@ public:
 
 private:
     const static inline std::unordered_map<std::type_index, std::function<void()>> CLASSES_MODULE_MAP = {
-            { typeid(Service), ServiceModule }
+            { typeid(App), ServiceModule }
     };
 };

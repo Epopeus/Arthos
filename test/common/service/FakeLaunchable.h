@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/service/Launchable.h>
+#include <common/app/Launchable.h>
 
 class FakeLaunchable : public Launchable {
 public:

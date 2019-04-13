@@ -1,8 +1,8 @@
-#include <common/service/ServiceFactory.h>
+#include <common/app/ServiceFactory.h>
 #include "AuthService.h"
 
 int main(int argc, const char** argv) {
-    ServiceFactory serviceFactory = ServiceFactory();
-    AuthService service = serviceFactory.create<AuthService>(argc, argv);
-    service.run();
+    ServiceFactory appFactory = ServiceFactory();
+    AuthService app = appFactory.create<AuthService>(argc, argv);
+    app.run();
 }

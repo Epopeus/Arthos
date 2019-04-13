@@ -1,19 +1,19 @@
 #pragma once
 
-#include <common/service/ServiceSettingsRepository.h>
+#include <common/app/SettingsRepository.h>
 
-class FakeServiceSettingsRepository : public ServiceSettingsRepository {
+class FakeServiceSettingsRepository : public SettingsRepository {
 public:
-    FakeServiceSettingsRepository(ServiceSettings& settings):ServiceSettingsRepository(settings), storedSettings({}, {}) {}
+    FakeServiceSettingsRepository(Settings& settings):SettingsRepository(settings), storedSettings({}, {}) {}
 
     void loadFromDataSource() override {
         settings = storedSettings;
     }
 
-    void store(ServiceSettings& serviceSettings) override {
-        storedSettings = serviceSettings;
+    void store(Settings& appSettings) override {
+        storedSettings = appSettings;
     }
 
 private:
-    ServiceSettings storedSettings;
+    Settings storedSettings;
 };

@@ -17,10 +17,10 @@ struct Endpoint {
     }
 };
 
-class ServiceSettings {
+class Settings {
 public:
-    BOOST_DI_INJECT(ServiceSettings) {}
-    ServiceSettings(std::unordered_map<NetworkConnectionType, int> listenPorts_, std::unordered_map<NetworkConnectionType, Endpoint> connectEndpoints_) : listenPorts(listenPorts_), connectEndpoints(connectEndpoints_) {
+    BOOST_DI_INJECT(Settings) {}
+    Settings(std::unordered_map<NetworkConnectionType, int> listenPorts_, std::unordered_map<NetworkConnectionType, Endpoint> connectEndpoints_) : listenPorts(listenPorts_), connectEndpoints(connectEndpoints_) {
     }
 
     std::unordered_map<NetworkConnectionType, int> listenPorts;

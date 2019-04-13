@@ -1,8 +1,8 @@
 #pragma once
 
-#include <common/service/ServiceSettings.h>
+#include <common/app/Settings.h>
 #include <common/di/Factory.h>
-#include <common/service/Launchable.h>
+#include <common/app/Launchable.h>
 #include "NetworkClient.h"
 #include "NetworkServer.h"
 #include "NetworkConnectionRepository.h"
@@ -11,7 +11,7 @@
 
 class NetworkInterface : public Launchable {
 public:
-    NetworkInterface(ServiceSettings& settings, NetworkClient& client, NetworkServer& server, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnectionRepository& connectionsRepo);
+    NetworkInterface(Settings& settings, NetworkClient& client, NetworkServer& server, NetworkConnectionIdFactory& connectionIdFactory, NetworkConnectionRepository& connectionsRepo);
 
     void launch() override;
     void shutdown() override;
@@ -20,7 +20,7 @@ private:
     void onConnect(NetworkConnection& connection, NetworkConnectionType type);
     void onBytesReceived(NetworkConnectionId& connectionId, Bytes& bytes);
 
-    ServiceSettings& settings;
+    Settings& settings;
     NetworkClient& client;
     NetworkServer& server;
 

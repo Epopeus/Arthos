@@ -6,8 +6,8 @@
 #include <common/network/NetworkConnectionsMap.h>
 #include <common/uuid/BoostUUIDFactory.h>
 #include "boost/di/extension/bindings/constructor_bindings.hpp"
-#include <common/service/ServiceResources.h>
-#include <common/service/RealServiceSettingsRepository.h>
+#include <common/app/Resources.h>
+#include <common/app/RealSettingsRepository.h>
 #include <common/network/NetworkInterface.h>
 #include <common/network/BoostTcpConnection.h>
 #include <common/uuid/UUID.h>
@@ -17,8 +17,8 @@ auto ServiceModule = [] {
             boost::di::bind<NetworkServer>.to<BoostTcpServer>(),
             boost::di::bind<NetworkClient>.to<BoostTcpClient>(),
             boost::di::bind<Launchable>.to<NetworkInterface>(),
-            boost::di::bind<Loadable>.to<ServiceResources>(),
-            boost::di::bind<ServiceSettingsRepository>.to<RealServiceSettingsRepository>(),
+            boost::di::bind<Loadable>.to<Resources>(),
+            boost::di::bind<SettingsRepository>.to<RealSettingsRepository>(),
             boost::di::bind<NetworkConnectionRepository>.to<NetworkConnectionsMap>(),
             boost::di::bind<boost::asio::ip::tcp::socket>.to(boost::di::extension::constructor<boost::asio::io_context&>()),
             boost::di::bind<SocketFactory>.to(boost::di::extension::factory<boost::asio::ip::tcp::socket>{}),

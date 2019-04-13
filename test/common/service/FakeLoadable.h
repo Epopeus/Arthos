@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/service/Loadable.h>
+#include <common/app/Loadable.h>
 
 class FakeLoadable : public Loadable {
 public:
