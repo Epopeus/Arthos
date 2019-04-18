@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <common/app/App.h>
-#include "FakeServiceSettingsRepository.h"
+#include "FakeSettingsRepository.h"
 #include "FakeLaunchable.h"
 #include "FakeLoadable.h"
 
@@ -13,7 +13,7 @@ protected:
     );
 
     Settings settings;
-    FakeServiceSettingsRepository settingsRepository;
+    FakeSettingsRepository settingsRepository;
 
     FakeLoadable resources;
     FakeLaunchable networkInterface;
@@ -26,7 +26,7 @@ protected:
     AppTest() : settings({}, {}),
                     settingsRepository(settings),
                     signalListener(ioContext),
-                    app(settingsRepository, resources, networkInterface, signalListener) {
+                    app(settingsRepository, networkInterface, signalListener) {
         settingsRepository.store(EXPECTED_SETTINGS);
         app.run();
     }
@@ -35,10 +35,6 @@ protected:
 TEST_F(AppTest, ShouldLoadSettingsFromDataSource) {
     ASSERT_EQ(EXPECTED_SETTINGS.listenPorts, settings.listenPorts);
     ASSERT_EQ(EXPECTED_SETTINGS.connectEndpoints, settings.connectEndpoints);
-}
-
-TEST_F(AppTest, ShouldLoadServiceResources) {
-    ASSERT_TRUE(resources.loaded);
 }
 
 TEST_F(AppTest, ShouldLaunchNetworkInterface) {

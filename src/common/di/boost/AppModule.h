@@ -12,7 +12,7 @@
 #include <common/network/BoostTcpConnection.h>
 #include <common/uuid/UUID.h>
 
-auto ServiceModule = [] {
+auto AppModule = [] {
     return boost::di::make_injector(
             boost::di::bind<NetworkServer>.to<BoostTcpServer>(),
             boost::di::bind<NetworkClient>.to<BoostTcpClient>(),

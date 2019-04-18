@@ -8,13 +8,12 @@
 
 class App {
 public:
-    App(SettingsRepository& settingsRepository, Loadable& resources, Launchable& networkInterface, SignalListener& signalListener);
+    App(SettingsRepository& settingsRepository, Launchable& networkInterface, SignalListener& signalListener);
 
     void run();
 
 protected:
     SettingsRepository& settingsRepository;
-    Loadable& resources;
     Launchable& networkInterface;
     SignalListener& signalListener;
 };

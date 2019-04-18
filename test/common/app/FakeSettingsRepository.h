@@ -2,9 +2,9 @@
 
 #include <common/app/SettingsRepository.h>
 
-class FakeServiceSettingsRepository : public SettingsRepository {
+class FakeSettingsRepository : public SettingsRepository {
 public:
-    FakeServiceSettingsRepository(Settings& settings):SettingsRepository(settings), storedSettings({}, {}) {}
+    FakeSettingsRepository(Settings& settings):SettingsRepository(settings), storedSettings({}, {}) {}
 
     void loadFromDataSource() override {
         settings = storedSettings;

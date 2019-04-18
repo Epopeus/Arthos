@@ -1,7 +1,8 @@
 #include <common/di/boost/BoostFactory.h>
+#include "WorldApp.h"
 
 int main(int argc, const char** argv) {
-    ServiceFactory appFactory = BoostFactory<WorldService>();
-    App app = appFactory.create<WorldService>(argc, argv);
-    proxyService.run();
+    BoostFactory<WorldApp, int, const char**> appFactory;
+    WorldApp app = appFactory.create(argc, argv);
+    app.run();
 }

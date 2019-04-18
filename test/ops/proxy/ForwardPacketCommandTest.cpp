@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <ops/proxy/ForwardPacketCommand.h>
 #include <common/network/Bytes.h>
-#include <common/network/NetworkConnectionsMap.h>
 #include <ops/network/ClientServerMap.h>
 #include "../../common/network/FakeNetworkConnection.h"
 #include "../../common/command/FakeCommandOutputBuffer.h"
