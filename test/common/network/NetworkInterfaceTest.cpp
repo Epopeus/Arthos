@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <common/network/NetworkInterface.h>
-#include <common/network/BoostNetworkConnectionRepository.h>
+#include <common/network/boost/BoostNetworkConnectionRepository.h>
 #include "FakeUUIDFactory.h"
 #include "FakeNetworkServer.h"
 #include "FakeNetworkClient.h"

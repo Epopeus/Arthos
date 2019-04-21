@@ -1,7 +1,7 @@
 #pragma once
 
 #include <boost/asio.hpp>
-#include "NetworkConnection.h"
+#include <common/network/NetworkConnection.h>
 
 class BoostTcpConnection : public NetworkConnection {
 public:

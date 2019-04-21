@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NetworkClient.h"
+#include "common/network/NetworkClient.h"
 #include <common/di/Factory.h>
 #include "BoostTcpFactories.h"
 

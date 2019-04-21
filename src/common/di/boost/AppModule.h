@@ -1,15 +1,15 @@
 #pragma once
 
 #define BOOST_DI_CFG_DIAGNOSTICS_LEVEL 2
-#include <common/network/BoostTcpServer.h>
-#include <common/network/BoostTcpClient.h>
+#include <common/network/boost/BoostTcpServer.h>
+#include <common/network/boost/BoostTcpClient.h>
 #include <common/network/NetworkConnectionsMap.h>
 #include <common/uuid/BoostUUIDFactory.h>
 #include "boost/di/extension/bindings/constructor_bindings.hpp"
 #include <common/app/Resources.h>
 #include <common/app/RealSettingsRepository.h>
 #include <common/network/NetworkInterface.h>
-#include <common/network/BoostTcpConnection.h>
+#include <common/network/boost/BoostTcpConnection.h>
 #include <common/uuid/UUID.h>
 
 auto AppModule = [] {
