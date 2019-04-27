@@ -1,11 +1,10 @@
 #pragma once
 
-
 #include <common/entity/Guid.h>
-#include "RemoteCommand.h"
+#include "Command.h"
 
 template<typename... TArgs>
-class GameClientCommand : public RemoteCommand<TArgs...> {
+class GameClientCommand : public Command<TArgs...> {
 public:
     GameClientCommand(Guid& callingCharId_):callingCharId(callingCharId_) {
 
@@ -14,4 +13,3 @@ public:
 protected:
     Guid& callingCharId;
 };
-

@@ -2,11 +2,12 @@
 
 #include <common/network/NetworkConnection.h>
 #include <common/network/NetworkConnectionId.h>
+#include <common/command/Command.h>
 
-class ForwardClientBytesCommand {
+class ForwardClientBytesCommand : public Command<Bytes&> {
 public:
     ForwardClientBytesCommand(NetworkConnectionId& clientConnectionId, NetworkConnection& serverConnection);
-    void run(Bytes& bytes);
+    void run(Bytes& bytes) override;
 
 private:
     NetworkConnectionId& clientConnectionId;
