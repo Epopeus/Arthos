@@ -1,8 +1,7 @@
 #pragma once
 
-
-#include <common/network/NetworkConnectionRepository.h>
-#include <ops/network/ClientServerMap.h>
+#include <common/network/NetworkConnection.h>
+#include <common/network/NetworkConnectionId.h>
 
 class ForwardClientBytesCommand {
 public:
