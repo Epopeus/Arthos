@@ -8,6 +8,6 @@ void FakeNetworkConnection::send(Bytes& bytes) {
     sentBytes.push_back(bytes);
 }
 
-void FakeNetworkConnection::simulateReceivedBytes(Bytes &bytes) {
+void FakeNetworkConnection::simulateReceivedBytes(Bytes& bytes) {
     onBytesReceived(bytes);
 }
