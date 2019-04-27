@@ -14,6 +14,13 @@ public:
     Bytes& operator<<(AllowedType value);
     void prepend(AllowedType value);
 
+    template<class T>
+    Bytes& operator>>(T& value) {
+        value = std::get<T>(buffer.front());
+        buffer.erase(buffer.begin());
+        return *this;
+    }
+
     bool operator==(const Bytes &o) const;
 
 private:
