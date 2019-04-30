@@ -16,7 +16,7 @@ protected:
     FakeSettingsRepository settingsRepository;
 
     FakeLoadable resources;
-    FakeLaunchable networkInterface;
+    FakeLaunchable networkModule;
 
     boost::asio::io_context ioContext;
     SignalListener signalListener;
@@ -26,7 +26,7 @@ protected:
     AppTest() : settings({}, {}),
                     settingsRepository(settings),
                     signalListener(ioContext),
-                    app(settingsRepository, networkInterface, signalListener) {
+                    app(settingsRepository, networkModule, signalListener) {
         settingsRepository.store(EXPECTED_SETTINGS);
         app.run();
     }
@@ -38,17 +38,17 @@ TEST_F(AppTest, ShouldLoadSettingsFromDataSource) {
 }
 
 TEST_F(AppTest, ShouldLaunchNetworkInterface) {
-    ASSERT_TRUE(networkInterface.launched);
+    ASSERT_TRUE(networkModule.launched);
 }
 
 TEST_F(AppTest, ShouldStopTcpServerWhenTerminated) {
     /*std::raise(SIGTERM);
 
-    ASSERT_FALSE(networkInterface.launched);*/
+    ASSERT_FALSE(networkModule.launched);*/
 }
 
 TEST_F(AppTest, ShouldStopTcpServerWhenInterrupted) {
     /*std::raise(SIGINT);
 
-    ASSERT_FALSE(networkInterface.launched);*/
+    ASSERT_FALSE(networkModule.launched);*/
 }

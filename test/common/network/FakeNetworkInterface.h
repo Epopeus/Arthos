@@ -1,14 +1,17 @@
 #pragma once
 
-#include <common/network/NetworkServer.h>
-#include <set>
+#include <common/network/NetworkInterface.h>
+#include <common/app/Settings.h>
 #include "FakeNetworkConnection.h"
+#include <set>
 
-class FakeNetworkServer : public NetworkServer {
+class FakeNetworkInterface : public NetworkInterface {
 public:
-    std::set<int> ports;
+    std::set<int> listenPorts;
+    std::set<Endpoint> connectEndpoints;
     VoidCallback<NetworkConnection&> onConnect;
 
+    void connect(std::string ip, int port, VoidCallback<NetworkConnection&> onConnect_) override;
     void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect_) override;
     void stopAcceptingConnections() override;
 

@@ -1,13 +1,12 @@
 #pragma once
 
-#include "common/network/NetworkServer.h"
-#include <common/di/Factory.h>
+#include <common/network/NetworkInterface.h>
 #include "BoostTcpFactories.h"
 
-class BoostTcpServer : public NetworkServer {
-public:
-    BoostTcpServer(SocketFactory& socketFactory, ConnectionFactory& connectionFactory);
+class BoostNetworkInterface : public NetworkInterface {
+    BoostNetworkInterface(SocketFactory& socketFactory, ConnectionFactory& connectionFactory);
 
+    void connect(std::string ip, int port, VoidCallback<NetworkConnection&> onConnect) override;
     void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect) override;
     void stopAcceptingConnections() override;
 
@@ -17,4 +16,3 @@ private:
     SocketFactory& socketFactory;
     ConnectionFactory& connectionFactory;
 };
-

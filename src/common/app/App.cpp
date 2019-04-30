@@ -1,15 +1,15 @@
 #include "App.h"
 
-App::App(SettingsRepository& settingsRepository_, Launchable& networkInterface_, SignalListener& signalListener_):settingsRepository(settingsRepository_), networkInterface(networkInterface_), signalListener(signalListener_) {
+App::App(SettingsRepository& settingsRepository_, Launchable& networkModule_, SignalListener& signalListener_):settingsRepository(settingsRepository_), networkModule(networkModule_), signalListener(signalListener_) {
 
 }
 
 void App::run() {
     settingsRepository.loadFromDataSource();
 
-    networkInterface.launch();
+    networkModule.launch();
 
     signalListener.startListeningForSignals({SIGTERM, SIGINT}, [&]() {
-        networkInterface.shutdown();
+        networkModule.shutdown();
     });
 }

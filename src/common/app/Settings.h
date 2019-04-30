@@ -15,6 +15,10 @@ struct Endpoint {
     bool operator ==(const Endpoint &o) const {
         return address == o.address && port == o.port;
     }
+
+    bool operator<(const Endpoint& o) const {
+        return port < o.port;
+    }
 };
 
 class Settings {

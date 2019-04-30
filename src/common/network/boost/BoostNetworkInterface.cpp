@@ -1,7 +1,21 @@
-#include "BoostTcpServer.h"
+#include "BoostNetworkInterface.h"
 
-BoostTcpServer::BoostTcpServer(SocketFactory& socketFactory_, ConnectionFactory& connectionFactory_):socketFactory(socketFactory_), connectionFactory(connectionFactory_) {
+BoostNetworkInterface::BoostNetworkInterface(SocketFactory& socketFactory_, ConnectionFactory& connectionFactory_):socketFactory(socketFactory_), connectionFactory(connectionFactory_) {
 
+}
+
+void BoostNetworkInterface::connect(std::string ip, int port, VoidCallback<NetworkConnection&> onConnect) {
+    boost::asio::ip::tcp::endpoint endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port);
+
+    boost::asio::ip::tcp::socket& socket = *socketFactory.create();
+    socket.async_connect(endpoint, [&] (const boost::system::error_code& error) {
+        if (error) {
+            // TODO : handle errors
+            return;
+        }
+
+        onConnect(*connectionFactory.create(socket));
+    });
 }
 
 typedef struct AUTH_LOGON_CHALLENGE_C
@@ -59,7 +73,7 @@ typedef struct AUTH_LOGON_CHALLENGE_C
 
 } sAuthLogonChallenge_C;
 
-void BoostTcpServer::startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect) {
+void BoostNetworkInterface::startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect) {
     boost::asio::ip::tcp::endpoint endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v6(), port);
     boost::asio::io_context ioContext = boost::asio::io_context();
     boost::asio::ip::tcp::acceptor acceptor(ioContext, endpoint);
@@ -115,9 +129,10 @@ void BoostTcpServer::startAcceptingConnections(int port, VoidCallback<NetworkCon
 */
 }
 
-void BoostTcpServer::asyncAccept() {
+void BoostNetworkInterface::asyncAccept() {
     boost::asio::ip::tcp::socket& socket = *socketFactory.create();
     boost::asio::ip::v6_only option(false);
+
     socket.set_option(option);
 
     /*acceptor.async_accept(socket, [&] (const boost::system::error_code& error) {
@@ -133,7 +148,7 @@ void BoostTcpServer::asyncAccept() {
 }
 
 
-void BoostTcpServer::stopAcceptingConnections() {
+void BoostNetworkInterface::stopAcceptingConnections() {
 
 }
 

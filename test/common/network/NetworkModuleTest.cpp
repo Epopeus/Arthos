@@ -1,15 +1,11 @@
 #include <gtest/gtest.h>
-#include <common/network/NetworkInterface.h>
+#include <common/network/NetworkModule.h>
 #include <common/network/boost/BoostNetworkConnectionRepository.h>
 #include "FakeUUIDFactory.h"
-#include "FakeNetworkServer.h"
-#include "FakeNetworkClient.h"
+#include "FakeNetworkInterface.h"
 
-bool operator<(const Endpoint& ep1, const Endpoint& ep2) {
-    return ep1.port < ep2.port;
-}
 
-class NetworkInterfaceTest : public ::testing::Test {
+class NetworkModuleTest : public ::testing::Test {
 protected:
     int GAME_CLIENT_PORT = 1234;
     int AUTH_CLIENT_PORT = 5678;
@@ -28,31 +24,29 @@ protected:
 
     Bytes EXPECTED_BYTES = { 123, 210 };
 
-    FakeNetworkClient networkClient;
-    FakeNetworkServer networkServer;
-
     FakeUUIDFactory uuidFactory;
     NetworkConnectionIdFactory connectionIdFactory;
     BoostNetworkConnectionRepository connections;
 
-    NetworkInterface networkInterface;
+    NetworkModule networkModule;
+    FakeNetworkInterface networkInterface;
 
-    NetworkInterfaceTest(): connectionIdFactory(uuidFactory),
-                            networkInterface(EXPECTED_SETTINGS, networkClient, networkServer, connectionIdFactory, connections) {
-        networkInterface.launch();
+    NetworkModuleTest(): connectionIdFactory(uuidFactory),
+                            networkModule(EXPECTED_SETTINGS, networkInterface, connectionIdFactory, connections) {
+        networkModule.launch();
     }
 };
 
-TEST_F(NetworkInterfaceTest, ShouldStartNetworkServerWithProperSettings) {
-    ASSERT_EQ(LISTEN_PORTS, networkServer.ports);
+TEST_F(NetworkModuleTest, ShouldStartNetworkServerWithProperSettings) {
+    ASSERT_EQ(LISTEN_PORTS, networkInterface.listenPorts);
 }
 
-TEST_F(NetworkInterfaceTest, ShouldStartNetworkClientWithProperSettings) {
-    ASSERT_EQ(CONNECT_ENDPOINTS, networkClient.connectEndpoints);
+TEST_F(NetworkModuleTest, ShouldStartNetworkClientWithProperSettings) {
+    ASSERT_EQ(CONNECT_ENDPOINTS, networkInterface.connectEndpoints);
 }
 
-TEST_F(NetworkInterfaceTest, ShouldStoreIncomingCommandInQueue) {
-    FakeNetworkConnection& connection = networkServer.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
+TEST_F(NetworkModuleTest, ShouldStoreIncomingCommandInQueue) {
+    FakeNetworkConnection& connection = networkInterface.simulateNewConnection(NetworkConnectionType::GAME_SERVER);
 
     connection.simulateReceivedBytes(EXPECTED_BYTES);
 
