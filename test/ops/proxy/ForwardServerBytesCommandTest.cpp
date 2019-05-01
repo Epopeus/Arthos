@@ -16,7 +16,9 @@ protected:
 
 TEST_F(ForwardServerBytesCommandTest, ShouldForwardServerBytesToCorrespondingClient) {
     FakeNetworkConnection clientConnection;
-    NetworkConnectionEntry clientConnectionEntry = NetworkConnectionEntry(CLIENT_CONNECTION_ID, clientConnection, NetworkConnectionType::GAME_CLIENT);
+    ReceivedBytesQueue recvQueue;
+    NetworkInputPort inputPort = NetworkInputPort(clientConnection, recvQueue);
+    NetworkConnectionEntry clientConnectionEntry = NetworkConnectionEntry(CLIENT_CONNECTION_ID, clientConnection, NetworkConnectionType::GAME_CLIENT, inputPort);
 
     BoostNetworkConnectionRepository connections;
     connections.add(clientConnectionEntry);

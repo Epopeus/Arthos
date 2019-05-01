@@ -3,9 +3,10 @@
 #include <common/network/boost/BoostNetworkConnectionRepository.h>
 #include "FakeUUIDFactory.h"
 #include "FakeNetworkInterface.h"
+#include "../di/FakeFactory.h"
+#include "FakeNetworkConnectionEntryFactory.h"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
-
 
 class NetworkModuleTest : public ::testing::Test {
 protected:
@@ -27,28 +28,29 @@ protected:
     Bytes EXPECTED_BYTES = { 123, 210 };
 
     FakeUUIDFactory uuidFactory;
-    NetworkConnectionIdFactory connectionIdFactory;
     BoostNetworkConnectionRepository connections;
 
     NetworkModule networkModule;
     FakeNetworkInterface networkInterface;
 
+    FakeNetworkConnectionEntryFactory connectionEntryFactory;
+
     FakeNetworkConnection connection;
 
-    NetworkModuleTest(): connectionIdFactory(uuidFactory),
-                            networkModule(EXPECTED_SETTINGS, networkInterface, connectionIdFactory, connections) {
+    NetworkModuleTest(): connectionEntryFactory(uuidFactory),
+                            networkModule(EXPECTED_SETTINGS, networkInterface, connectionEntryFactory, connections) {
         networkModule.launch();
     }
 };
 
-TEST_F(NetworkModuleTest, ShouldStartNetworkServerWithProperSettings) {
+TEST_F(NetworkModuleTest, ShouldListenOnSettingsPorts) {
     std::vector<int> listenPorts;
     boost::copy(networkInterface.listenPorts | boost::adaptors::map_keys, std::back_inserter(listenPorts));
 
     ASSERT_EQ(LISTEN_PORTS, listenPorts);
 }
 
-TEST_F(NetworkModuleTest, ShouldStartNetworkClientWithProperSettings) {
+TEST_F(NetworkModuleTest, ShouldConnectToSettingsEndpoints) {
     std::vector<Endpoint> connectEndpoints;
     boost::copy(networkInterface.connectEndpoints | boost::adaptors::map_keys, std::back_inserter(connectEndpoints));
 
@@ -65,16 +67,8 @@ TEST_F(NetworkModuleTest, ShouldStoreConnections) {
     ASSERT_EQ(&connection, &entry.connection);
 }
 
-/**
- * TODO : this belongs to another class
- */
-TEST_F(NetworkModuleTest, ShouldStoreIncomingPacketInQueue) {
+TEST_F(NetworkModuleTest, ShouldReadConnections) {
     networkInterface.simulateNewConnectionFromConnect(GAME_SERVER_ENDPOINT, connection);
-    connection.simulateReceivedBytes(EXPECTED_BYTES);
 
-   /* NetworkConnectionId id = NetworkConnectionId("1");
-    NetworkConnectionEntry& entry = connections.getById(id);
-
-    ASSERT_EQ(1, entry.inputPort.receivedBytesQueue.size());
-    ASSERT_EQ(EXPECTED_BYTES, entry.receivedBytesQueue.front());*/
+    ASSERT_TRUE(connection.startedReading);
 }

@@ -9,6 +9,7 @@ public:
     void simulateReceivedBytes(Bytes& bytes);
 
     std::vector<Bytes> sentBytes;
+    bool startedReading = false;
     VoidCallback<Bytes&> onBytesReceived;
 };
 

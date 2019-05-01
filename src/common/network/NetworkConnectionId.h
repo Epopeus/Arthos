@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <common/di/Factory.h>
 
 class NetworkConnectionId {
 public:

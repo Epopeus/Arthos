@@ -2,6 +2,7 @@
 
 void FakeNetworkConnection::read(VoidCallback<Bytes&> onBytesReceived_) {
     onBytesReceived = onBytesReceived_;
+    startedReading = true;
 }
 
 void FakeNetworkConnection::send(Bytes& bytes) {
