@@ -1,6 +1,6 @@
 #include "BoostNetworkConnectionRepository.h"
 
-NetworkConnectionEntry& BoostNetworkConnectionRepository::add(NetworkConnectionEntry& connectionEntry) {
+NetworkConnectionEntry& BoostNetworkConnectionRepository::add(NetworkConnectionEntry connectionEntry) {
     return const_cast<NetworkConnectionEntry&>(*index.insert(connectionEntry).first);
 }
 

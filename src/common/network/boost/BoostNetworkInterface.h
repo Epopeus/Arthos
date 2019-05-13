@@ -9,7 +9,6 @@ class BoostNetworkInterface : public NetworkInterface {
     void connect(std::string ip, int port, VoidCallback<NetworkConnection&> onConnect) override;
     void startAcceptingConnections(int port, VoidCallback<NetworkConnection&> onConnect) override;
     void stopAcceptingConnections() override;
-
 private:
     void asyncAccept();
 

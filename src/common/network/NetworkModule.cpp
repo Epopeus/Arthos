@@ -1,6 +1,6 @@
 #include "NetworkModule.h"
 
-NetworkModule::NetworkModule(Settings& settings_, NetworkInterface& networkInterface_, NetworkConnectionEntryFactory& connectionEntryFactory_, NetworkConnectionRepository& connectionsRepo_) : settings(settings_), networkInterface(networkInterface_), connectionEntryFactory(connectionEntryFactory_), connectionsRepo(connectionsRepo_) {
+NetworkModule::NetworkModule(Settings& settings_, NetworkInterface& networkInterface_, NetworkConnectionIdFactory& connectionIdFactory_, NetworkConnectionEntryFactory& connectionEntryFactory_, NetworkConnectionRepository& connectionsRepo_) : settings(settings_), networkInterface(networkInterface_), connectionIdFactory(connectionIdFactory_), connectionEntryFactory(connectionEntryFactory_), connectionsRepo(connectionsRepo_) {
 }
 
 void NetworkModule::launch() {
@@ -22,7 +22,7 @@ void NetworkModule::shutdown() {
 }
 
 void NetworkModule::onConnect(NetworkConnection& connection, NetworkConnectionType type) {
-    NetworkConnectionEntry& connectionEntry = connectionEntryFactory.create(connection, type);
+    NetworkConnectionEntry connectionEntry = connectionEntryFactory.create(connectionIdFactory.create(), connection, type);
     connectionsRepo.add(connectionEntry);
     connectionEntry.inputPort.waitForInput();
 }

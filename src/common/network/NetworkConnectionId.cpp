@@ -4,12 +4,12 @@ NetworkConnectionId::NetworkConnectionId() {
 
 }
 
-NetworkConnectionId::NetworkConnectionId(std::string value_):value(value_) {
+NetworkConnectionId::NetworkConnectionId(UUID uuid_):uuid(uuid_) {
 
 }
 
 const std::string& NetworkConnectionId::toString() const {
-    return value;
+    return uuid;
 }
 
 std::size_t NetworkConnectionIdHash::operator()(const NetworkConnectionId& id) const {

@@ -1,15 +1,16 @@
 #pragma once
 
 #include <string>
+#include <common/uuid/UUID.h>
 
 class NetworkConnectionId {
 public:
     NetworkConnectionId();
-    NetworkConnectionId(std::string value);
+    NetworkConnectionId(UUID uuid);
 
     const std::string& toString() const;
 private:
-    std::string value;
+    const UUID uuid;
 };
 
 struct NetworkConnectionIdHash {

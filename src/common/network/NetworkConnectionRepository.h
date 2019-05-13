@@ -16,8 +16,10 @@ struct NetworkConnectionEntry {
     }
 };
 
+using NetworkConnectionEntryFactory = Factory<NetworkConnectionEntry, NetworkConnectionId, NetworkConnection&, NetworkConnectionType>;
+
 class NetworkConnectionRepository {
 public:
-    virtual NetworkConnectionEntry& add(NetworkConnectionEntry& connectionEntry) = 0;
+    virtual NetworkConnectionEntry& add(NetworkConnectionEntry connectionEntry) = 0;
     virtual NetworkConnectionEntry& getById(NetworkConnectionId& id) = 0;
 };

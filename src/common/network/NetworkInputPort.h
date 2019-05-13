@@ -9,7 +9,6 @@ public:
 
     void waitForInput();
     void processReceivedPackets();
-public:
 private:
     NetworkConnection& connection;
     ReceivedBytesQueue& receivedBytesQueue;

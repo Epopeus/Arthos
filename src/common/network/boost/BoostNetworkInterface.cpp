@@ -7,14 +7,14 @@ BoostNetworkInterface::BoostNetworkInterface(SocketFactory& socketFactory_, Conn
 void BoostNetworkInterface::connect(std::string ip, int port, VoidCallback<NetworkConnection&> onConnect) {
     boost::asio::ip::tcp::endpoint endpoint = boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port);
 
-    boost::asio::ip::tcp::socket& socket = *socketFactory.create();
+    boost::asio::ip::tcp::socket socket = socketFactory.create();
     socket.async_connect(endpoint, [&] (const boost::system::error_code& error) {
         if (error) {
             // TODO : handle errors
             return;
         }
 
-        onConnect(*connectionFactory.create(socket));
+        onConnect(connectionFactory.create(socket));
     });
 }
 
@@ -130,7 +130,7 @@ void BoostNetworkInterface::startAcceptingConnections(int port, VoidCallback<Net
 }
 
 void BoostNetworkInterface::asyncAccept() {
-    boost::asio::ip::tcp::socket& socket = *socketFactory.create();
+    boost::asio::ip::tcp::socket socket = socketFactory.create();
     boost::asio::ip::v6_only option(false);
 
     socket.set_option(option);

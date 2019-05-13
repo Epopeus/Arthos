@@ -20,7 +20,7 @@ using NetworkConnectionEntryIndex = boost::multi_index_container<
 
 class BoostNetworkConnectionRepository : public NetworkConnectionRepository {
 public:
-    NetworkConnectionEntry& add(NetworkConnectionEntry& connectionEntry) override;
+    NetworkConnectionEntry& add(NetworkConnectionEntry connectionEntry) override;
     NetworkConnectionEntry& getById(NetworkConnectionId& id) override;
 
 private:

@@ -3,8 +3,6 @@
 #include <common/network/boost/BoostNetworkConnectionRepository.h>
 #include "FakeUUIDFactory.h"
 #include "FakeNetworkInterface.h"
-#include "../di/FakeFactory.h"
-#include "FakeNetworkConnectionEntryFactory.h"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
 
@@ -27,18 +25,26 @@ protected:
 
     Bytes EXPECTED_BYTES = { 123, 210 };
 
-    FakeUUIDFactory uuidFactory;
-    BoostNetworkConnectionRepository connections;
-
     NetworkModule networkModule;
     FakeNetworkInterface networkInterface;
 
-    FakeNetworkConnectionEntryFactory connectionEntryFactory;
+    FakeUUIDFactory uuidFactory;
+    NetworkConnectionIdFactory connectionIdFactory;
+    BoostNetworkConnectionRepository connections;
 
     FakeNetworkConnection connection;
 
-    NetworkModuleTest(): connectionEntryFactory(uuidFactory),
-                            networkModule(EXPECTED_SETTINGS, networkInterface, connectionEntryFactory, connections) {
+    class : public Factory<NetworkConnectionEntry, NetworkConnectionId, NetworkConnection&, NetworkConnectionType> {
+    public:
+        NetworkConnectionEntry create(NetworkConnectionId id, NetworkConnection& connection, NetworkConnectionType type) override {
+            ReceivedBytesQueue receivedBytesQueue;
+
+            return NetworkConnectionEntry(id, connection, type, NetworkInputPort(connection, receivedBytesQueue));
+        }
+    } connectionEntryFactory;
+
+    NetworkModuleTest():    connectionIdFactory(uuidFactory),
+                            networkModule(EXPECTED_SETTINGS, networkInterface, connectionIdFactory, connectionEntryFactory, connections) {
         networkModule.launch();
     }
 };
