@@ -15,9 +15,6 @@ protected:
     }
 };
 
-/**
- * Since the business rules say literally forward bytes, we don't have an adapter layer here
- */
 TEST_F(ForwardClientBytesCommandTest, ShouldForwardClientBytesToCorrespondingServer) {
     ForwardClientBytesCommand command = ForwardClientBytesCommand(CLIENT_CONNECTION_ID, serverConnection);
     command.run(SENT_BYTES);

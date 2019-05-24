@@ -1,7 +1,9 @@
-#include <common/app/ServiceFactory.h>
+#include <common/di/boost/BoostFactory.h>
+#include "ProxyAppModule.h"
+#include "ProxyApp.h"
 
 int main(int argc, const char** argv) {
-    ServiceFactory appFactory = ServiceFactory();
-    Service proxyService = appFactory.create<ProxyService>(argc, argv);
-    proxyService.run();
+    boost::di::injector<ProxyApp> injector = ProxyAppModule(argc, argv);
+    ProxyApp app = injector.create<ProxyApp>();
+    app.run();
 }

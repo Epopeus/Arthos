@@ -6,7 +6,7 @@ public:
     void read(VoidCallback<Bytes&> onBytesReceived) override;
     void send(Bytes& bytes) override;
 
-    void simulateReceivedBytes(Bytes& bytes);
+    void simulateReceivedBytes(Bytes bytes);
 
     std::vector<Bytes> sentBytes;
     bool startedReading = false;

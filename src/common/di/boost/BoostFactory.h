@@ -2,13 +2,8 @@
 
 #define BOOST_DI_CFG_DIAGNOSTICS_LEVEL 2
 #include <common/di/Factory.h>
-#include <typeindex>
 #include <boost/di.hpp>
-#include <functional>
-#include "AppModule.h"
-#include <common/app/App.h>
-#include <tuple>
-#include <any>
+#include <utility>
 
 /*
  * TODO : check T at compile time : static assert, enable_if, ...
@@ -16,14 +11,18 @@
 template<class T, class...TArgs>
 class BoostFactory : public Factory<T, TArgs...> {
 public:
-    T create(TArgs... args) override {
-        boost::di::injector<T> injector = CLASSES_MODULE_MAP.at(typeid(T))();
+    BoostFactory(boost::di::injector<T>& module_) : module(module_) {
+    }
 
-        return injector.template create<T>();
+    T create(TArgs... args) override {
+        auto injector = boost::di::make_injector(
+                module,
+                boost::di::bind<TArgs>().to(std::forward<TArgs>(args))[boost::di::override]...
+                );
+
+        return module.template create<T>();
     }
 
 private:
-    const static inline std::unordered_map<std::type_index, std::function<void()>> CLASSES_MODULE_MAP = {
-            { typeid(App), AppModule }
-    };
+    boost::di::injector<T>& module;
 };

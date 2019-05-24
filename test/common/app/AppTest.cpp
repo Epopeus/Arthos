@@ -2,7 +2,6 @@
 #include <common/app/App.h>
 #include "FakeSettingsRepository.h"
 #include "FakeLaunchable.h"
-#include "FakeLoadable.h"
 
 class AppTest : public ::testing::Test {
 protected:
@@ -15,7 +14,6 @@ protected:
     Settings settings;
     FakeSettingsRepository settingsRepository;
 
-    FakeLoadable resources;
     FakeLaunchable networkModule;
 
     boost::asio::io_context ioContext;
@@ -37,7 +35,7 @@ TEST_F(AppTest, ShouldLoadSettingsFromDataSource) {
     ASSERT_EQ(EXPECTED_SETTINGS.connectEndpoints, settings.connectEndpoints);
 }
 
-TEST_F(AppTest, ShouldLaunchNetworkInterface) {
+TEST_F(AppTest, ShouldLaunchNetworkModule) {
     ASSERT_TRUE(networkModule.launched);
 }
 

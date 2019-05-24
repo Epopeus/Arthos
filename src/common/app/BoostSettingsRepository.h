@@ -2,9 +2,9 @@
 
 #include "SettingsRepository.h"
 
-class RealSettingsRepository : public SettingsRepository {
+class BoostSettingsRepository : public SettingsRepository {
 public:
-    RealSettingsRepository(Settings& settings);
+    BoostSettingsRepository(Settings& settings);
     void loadFromDataSource() override;
 
     void store(Settings& appSettings) override;

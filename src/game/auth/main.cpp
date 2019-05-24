@@ -2,7 +2,7 @@
 #include "AuthService.h"
 
 int main(int argc, const char** argv) {
-    ServiceFactory appFactory = ServiceFactory();
+    AppFactory appFactory = AppFactory();
     AuthService app = appFactory.create<AuthService>(argc, argv);
     app.run();
 }

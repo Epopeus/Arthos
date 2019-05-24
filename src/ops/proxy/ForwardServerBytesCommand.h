@@ -1,14 +1,13 @@
 #pragma once
 
-#include <common/command/Command.h>
 #include <common/network/Bytes.h>
 #include <common/network/NetworkConnectionRepository.h>
 
-class ForwardServerBytesCommand : public Command<Bytes&> {
+class ForwardServerBytesCommand {
 public:
     ForwardServerBytesCommand(NetworkConnectionRepository& connectionsRepo);
 
-    void run(Bytes& args) override;
+    void run(Bytes& args);
 
 private:
     NetworkConnectionRepository& connectionsRepo;

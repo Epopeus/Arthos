@@ -3,6 +3,7 @@
 #include <common/network/boost/BoostNetworkConnectionRepository.h>
 #include "FakeUUIDFactory.h"
 #include "FakeNetworkInterface.h"
+#include "../command/NullCommandRouter.h"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
 
@@ -38,8 +39,8 @@ protected:
     public:
         NetworkConnectionEntry create(NetworkConnectionId id, NetworkConnection& connection, NetworkConnectionType type) override {
             ReceivedBytesQueue receivedBytesQueue;
-
-            return NetworkConnectionEntry(id, connection, type, NetworkInputPort(connection, receivedBytesQueue));
+            NullCommandRouter router;
+            return NetworkConnectionEntry(id, connection, type, NetworkInputPort(connection, router));
         }
     } connectionEntryFactory;
 

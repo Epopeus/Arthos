@@ -1,27 +1,31 @@
 #pragma once
 
 #define BOOST_DI_CFG_DIAGNOSTICS_LEVEL 2
-#include <common/uuid/BoostUUIDFactory.h>
-#include "boost/di/extension/bindings/constructor_bindings.hpp"
-#include <common/app/Resources.h>
-#include <common/app/RealSettingsRepository.h>
-#include <common/network/NetworkModule.h>
-#include <common/network/boost/BoostTcpConnection.h>
-#include <common/uuid/UUID.h>
-#include <common/network/NetworkInterface.h>
+#include <boost/di.hpp>
+#include <common/app/BoostSettingsRepository.h>
 #include <common/network/boost/BoostNetworkInterface.h>
+#include <boost/di/extension/bindings/constructor_bindings.hpp>
+#include <common/di/boost/BoostFactory.h>
 #include <common/network/boost/BoostNetworkConnectionRepository.h>
+#include <common/uuid/BoostUUIDFactory.h>
 
-auto AppModule = [] {
-    return boost::di::make_injector(
-            boost::di::bind<NetworkInterface>.to<BoostNetworkInterface>(),
-            boost::di::bind<Launchable>.to<NetworkModule>(),
-            boost::di::bind<Loadable>.to<Resources>(),
-            boost::di::bind<SettingsRepository>.to<RealSettingsRepository>(),
-            boost::di::bind<NetworkConnectionRepository>.to<BoostNetworkConnectionRepository>(),
-            boost::di::bind<boost::asio::ip::tcp::socket>.to(boost::di::extension::constructor<boost::asio::io_context&>()),
-            boost::di::bind<SocketFactory>.to(boost::di::extension::factory<boost::asio::ip::tcp::socket>{}),
-            boost::di::bind<ConnectionFactory>.to(boost::di::extension::factory<BoostTcpConnection>{}),
-            boost::di::bind<UUIDFactory>.to<BoostUUIDFactory>()
+using namespace boost;
+
+auto AppModule = [](int argc, const char** argv) {
+    return make_injector(
+            di::bind<SettingsRepository>.to<BoostSettingsRepository>(),
+
+               di::bind<NetworkInterface>.to<BoostNetworkInterface>(),
+                   di::bind<boost::asio::ip::tcp::socket>.to(di::extension::constructor<boost::asio::io_context&>()),
+                   di::bind<SocketFactory>.to<BoostFactory<boost::asio::ip::tcp::socket>>(),
+                   di::bind<ConnectionFactory>.to<BoostFactory<NetworkConnection&, boost::asio::ip::tcp::socket&>>(),
+
+                di::bind<UUIDFactory>.to<BoostUUIDFactory>(),
+
+                di::bind<NetworkConnectionEntryFactory>.to<BoostFactory<NetworkConnectionEntry, NetworkConnectionId, NetworkConnection&, NetworkConnectionType>>(),
+                    di::bind<ReceivedBytesQueue>.in(di::unique),
+
+                di::bind<NetworkConnectionRepository>.to<BoostNetworkConnectionRepository>()
+
     );
 };

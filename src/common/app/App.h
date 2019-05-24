@@ -2,7 +2,6 @@
 
 #include "SettingsRepository.h"
 #include "Launchable.h"
-#include "Loadable.h"
 #include <common/network/NetworkModule.h>
 #include <common/app/SignalListener.h>
 
@@ -17,5 +16,3 @@ protected:
     Launchable& networkModule;
     SignalListener& signalListener;
 };
-
-using ServiceFactory = Factory<App>;
