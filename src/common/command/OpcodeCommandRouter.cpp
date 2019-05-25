@@ -8,5 +8,6 @@ void OpcodeCommandRouter::route(Bytes& bytes) {
     int opcode;
     bytes >> opcode;
 
-    commandsMap.at(opcode).get().run(bytes);
+    BytesCommandGateway& gateway = commandsMap.at(opcode).get();
+    gateway.run(bytes);
 }
