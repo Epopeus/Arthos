@@ -1,6 +1,6 @@
 #include "NetworkInputPort.h"
 
-NetworkInputPort::NetworkInputPort(NetworkConnection& connection, CommandRouter<Bytes&>& commandRouter) : connection(connection),commandRouter(commandRouter) {}
+NetworkInputPort::NetworkInputPort(NetworkConnection& connection, CommandRouter<Bytes&>& commandRouter) : connection(connection), commandRouter(commandRouter) {}
 
 void NetworkInputPort::waitForInput() {
     connection.read([&] (Bytes& bytes) {

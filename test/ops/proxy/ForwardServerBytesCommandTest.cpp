@@ -2,7 +2,8 @@
 #include <common/network/boost/BoostNetworkConnectionRepository.h>
 #include <ops/proxy/ForwardServerBytesCommand.h>
 #include "../../common/network/FakeNetworkConnection.h"
-#include "../../common/command/NullCommandRouter.h"
+#include "../../common/command/FakeCommand.h"
+#include "../../common/command/FakeCommandsMap.h"
 
 class ForwardServerBytesCommandTest : public ::testing::Test {
 protected:
@@ -17,7 +18,9 @@ protected:
 
 TEST_F(ForwardServerBytesCommandTest, ShouldForwardServerBytesToCorrespondingClient) {
     FakeNetworkConnection clientConnection;
-    NullCommandRouter commandRouter;
+    FakeCommandGateway gateway;
+    FakeCommandsMap commandsMap = FakeCommandsMap(gateway);
+    CommandRouter<Bytes&> commandRouter = CommandRouter<Bytes&>(commandsMap);
     NetworkInputPort inputPort = NetworkInputPort(clientConnection, commandRouter);
     NetworkConnectionEntry clientConnectionEntry = NetworkConnectionEntry(CLIENT_CONNECTION_ID, clientConnection, NetworkConnectionType::GAME_CLIENT, inputPort);
 

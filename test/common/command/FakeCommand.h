@@ -15,15 +15,14 @@ public:
     std::vector<int> invokeArgs;
 };
 
-class FakeCommandGateway : public BytesCommandGateway {
+class FakeCommandGateway : public CommandGateway<Bytes&> {
 public:
-    FakeCommandGateway(FakeCommand& command):command(command) {}
+    FakeCommandGateway() {}
 
     void run(Bytes& args) override {
-        int arg;
-        args >> arg;
-        command.run(arg);
+        invokeArgs.push_back(args);
     }
 
-    FakeCommand& command;
+    std::vector<Bytes> invokeArgs;
+
 };
