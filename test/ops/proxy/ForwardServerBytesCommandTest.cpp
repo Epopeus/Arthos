@@ -18,10 +18,10 @@ protected:
 
 TEST_F(ForwardServerBytesCommandTest, ShouldForwardServerBytesToCorrespondingClient) {
     FakeNetworkConnection clientConnection;
-    FakeCommandGateway gateway;
-    FakeCommandsMap commandsMap = FakeCommandsMap(gateway);
+    FakeCommandAdapter adapter;
+    FakeCommandsMap commandsMap = FakeCommandsMap(adapter);
     CommandRouter<Bytes&> commandRouter = CommandRouter<Bytes&>(commandsMap);
-    NetworkInputPort inputPort = NetworkInputPort(clientConnection, commandRouter);
+    NetworkConnectionController inputPort = NetworkConnectionController(clientConnection, commandRouter);
     NetworkConnectionEntry clientConnectionEntry = NetworkConnectionEntry(CLIENT_CONNECTION_ID, clientConnection, NetworkConnectionType::GAME_CLIENT, inputPort);
 
     BoostNetworkConnectionRepository connections;

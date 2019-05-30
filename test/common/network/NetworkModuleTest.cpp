@@ -39,8 +39,8 @@ protected:
     public:
         NetworkConnectionEntry create(NetworkConnectionId id, NetworkConnection& connection, NetworkConnectionType type) override {
             ReceivedBytesQueue receivedBytesQueue;
-            FakeCommandGateway gateway;
-            FakeCommandsMap commandsMap = FakeCommandsMap(gateway);
+            FakeCommandAdapter adapter;
+            FakeCommandsMap commandsMap = FakeCommandsMap(adapter);
             CommandRouter<Bytes&> router = CommandRouter<Bytes&>(commandsMap);
             return NetworkConnectionEntry(id, connection, type, NetworkConnectionController(connection, router));
         }

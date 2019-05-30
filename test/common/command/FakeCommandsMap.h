@@ -6,10 +6,10 @@
 
 class FakeCommandsMap : public CommandsMap<Bytes&> {
 public:
-    FakeCommandsMap(FakeCommandGateway& gateway);
+    FakeCommandsMap(FakeCommandAdapter& adapter);
 
-    CommandGateway<Bytes&>& getGatewayForRequest(Bytes& request) override;
+    CommandAdapter<Bytes&>& getAdapterForRequest(Bytes& request) override;
 
 private:
-    FakeCommandGateway& gateway;
+    FakeCommandAdapter& adapter;
 };

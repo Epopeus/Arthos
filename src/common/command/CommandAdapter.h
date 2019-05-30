@@ -1,7 +1,7 @@
 #pragma once
 
 template<typename T>
-class CommandGateway {
+class CommandAdapter {
 public:
     virtual void run(T args) = 0;
 };

@@ -15,11 +15,11 @@ protected:
     }
 };
 
-TEST_F(NetworkConnectionControllerTest, ShouldSequentiallyInvokeGatewaysFromReceivedPackets) {
+TEST_F(NetworkConnectionControllerTest, ShouldSequentiallyInvokeAdaptersFromReceivedPackets) {
     FakeNetworkConnection connection;
 
-    FakeCommandGateway gateway;
-    FakeCommandsMap commandsMap = FakeCommandsMap(gateway);
+    FakeCommandAdapter adapter;
+    FakeCommandsMap commandsMap = FakeCommandsMap(adapter);
     CommandRouter<Bytes&> router = CommandRouter(commandsMap);
 
     NetworkConnectionController controller = NetworkConnectionController(connection, router);
@@ -31,9 +31,9 @@ TEST_F(NetworkConnectionControllerTest, ShouldSequentiallyInvokeGatewaysFromRece
 
     controller.processReceivedPackets();
 
-    ASSERT_EQ(EXPECTED_BYTES_1, gateway.invokeArgs.at(0));
-    ASSERT_EQ(EXPECTED_BYTES_2, gateway.invokeArgs.at(1));
-    ASSERT_EQ(EXPECTED_BYTES_3, gateway.invokeArgs.at(2));
+    ASSERT_EQ(EXPECTED_BYTES_1, adapter.invokeArgs.at(0));
+    ASSERT_EQ(EXPECTED_BYTES_2, adapter.invokeArgs.at(1));
+    ASSERT_EQ(EXPECTED_BYTES_3, adapter.invokeArgs.at(2));
 }
 
 TEST_F(NetworkConnectionControllerTest, ShouldHandleBadOpcodes) {

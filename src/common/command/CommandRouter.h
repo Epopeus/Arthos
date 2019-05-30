@@ -10,8 +10,8 @@ public:
     }
 
     void route(T request) {
-        CommandGateway<T>& gateway = commandsMap.getGatewayForRequest(request);
-        gateway.run(request);
+        CommandAdapter<T>& adapter = commandsMap.getAdapterForRequest(request);
+        adapter.run(request);
     }
 
 private:

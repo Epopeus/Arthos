@@ -1,9 +1,9 @@
 #include "FakeCommandsMap.h"
 
-FakeCommandsMap::FakeCommandsMap(FakeCommandGateway& gateway):gateway(gateway) {
+FakeCommandsMap::FakeCommandsMap(FakeCommandAdapter& adapter):adapter(adapter) {
 
 }
 
-CommandGateway<Bytes&>& FakeCommandsMap::getGatewayForRequest(Bytes& request) {
-    return gateway;
+CommandAdapter<Bytes&>& FakeCommandsMap::getAdapterForRequest(Bytes& request) {
+    return adapter;
 }

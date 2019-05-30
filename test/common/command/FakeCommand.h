@@ -15,9 +15,9 @@ public:
     std::vector<int> invokeArgs;
 };
 
-class FakeCommandGateway : public CommandGateway<Bytes&> {
+class FakeCommandAdapter : public CommandAdapter<Bytes&> {
 public:
-    FakeCommandGateway() {}
+    FakeCommandAdapter() {}
 
     void run(Bytes& args) override {
         invokeArgs.push_back(args);

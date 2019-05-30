@@ -1,9 +1,9 @@
 #pragma once
 
-#include "CommandGateway.h"
+#include "CommandAdapter.h"
 
 template<typename T>
 class CommandsMap {
 public:
-    virtual CommandGateway<T>& getGatewayForRequest(T request) = 0;
+    virtual CommandAdapter<T>& getAdapterForRequest(T request) = 0;
 };
