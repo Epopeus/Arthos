@@ -4,9 +4,9 @@
 #include "NetworkConnection.h"
 #include "ReceivedBytesQueue.h"
 
-class NetworkInputPort {
+class NetworkConnectionController {
 public:
-    NetworkInputPort(NetworkConnection& connection, CommandRouter<Bytes&>& commandRouter);
+    NetworkConnectionController(NetworkConnection& connection, CommandRouter<Bytes&>& commandRouter);
 
     void waitForInput();
     void processReceivedPackets();

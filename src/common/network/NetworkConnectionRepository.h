@@ -2,16 +2,15 @@
 
 #include "NetworkConnectionId.h"
 #include "NetworkConnection.h"
-#include "ReceivedBytesQueue.h"
-#include "NetworkInputPort.h"
+#include "NetworkConnectionController.h"
 
 struct NetworkConnectionEntry {
     NetworkConnectionId id;
     NetworkConnection& connection;
     NetworkConnectionType type;
-    NetworkInputPort inputPort;
+    NetworkConnectionController controller;
 
-    NetworkConnectionEntry(NetworkConnectionId id, NetworkConnection& connection, NetworkConnectionType type, NetworkInputPort inputPort) : id(id), connection(connection), type(type), inputPort(inputPort) {
+    NetworkConnectionEntry(NetworkConnectionId id, NetworkConnection& connection, NetworkConnectionType type, NetworkConnectionController controller) : id(id), connection(connection), type(type), controller(controller) {
 
     }
 };

@@ -24,5 +24,5 @@ void NetworkModule::shutdown() {
 void NetworkModule::onConnect(NetworkConnection& connection, NetworkConnectionType type) {
     NetworkConnectionEntry connectionEntry = connectionEntryFactory.create(connectionIdFactory.create(), connection, type);
     connectionsRepo.add(connectionEntry);
-    connectionEntry.inputPort.waitForInput();
+    connectionEntry.controller.waitForInput();
 }

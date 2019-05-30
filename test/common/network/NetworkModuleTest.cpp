@@ -42,7 +42,7 @@ protected:
             FakeCommandGateway gateway;
             FakeCommandsMap commandsMap = FakeCommandsMap(gateway);
             CommandRouter<Bytes&> router = CommandRouter<Bytes&>(commandsMap);
-            return NetworkConnectionEntry(id, connection, type, NetworkInputPort(connection, router));
+            return NetworkConnectionEntry(id, connection, type, NetworkConnectionController(connection, router));
         }
     } connectionEntryFactory;
 
